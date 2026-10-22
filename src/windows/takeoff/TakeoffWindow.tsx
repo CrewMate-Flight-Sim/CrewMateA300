@@ -38,9 +38,9 @@ export function TakeoffWindow() {
 
   return (
     <div className="h-screen bg-black text-white p-3 flex flex-col gap-3">
-      {/*  V2 + Trim + Flaps */}
+      {/* Trim + Flaps */}
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <div className="space-y-1">
           <div className={labelRow}>
             <Label htmlFor="trim" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
@@ -96,43 +96,10 @@ export function TakeoffWindow() {
             <option value="3">20/20</option>
           </select>
         </div>
-
-        <div className="space-y-1">
-          <div className={labelRow}>
-            <Label
-              htmlFor="transitionAltitude"
-              className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest"
-            >
-              TA
-            </Label>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="w-3.5 h-3.5 text-slate-400 cursor-help hover:text-cyan-400 transition-colors" />
-                </TooltipTrigger>
-                <TooltipContent className="text-xs max-w-[200px] bg-slate-800 border-slate-700">
-                  Transition Altitude
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-          <Input
-            type="number"
-            id="transitionAltitude"
-            name="transitionAltitude"
-            value={takeoff.transitionAltitude ?? ""}
-            onChange={handleNumberInput}
-            min={2000}
-            max={20000}
-            step={500}
-            className="h-8 bg-slate-900/50 border-slate-600 text-white text-xs font-mono text-center px-1 focus-visible:ring-cyan-500"
-            placeholder="—"
-          />
-        </div>
       </div>
 
       {/* Packs + Anti Ice */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <div className="space-y-1">
           <div className={labelRow}>
             <Label htmlFor="packs" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">

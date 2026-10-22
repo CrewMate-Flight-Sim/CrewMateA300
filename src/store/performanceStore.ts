@@ -3,10 +3,8 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 interface TakeoffData {
-  transitionAltitude: number
   trim: number
   flaps: string
-  thrustSetting?: string
   packs?: string
   antiIce?: string
 }
@@ -30,9 +28,7 @@ interface PerformanceStore {
 }
 
 const DEFAULT_TAKEOFF_DATA: TakeoffData = {
-  transitionAltitude: 0,
   trim: 0,
-  thrustSetting: "toga",
   flaps: "1",
   packs: "on",
   antiIce: "off"

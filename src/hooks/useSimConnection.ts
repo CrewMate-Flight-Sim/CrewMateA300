@@ -88,7 +88,8 @@ const SIM_VARS: { key: string; expression: string }[] = [
   { key: "gdSpeed", expression: "(L:FMGEC_GD_SPEED)" },
   { key: "sSpeed", expression: "(L:FCPC_S_SPEED)" },
   { key: "fSpeed", expression: "(L:FCPC_F_SPEED)" },
-  { key: "Vapp", expression: "(L:INI_VAPP_SPEED)" }
+  { key: "Vapp", expression: "(L:INI_VAPP_SPEED)" },
+  { key: "transitionAltitude", expression: "(L:INI_transition_altitude)" }
 ]
 
 const RETRY_INTERVAL_MS = 5000

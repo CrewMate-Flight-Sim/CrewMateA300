@@ -303,7 +303,7 @@ export function useCallouts() {
     if (!t || t.isSlewActive) return
 
     const perf = usePerformanceStore.getState()
-    const transitionAltitude = perf.takeoff.transitionAltitude
+    const transitionAltitude = t.transitionAltitude
     const transitionLevel = perf.landing.transitionLevel
     const sp = speed.current
     const al = altitude.current
