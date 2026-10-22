@@ -2,14 +2,26 @@ import { invoke } from "@tauri-apps/api/core"
 
 import { delay } from "@/lib/utils"
 import { useSettingsStore } from "@/store/settingsStore"
+import { getA300Variant } from "./a300Variant"
 
 interface PlaySoundOptions {
   pack?: string
   volume?: number
 }
 
+const INHIBITED_CARGO_SOUNDS = new Set([
+  "cabin_landing.ogg",
+  "cabin_secure.ogg",
+  "cabin_takeoff.ogg",
+  "cabin_not_secure.ogg"
+])
+
 export const playSound = async (filename: string, options?: PlaySoundOptions) => {
   try {
+    if (getA300Variant() === "cargo" && INHIBITED_CARGO_SOUNDS.has(filename)) {
+      console.log(`[PlaySounds] Sound inhibited in cargo mode: ${filename}`)
+      return
+    }
     const state = useSettingsStore.getState()
     const soundPack = options?.pack ?? state.soundPack
     const volume = options?.volume ?? state.soundVolume / 100

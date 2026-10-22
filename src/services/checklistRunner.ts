@@ -11,6 +11,7 @@ import { useSettingsStore } from "@/store/settingsStore"
 import { useTelemetryStore } from "@/store/telemetryStore"
 import { useVoiceHintProgressStore } from "@/store/voiceHintProgressStore"
 import type { Check, ChecklistItem, ValidationRule } from "@/types/checklist"
+import { getA300Variant } from "./a300Variant"
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -251,7 +252,7 @@ class ChecklistRunner {
       await playSyncSound(checklist.completion)
 
       store.setExecutionState("completed")
-      this.onChecklistCompleted(checklist.id)
+      this.onChecklistCompleted(checklist.id, getA300Variant() == "cargo")
     } catch (err) {
       const message = String(err)
       if (message.includes("aborted")) {
@@ -418,10 +419,10 @@ class ChecklistRunner {
 
   // ── Completion side-effects ───────────────────────────────────────────────
 
-  private onChecklistCompleted(checklistId: string): void {
+  private onChecklistCompleted(checklistId: string, cargo: boolean): void {
     useVoiceHintProgressStore.getState().recordChecklistCompleted(checklistId)
 
-    if (checklistId === "after_start") {
+    if (checklistId === "after_start" && !cargo) {
       // Shorten the timer slightly because they've been working during engine start
       const duration = 1 + Math.random() * 3
       useCabinReadyTimerStore.getState().startTimer(duration)
