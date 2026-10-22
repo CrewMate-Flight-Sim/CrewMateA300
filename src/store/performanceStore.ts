@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware"
 
 interface TakeoffData {
   trim: number
+  trimRatio: number
   flaps: string
   packs?: string
   antiIce?: string
@@ -27,8 +28,11 @@ interface PerformanceStore {
   resetLandingData: () => void
 }
 
+const toTrimRatio = (trim: number) => (trim >= 0 ? trim / 14 : trim / 3)
+
 const DEFAULT_TAKEOFF_DATA: TakeoffData = {
   trim: 0,
+  trimRatio: toTrimRatio(0),
   flaps: "1",
   packs: "on",
   antiIce: "off"
@@ -49,9 +53,11 @@ export const usePerformanceStore = create<PerformanceStore>()(
       takeoff: DEFAULT_TAKEOFF_DATA,
       landing: DEFAULT_LANDING_DATA,
       setTakeoffData: (data) =>
-        set((state) => ({
-          takeoff: { ...state.takeoff, ...data }
-        })),
+        set((state) => {
+          const next = { ...state.takeoff, ...data }
+          if (data.trim !== undefined) next.trimRatio = toTrimRatio(next.trim)
+          return { takeoff: next }
+        }),
       setLandingData: (data) =>
         set((state) => ({
           landing: { ...state.landing, ...data }
@@ -60,7 +66,13 @@ export const usePerformanceStore = create<PerformanceStore>()(
       resetLandingData: () => set({ landing: DEFAULT_LANDING_DATA })
     }),
     {
-      name: "performance-data"
+      name: "performance-data",
+      merge: (persisted, current) => {
+        const p = persisted as Partial<PerformanceStore> | undefined
+        const takeoff = { ...current.takeoff, ...p?.takeoff }
+        if (takeoff.trimRatio === undefined) takeoff.trimRatio = toTrimRatio(takeoff.trim ?? 0)
+        return { ...current, ...p, takeoff }
+      }
     }
   )
 )

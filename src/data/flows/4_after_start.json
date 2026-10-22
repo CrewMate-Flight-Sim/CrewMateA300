@@ -49,7 +49,8 @@
       "label": "Pitch trim",
       "read": "(L:ELEV_TRIM_RATIO)",
       "on": "{pitch_trim_cmd}",
-      "expect": "{pitch_trim_expect}"
+      "expect": "{pitch_trim_expect}",
+      "strict_verify": true
     },
     {
       "label": "Dome off",

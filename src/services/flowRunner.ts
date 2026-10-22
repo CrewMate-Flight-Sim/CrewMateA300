@@ -85,8 +85,9 @@ function optionMatchesExpected(actual: unknown, expected: FlowConditionValue): b
   return String(actual) === String(expected)
 }
 
-function simvarMatchesExpected(actual: number | null, expected: FlowConditionValue): boolean {
+function simvarMatchesExpected(actual: number | null, expected: FlowConditionValue, strict?: boolean): boolean {
   if (typeof expected !== "number" && typeof expected !== "string") return false
+  if (strict) return actual !== null && Math.abs(actual - toNumber(expected)) < 0.01
   return actual !== null && fuzzyEquals(actual, toNumber(expected))
 }
 
@@ -322,7 +323,7 @@ class FlowRunner {
 
     console.log(`[FlowRunner] Step "${step.label}": read=${currentValue}, expect=${step.expect}`)
 
-    if (simvarMatchesExpected(currentValue, step.expect)) {
+    if (simvarMatchesExpected(currentValue, step.expect, step.strict_verify)) {
       if (step.wait_ms) await this.abortableSleep(step.wait_ms, signal)
       setStepStatus(index, "skipped")
       return
@@ -369,7 +370,7 @@ class FlowRunner {
       this.checkAbort(signal)
       if (!step.skip_delay) await delay(STEP_VERIFY.DELAY)
       const newValue = await readSimvar(step.read)
-      if (simvarMatchesExpected(newValue, step.expect)) {
+      if (simvarMatchesExpected(newValue, step.expect, step.strict_verify)) {
         verified = true
         break
       }

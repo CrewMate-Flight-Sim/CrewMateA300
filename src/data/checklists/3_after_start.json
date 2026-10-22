@@ -10,7 +10,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:ELEV_TRIM_RATIO)", "expected": { "store": "takeoff.trim" } }]
+          "checks": [{ "type": "simvar", "var": "(L:ELEV_TRIM_RATIO)", "expected": { "store": "takeoff.trimRatio" } }]
         }
       ]
     },

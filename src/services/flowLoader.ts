@@ -72,8 +72,8 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   vars["anti_ice_eng2_expect"] = engAntiIce ? "1" : "0"
   vars["anti_ice_wing_expect"] = wingAntiIce ? "1" : "0"
 
-  vars["pitch_trim_cmd"] = `${takeoff.trim} (>L:ELEV_TRIM_RATIO)`
-  vars["pitch_trim_expect"] = String(takeoff.trim)
+  vars["pitch_trim_cmd"] = `${takeoff.trimRatio} (>L:ELEV_TRIM_RATIO)`
+  vars["pitch_trim_expect"] = String(takeoff.trimRatio)
 
   const autoBrakeMap: Record<string, string> = {
     off: "0",
