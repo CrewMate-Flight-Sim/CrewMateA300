@@ -16,12 +16,6 @@
       "expect": 0
     },
     {
-      "label": "Wing Anti Ice",
-      "read": "(L:A310_WING_ANTI_ICE)",
-      "on": "0 (L:A310_WING_ANTI_ICE)",
-      "expect": 0
-    },
-    {
       "label": "APU Bleed",
       "read": "(L:A310_apu_bleed)",
       "on": "1 (>L:A310_apu_bleed)",
@@ -151,12 +145,6 @@
       "label": "Set Chocks",
       "read": "(L:A310_CHOCKS_ENABLED)",
       "on": "1 (>L:A310_CHOCKS_ENABLED)",
-      "expect": 1
-    },
-    {
-      "label": "Jetway Toggle",
-      "read": "(A:JETWAY MOVING, bool)",
-      "on": "(>K:TOGGLE_JETWAY)",
       "expect": 1
     }
   ]

@@ -18,6 +18,9 @@ export async function setAPPR(position: number) {
   await setLvar(position, "AP7_BUTTON", "approach")
 }
 
+export async function setLVLCH(position: number) {
+  await setLvar(position, "AP2_BUTTON", "levelchange")
+}
 // Flight director commands
 export async function setFlightDirector(position: number) {
   await setLvar(position, "A310_FDIR_SWITCH_CAPT", "captain flight director")

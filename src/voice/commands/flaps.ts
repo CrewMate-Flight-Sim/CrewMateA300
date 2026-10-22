@@ -1,5 +1,5 @@
-import { simvarSet } from "@/API/simvarApi"
 import { delay } from "@/lib/utils"
+import { moveFlapsLever } from "@/services/flapsLever"
 import { playSound } from "@/services/playSounds"
 import { useTelemetryStore } from "@/store/telemetryStore"
 
@@ -8,14 +8,6 @@ const FLAP_SPEED_LIMITS: Record<number, number> = {
   2: 210,
   3: 195,
   4: 180
-}
-
-const KEY_EVENT_MAP: Record<number, string> = {
-  0: "FLAPS_UP",
-  1: "FLAPS_1",
-  2: "FLAPS_2",
-  3: "FLAPS_3",
-  4: "FLAPS_DOWN"
 }
 
 const SOUND_MAP: Record<number, string> = {
@@ -43,13 +35,6 @@ export async function setFlaps(setting: number, skipAnnouncement = false) {
       return
     }
 
-    const keyEvent = KEY_EVENT_MAP[setting]
-    if (!keyEvent) {
-      return
-    }
-
-    const commandExpression = `(>K:${keyEvent})`
-
     // 2. FO says "Speed Checked" (Extension only, skip 3->4)
     if (!isOnGround && isExtendingOrStatic && !isTransition3to4) {
       if (!skipAnnouncement) {
@@ -58,8 +43,8 @@ export async function setFlaps(setting: number, skipAnnouncement = false) {
       }
     }
 
-    // 3. FO moves the lever
-    await simvarSet(commandExpression)
+    // 3. FO moves the lever through each detent (iniBuilds requires this)
+    await moveFlapsLever(setting)
 
     // 4. FO confirms the selection (e.g., "Slats Extend" or "Flaps 15")
     await delay(5000)

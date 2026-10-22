@@ -166,13 +166,16 @@
         </one-of>
       </item>
 
+      <!-- Missed approach altitude — auto (uses Landing window's missed altitude) -->
+      <item>
+        <ruleref uri="#MISSED_APPROACH_PREFIX" />
+        <tag>out.pid="16"; out.cval="AUTO";</tag>
+      </item>
+
       <!-- Missed approach altitude — explicit feet -->
       <item>
         <one-of>
-          <item>set go around altitude</item>
-          <item>set go around</item>
-          <item>go around altitude</item>
-          <item>go around</item>
+          <item><ruleref uri="#MISSED_APPROACH_PREFIX" /></item>
         </one-of>
         <ruleref uri="#ALTITUDE_VALUE" />
         <item repeat="0-1">feet</item>
@@ -182,10 +185,7 @@
       <!-- Missed approach altitude — explicit flight level -->
       <item>
         <one-of>
-          <item>set go around altitude</item>
-          <item>set go around</item>
-          <item>go around altitude</item>
-          <item>go around</item>
+          <item><ruleref uri="#MISSED_APPROACH_PREFIX" /></item>
         </one-of>
         <item>flight level</item>
         <ruleref uri="#HDG_SPD_FL_VALUE" />
@@ -383,19 +383,27 @@
       <item>before start procedure<tag>out.pid="before_start_procedure";</tag></item>
       <item>takeoff<tag>out.pid="clear_for_takeoff";</tag></item>
       <item>continue<tag>out.pid="continue";</tag></item>
+      <item>stop<tag>out.pid="abort_takeoff";</tag></item>
+      <item>abort takeoff<tag>out.pid="abort_takeoff";</tag></item>
       <item>flight controls check<tag>out.pid="flight_controls_check";</tag></item>
       <item>set landing elevation<tag>out.pid="des_prep";</tag></item>
       <item>wing anti ice on<tag>out.pid="wing_anti_ice_on";</tag></item>
       <item>wing anti ice off<tag>out.pid="wing_anti_ice_off";</tag></item>
       <item>engine anti ice on<tag>out.pid="engine_anti_ice_on";</tag></item>
       <item>engine anti ice off<tag>out.pid="engine_anti_ice_off";</tag></item>
+      <item>set green dot speed<tag>out.pid="gd_speed";</tag></item>
+      <item>set s speed<tag>out.pid="s_speed";</tag></item>
+      <item>set f speed<tag>out.pid="f_speed";</tag></item>
+      <item>set vapp<tag>out.pid="vapp";</tag></item>
       <item>wipers off<tag>out.pid="wipers_off";</tag></item>
       <item>wipers slow<tag>out.pid="wipers_slow";</tag></item>
       <item>wipers fast<tag>out.pid="wipers_fast";</tag></item>
       <item>seat belts on<tag>out.pid="seat_belts_on";</tag></item>
       <item>seat belts off<tag>out.pid="seat_belts_off";</tag></item>
       <item>brake check<tag>out.pid="brake_check";</tag></item>
-      <item>set standard<tag>out.pid="set_standard";</tag></item>
+      <item>brake fan on<tag>out.pid="brake_fan_on";</tag></item>
+      <item>brake fan off<tag>out.pid="brake_fan_off";</tag></item>
+      <item>pull standard<tag>out.pid="set_standard";</tag></item>
 
       <item>autopilot on<tag>out.pid="autopilot_engage";</tag></item>
       <item>autopilot off<tag>out.pid="autopilot_disconnect";</tag></item>
@@ -404,9 +412,11 @@
       <item>pull speed<tag>out.pid="pull_speed";</tag></item>
       <item>engage heading<tag>out.pid="pull_heading";</tag></item>
       <item>engage nav<tag>out.pid="manage_nav";</tag></item>
+      <item>engage level change<tag>out.pid="lvlch";</tag></item>
       <item>engage altitude hold<tag>out.pid="push_to_level_off";</tag></item>
       <item>arm land<tag>out.pid="arm_approach";</tag></item>
       <item>arm localizer<tag>out.pid="arm_localizer";</tag></item>
+      <item>loc star set runway track<tag>out.pid="set_runway_track";</tag></item>
 
       <item>ground from cockpit<tag>out.pid="ground_call";</tag></item>
       <item>cockpit to ground<tag>out.pid="ground_call";</tag></item>
@@ -677,6 +687,14 @@
       <item>thirty<tag>out="30";</tag></item>
       <item>forty<tag>out="40";</tag></item>
       <item>fifty<tag>out="50";</tag></item>
+    </one-of>
+  </rule>
+
+  <!-- Go-around / missed approach altitude command prefix -->
+  <rule id="MISSED_APPROACH_PREFIX">
+    <one-of>
+      <item>set go around altitude</item>
+      <item>set missed approach altitude</item>
     </one-of>
   </rule>
 

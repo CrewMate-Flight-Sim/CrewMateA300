@@ -11,6 +11,8 @@ import type { Telemetry } from "@/store/telemetryStore"
 import { useVoiceHintProgressStore } from "@/store/voiceHintProgressStore"
 import type { Flow, FlowStep, FlowConditionValue } from "@/types/flow"
 
+import { moveFlapsLever } from "./flapsLever"
+
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
@@ -314,6 +316,7 @@ class FlowRunner {
       await this.abortableSleep(100, signal)
     }
 
+    const expectedValue = toNumber(step.expect)
     const currentValue = await readSimvar(step.read)
     this.checkAbort(signal)
 
@@ -324,6 +327,7 @@ class FlowRunner {
       setStepStatus(index, "skipped")
       return
     }
+    if (step.flaps_lever) await moveFlapsLever(expectedValue)
 
     await writeSimvar(step.on)
     this.checkAbort(signal)

@@ -23,9 +23,10 @@ export const buildPassingAltitudeSequence = (targetAlt: number): string[] => {
   return sequence
 }
 
-// Packs carry 0-9, "thousand", "ten thousand" and "hundred"; anything they can't say falls back to "go around altitude set"
+// Packs carry 0-9, "thousand", "ten thousand" and "hundred"; values they can't
+// spell out fall back to the bare "set" readback.
 export const buildGoAroundAltSequence = (altValue: number): string[] => {
-  const fallback = ["go_around_alt.ogg", "set.ogg"]
+  const fallback = ["set.ogg"]
   if (!Number.isInteger(altValue / 100) || altValue <= 0) return fallback
 
   const thousands = Math.floor(altValue / 1000)
@@ -38,5 +39,5 @@ export const buildGoAroundAltSequence = (altValue: number): string[] => {
 
   if (hundreds > 0) words.push(`${hundreds}.ogg`, "hundred.ogg")
 
-  return ["go_around_alt.ogg", ...words, "feet_set.ogg"]
+  return [...words, "feet_set.ogg"]
 }

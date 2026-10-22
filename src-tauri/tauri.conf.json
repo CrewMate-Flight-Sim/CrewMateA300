@@ -31,31 +31,15 @@
   "bundle": {
     "active": true,
     "createUpdaterArtifacts": true,
-    "targets": [
-      "msi"
-    ],
-    "externalBin": [
-      "bin/copilot_speech"
-    ],
-    "resources": [
-      "sounds",
-      "bin/grammar.xml",
-      "Trainer"
-    ],
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
-    ]
+    "targets": ["msi"],
+    "externalBin": ["bin/copilot_speech"],
+    "resources": ["sounds", "bin/grammar.xml", "Trainer"],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
   },
   "plugins": {
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEIzQkJDNUU5MjY1QjE1ODIKUldTQ0ZWc202Y1c3c3oyT1hnNlgzd0lrVDFvdTZXL3dqWEViaDBMdEQ3Yk1uZ3owZnB0OTRLb1EK",
-      "endpoints": [
-        "https://github.com/CrewMate-Flight-Sim/CrewMateA310/releases/latest/download/latest.json"
-      ]
+      "endpoints": ["https://github.com/CrewMate-Flight-Sim/CrewMateA310/releases/latest/download/latest.json"]
     }
   }
 }

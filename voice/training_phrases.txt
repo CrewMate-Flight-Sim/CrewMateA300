@@ -165,9 +165,21 @@ ta ra
 ta only
 
 # ── Navigation ────────────────────────────────────────────────────────────────
-set standard
-set runway track
+pull standard
+loc star set runway track
 set transponder auto
+
+# ── New commands ──────────────────────────────────────────────────────────────
+set green dot speed
+set s speed
+set f speed
+set vapp
+engage level change
+brake fan on
+brake fan off
+set go around altitude
+set missed approach altitude five thousand
+abort takeoff
 
 # ── Generic checklist responses ───────────────────────────────────────────────
 confirm

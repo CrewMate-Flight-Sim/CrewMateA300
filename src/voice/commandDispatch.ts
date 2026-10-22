@@ -5,7 +5,9 @@ import { playSound, playSoundSequence } from "@/services/playSounds"
 import { buildGoAroundAltSequence, buildPassingAltitudeSequence } from "@/services/soundSequences"
 import { useGroundEngineerStore } from "@/store/groundEngineerStore"
 import { usePassingAltitudeStore } from "@/store/passingAltitudeStore"
+import { usePerformanceStore } from "@/store/performanceStore"
 import { usePreflightTimerStore } from "@/store/preflightTimerStore"
+import { useRtoStore } from "@/store/rtoStore"
 import { useSettingsStore } from "@/store/settingsStore"
 import { useTelemetryStore } from "@/store/telemetryStore"
 
@@ -24,9 +26,11 @@ import {
   setSelAlt,
   syncHeading,
   setHdgSel,
-  setNav
+  setNav,
+  setLVLCH
 } from "./commands/autoPilot"
 import { setStdBaro } from "./commands/baro"
+import { setBrakeFan } from "./commands/brakeFan"
 import { startEngine1, startEngine2, setIgnKnob } from "./commands/engine"
 import { setFlaps } from "./commands/flaps"
 import { flightControlsCheck, opencloseFCTLECAM } from "./commands/flightControlsCheck"
@@ -154,6 +158,40 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
     playSound("check.ogg")
     setLOC(1)
   },
+  lvlch: () => {
+    playSound("check.ogg")
+    setLVLCH(1)
+  },
+  set_runway_track: () => {
+    const hdg = useTelemetryStore.getState().telemetry?.["arrRunwayHdg"]
+    if (hdg != null && hdg >= 1 && hdg <= 360) {
+      setHeadingDial(hdg)
+    }
+  },
+  gd_speed: () => {
+    const speed = useTelemetryStore.getState().telemetry?.["gdSpeed"]
+    if (speed != null) {
+      setAirspeedDial(speed)
+    }
+  },
+  s_speed: () => {
+    const speed = useTelemetryStore.getState().telemetry?.["sSpeed"]
+    if (speed != null) {
+      setAirspeedDial(speed)
+    }
+  },
+  f_speed: () => {
+    const speed = useTelemetryStore.getState().telemetry?.["fSpeed"]
+    if (speed != null) {
+      setAirspeedDial(speed)
+    }
+  },
+  vapp: () => {
+    const speed = useTelemetryStore.getState().telemetry?.["Vapp"]
+    if (speed != null) {
+      setAirspeedDial(speed)
+    }
+  },
 
   // ── Baro ──────────────────────────────────────────────────────────────────
   set_standard: () => {
@@ -230,6 +268,17 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
   // ── Brake check ───────────────────────────────────────────────────────────
   brake_check: () => playSound("pressure_zero.ogg"),
 
+  // ── Brake Fan ─────────────────────────────────────────────────────────────
+  brake_fan_on: async () => {
+    playSound("check.ogg")
+    await setBrakeFan(true)
+  },
+
+  brake_fan_off: async () => {
+    playSound("check.ogg")
+    await setBrakeFan(false)
+  },
+
   // ── Flight controls ───────────────────────────────────────────────────────
   flight_controls_check: async () => {
     await opencloseFCTLECAM(1)
@@ -278,7 +327,7 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
   checklist_cancel: () => abortChecklist(),
 
   // ── RTO / Continue  ─────────────────────────────────────
-  //abort_takeoff: () => playSound("check.ogg"),
+  abort_takeoff: () => useRtoStore.getState().trigger(),
   continue: () => playSound("check.ogg"),
 
   // ── Control handover ──────────────────────────────────────────────────────
@@ -360,7 +409,6 @@ export async function dispatchFoCommand(commandType: string, payload: Record<str
         await delay(500)
       }
       setHeadingDial(value)
-      playSound("check.ogg")
 
       return true
     }
@@ -371,8 +419,8 @@ export async function dispatchFoCommand(commandType: string, payload: Record<str
         setSelAlt(1)
         await delay(500)
       }
-      setAltitudeDial(feet)
       playSound("check.ogg")
+      setAltitudeDial(feet)
       return true
     }
 
@@ -383,8 +431,6 @@ export async function dispatchFoCommand(commandType: string, payload: Record<str
         await delay(500)
       }
       setAirspeedDial(value)
-      playSound("check.ogg")
-
       return true
     }
 
@@ -394,11 +440,15 @@ export async function dispatchFoCommand(commandType: string, payload: Record<str
     }
 
     case "missed_approach_altitude": {
-      if (payload.value != null) {
-        const altValue = payload.value as number
-        setAltitudeDial(altValue)
-        playSoundSequence(buildGoAroundAltSequence(altValue))
-      }
+      // Grammar pid 16 ("auto") carries the string "AUTO" and is resolved by the
+      // sidecar to payload.mode = "auto"; pids 17/18 carry the spoken value.
+      const altValue =
+        (payload.mode as string) === "auto"
+          ? usePerformanceStore.getState().landing.missedAltitude
+          : (payload.value as number | undefined)
+      if (altValue == null) return true
+      setAltitudeDial(altValue)
+      playSoundSequence(buildGoAroundAltSequence(altValue))
       return true
     }
 

@@ -3,12 +3,6 @@
   "name": "Arrival at Aircraft",
   "steps": [
     {
-      "label": "Jetway Toggle",
-      "read": "(A:JETWAY MOVING, bool)",
-      "on": "(>K:TOGGLE_JETWAY)",
-      "expect": 1
-    },
-    {
       "label": "Open Cockpit door",
       "read": "(L:A300DR_COCKPIT_DOOR_OPEN)",
       "on": "1 (>L:A300_COCKPIT_DOOR_STATE)",

@@ -135,7 +135,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
 
     // Climb / cruise — above 3 000 ft, flaps clean, not descending
     const cruisePhrases: string[] = []
-    if (alt > transitionAltitude && !onStandard) cruisePhrases.push("set standard")
+    if (alt > transitionAltitude && !onStandard) cruisePhrases.push("pull standard")
     if (alt > 10000) cruisePhrases.push("seatbelts off")
     if (lastCl === "climb_below_the_line") cruisePhrases.push("set landing elevation")
 

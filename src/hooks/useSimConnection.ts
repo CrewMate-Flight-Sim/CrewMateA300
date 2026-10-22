@@ -32,6 +32,13 @@ const SIM_VARS: { key: string; expression: string }[] = [
   { key: "elevatorPosition", expression: "(A:ELEVATOR POSITION,Position)" },
   { key: "rudderPosition", expression: "(A:RUDDER POSITION,Position)" },
   { key: "spoilersHandlePosition", expression: "(A:SPOILERS HANDLE POSITION,Position)" },
+  { key: "pitchDegrees", expression: "(A:PLANE PITCH DEGREES,Degrees)" },
+  { key: "bankDegrees", expression: "(A:PLANE BANK DEGREES,Degrees)" },
+  { key: "speedTarget", expression: "(A:AUTOPILOT AIRSPEED TARGET,Knots)" },
+  { key: "locDeviation", expression: "(L:A310_LOCALIZER_DOTS)" },
+  { key: "glideDeviation", expression: "(L:A310_GLIDESLOPE_ERROR_DOTS)" },
+  { key: "locValid", expression: "(L:A310_RADIO_RECIEVER_LOC_IS_VALID)" },
+  { key: "glideValid", expression: "(L:A310_RADIO_RECIEVER_GLIDESLOPE_VALID)" },
   { key: "iniFlexTemperature", expression: "(L:A310_FLEX_TEMPERATURE)" },
   { key: "iniThrustFlexN1", expression: "(L:A310_THRUST_FLEX_N1)" },
   { key: "iniThrustTogaN1", expression: "(L:A310_THRUST_TOGA_N1)" },
@@ -58,7 +65,7 @@ const SIM_VARS: { key: string; expression: string }[] = [
   { key: "foBaro", expression: "(L:XMLVAR_BARO_Selector_HPA_2)" },
   { key: "stbBaro", expression: "(L:XMLVAR_BARO_Selector_HPA_3)" },
   { key: "linkedInstruments", expression: "(L:INI_LINKED_INSTRUMENTS)" },
-  { key: "arrRunwayHdg", expression: "(L:INI_ARR_RUNWAY_HDG)" },
+  { key: "arrRunwayHdg", expression: "(L:A310_ARR_RUNWAY_HDG)" },
   { key: "foShowAirports", expression: "(L:INI_SHOW_AIRPORTS2)" },
   { key: "foShowConstraints", expression: "(L:INI_SHOW_CONSTRAINTS2)" },
   { key: "foVor1Active", expression: "(L:INI_FO_VOR1_ACTIVE)" },
@@ -76,7 +83,11 @@ const SIM_VARS: { key: string; expression: string }[] = [
   { key: "thrustRatingMode", expression: "(L:A310_TRP_MODE)" },
   { key: "foChrono", expression: "(L:A300DR_CHRONO_TIME_FO)" },
   { key: "taxiLight", expression: "(L:A310_TAXI_LIGHTS_SWITCH)" },
-  { key: "baroMode", expression: "(L:XMLVAR_Baro1_Mode)" }
+  { key: "baroMode", expression: "(L:XMLVAR_Baro1_Mode)" },
+  { key: "gdSpeed", expression: "(L:A310_Greendot_speed)" },
+  { key: "sSpeed", expression: "(L:A310_S_SPEED)" },
+  { key: "fSpeed", expression: "(L:A310_F_SPEED)" },
+  { key: "Vapp", expression: "(L:A310_VAPP_SPEED)" }
 ]
 
 const RETRY_INTERVAL_MS = 5000

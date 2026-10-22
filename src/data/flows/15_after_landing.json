@@ -16,6 +16,12 @@
       "expect": "{landing_anti_ice_eng2_expect}"
     },
     {
+      "label": "Wing Anti Ice",
+      "read": "(L:A310_WING_ANTI_ICE)",
+      "on": "0 (L:A310_WING_ANTI_ICE)",
+      "expect": 0
+    },
+    {
       "label": "Ignition set",
       "read": "(L:A310_eng_ignition_switch)",
       "on": "3 (>L:A310_eng_ignition_switch)",

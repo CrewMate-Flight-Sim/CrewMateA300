@@ -1,7 +1,7 @@
 import { emit } from "@tauri-apps/api/event"
 import { getCurrentWindow } from "@tauri-apps/api/window"
 import { Info } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,10 @@ import { usePerformanceStore } from "@/store/performanceStore"
 
 const SELECT_CLS =
   "w-full h-8 bg-slate-900/50 border border-slate-600 text-white text-xs rounded-md px-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+
+const MISSED_ALT_MIN = 1000
+const MISSED_ALT_MAX = 20000
+const MISSED_ALT_STEP = 100
 
 const formatToFL = (value: number | undefined | null) => {
   if (!value) return ""
@@ -22,11 +26,21 @@ const formatToFL = (value: number | undefined | null) => {
 
 export function LandingWindow() {
   const { landing, setLandingData } = usePerformanceStore()
+  const missedRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     getCurrentWindow()
       .show()
       .catch(() => {})
+  }, [])
+
+  // React's onWheel is passive and can't stop the browser's own number input scrolling
+  useEffect(() => {
+    const input = missedRef.current
+    if (!input) return
+    const handler = (e: WheelEvent) => e.preventDefault()
+    input.addEventListener("wheel", handler, { passive: false })
+    return () => input.removeEventListener("wheel", handler)
   }, [])
 
   const handleChange = (name: string, value: string | number) => {
@@ -40,6 +54,13 @@ export function LandingWindow() {
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     handleChange(e.target.name, e.target.value)
+  }
+
+  // Rounds too, so a typed 3550 steps to 3500 or 3600
+  const handleMissedWheel = (deltaY: number) => {
+    const step = deltaY > 0 ? -MISSED_ALT_STEP : MISSED_ALT_STEP
+    const next = Math.round((landing.missedAltitude + step) / MISSED_ALT_STEP) * MISSED_ALT_STEP
+    handleChange("missedAltitude", Math.max(MISSED_ALT_MIN, Math.min(MISSED_ALT_MAX, next)))
   }
 
   const labelRow = "flex items-center gap-1 h-4"
@@ -142,8 +163,27 @@ export function LandingWindow() {
         </div>
       </div>
 
-      {/* Row 2: APU + Auto Brake */}
-      <div className="grid grid-cols-2 gap-2">
+      {/* Row 2: Missed App + APU + Auto Brake */}
+      <div className="grid grid-cols-3 gap-2">
+        <div className="space-y-1">
+          <Label htmlFor="missedAltitude" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
+            Missed App (ft)
+          </Label>
+          <Input
+            ref={missedRef}
+            type="number"
+            min={MISSED_ALT_MIN}
+            max={MISSED_ALT_MAX}
+            id="missedAltitude"
+            name="missedAltitude"
+            value={landing.missedAltitude}
+            onChange={handleNumberInput}
+            onWheel={(e) => handleMissedWheel(e.deltaY)}
+            className="h-8 bg-slate-900/50 border-slate-600 text-white text-xs font-mono text-center px-1 focus-visible:ring-cyan-500"
+            placeholder="4000"
+          />
+        </div>
+
         <div className="space-y-1">
           <div className={labelRow}>
             <Label htmlFor="apuStart" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">

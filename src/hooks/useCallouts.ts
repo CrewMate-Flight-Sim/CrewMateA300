@@ -6,6 +6,7 @@ import { playSound, isSoundPlaying, playSoundSequence } from "@/services/playSou
 import { useGoAroundStore } from "@/store/goAroundStore"
 import { usePassingAltitudeStore } from "@/store/passingAltitudeStore"
 import { usePerformanceStore } from "@/store/performanceStore"
+import { useRtoStore } from "@/store/rtoStore"
 import { useSettingsStore } from "@/store/settingsStore"
 import { useTelemetryStore } from "@/store/telemetryStore"
 import type { Telemetry } from "@/store/telemetryStore"
@@ -32,6 +33,7 @@ interface AltitudeCalloutFlags {
   above100dh: boolean
   minimum: boolean
   oneToGo: boolean
+  gsalive: boolean
 }
 
 interface LandingSequenceState {
@@ -39,6 +41,13 @@ interface LandingSequenceState {
   phase: LandingPhase
   phaseStartTime: number | null
   done: boolean
+}
+
+interface RtoState {
+  active: boolean
+  startedAt: number | null
+  calledReverse: boolean
+  calledDecel: boolean
 }
 
 interface PreviousValues {
@@ -49,6 +58,47 @@ interface PreviousValues {
   takeoffN1: number
   fcuAlt: number
 }
+
+// ─── Approach deviation calls ────────────────────────────────────────────────
+// FCOM PRO-NOR-SCO "Flight parameters, approach"; re-armed at most every 5 s so a value on the limit doesn't chatter
+
+type DeviationCall = "speed" | "sinkRate" | "bank" | "pitch" | "loc" | "glide"
+
+const DEVIATION_MIN_RA = 50
+const DEVIATION_MAX_RA = 1000
+const DEVIATION_REARM_MS = 5000
+
+const DEVIATION_SOUNDS: Record<DeviationCall, string> = {
+  speed: "speed.ogg",
+  sinkRate: "sink_rate.ogg",
+  bank: "bank.ogg",
+  pitch: "pitch.ogg",
+  loc: "loc.ogg",
+  glide: "glide.ogg"
+}
+
+function exceededDeviations(t: Telemetry): Record<DeviationCall, boolean> {
+  const pitchUp = -t.pitchDegrees
+  const locOk = t.locValid > 0.5
+  const gsOk = t.glideValid > 0.5
+  return {
+    speed: t.speedTarget > 0 && (t.ias < t.speedTarget - 5 || t.ias > t.speedTarget + 10),
+    sinkRate: t.vs < -1000,
+    bank: Math.abs(t.bankDegrees) > 7,
+    pitch: pitchUp > 10 || pitchUp < 0,
+    loc: locOk && Math.abs(t.locDeviation) > 0.25,
+    glide: gsOk && Math.abs(t.glideDeviation) > 1
+  }
+}
+
+const newDeviationState = (): Record<DeviationCall, number | null> => ({
+  speed: null,
+  sinkRate: null,
+  bank: null,
+  pitch: null,
+  loc: null,
+  glide: null
+})
 
 const THRUST_SET_MARGIN = 1
 
@@ -127,6 +177,43 @@ const PHASE_HANDLERS: Record<
   decel: handleDecelPhase
 }
 
+// ─── Rejected takeoff ──────────────────────────────────────────────────────────
+// Triggered by the pilot calling "stop". FCOM PRO-ABN-ABN-00: the F/O calls
+// REVERSE GREEN, then DECEL or NO DECEL. There is no spoilers call, and nothing
+// is said about reverse when it was never selected.
+
+const RTO_ARM_MIN_IAS = 40
+const RTO_END_IAS = 30
+const RTO_DECEL_TIMEOUT = 5000
+
+const resetRto = (rto: RtoState) => {
+  rto.active = false
+  rto.startedAt = null
+  rto.calledReverse = false
+  rto.calledDecel = false
+}
+
+function handleRto(rto: RtoState, t: Telemetry, prevSpeed: number, now: number) {
+  if (!rto.calledReverse && (t.engine1Reverse > 0.1 || t.engine2Reverse > 0.1)) {
+    playSound("reverse_green.ogg")
+    rto.calledReverse = true
+    return
+  }
+
+  if (rto.calledDecel) return
+
+  const brakesApplied = t.brakeLeftPosition > 0.1 || t.brakeRightPosition > 0.1
+  const elapsed = rto.startedAt ? now - rto.startedAt : 0
+
+  if (brakesApplied && t.ias < prevSpeed) {
+    playSound("decel.ogg")
+    rto.calledDecel = true
+  } else if (elapsed >= RTO_DECEL_TIMEOUT) {
+    playSound("no_decel.ogg")
+    rto.calledDecel = true
+  }
+}
+
 export function useCallouts() {
   const speed = useRef<SpeedCalloutFlags>({
     calledThrustSet: false,
@@ -147,7 +234,8 @@ export function useCallouts() {
     above100mda: false,
     above100dh: false,
     minimum: false,
-    oneToGo: false
+    oneToGo: false,
+    gsalive: false
   })
 
   const landing = useRef<LandingSequenceState>({
@@ -168,6 +256,11 @@ export function useCallouts() {
 
   const thrustSetPrimed = useRef(false)
 
+  // When each deviation call last played, or null while it is armed
+  const deviationCalledAt = useRef(newDeviationState())
+  // Takeoff and go-around pitch and climb would trip the approach limits, so the calls wait until the next approach
+  const deviationInhibited = useRef(false)
+
   // Re-arm positive-climb callout on go-around
   const goAroundCount = useRef(useGoAroundStore.getState().count)
   useEffect(() => {
@@ -175,7 +268,32 @@ export function useCallouts() {
       if (s.count !== goAroundCount.current) {
         goAroundCount.current = s.count
         altitude.current.positiveClimb = false
+        deviationInhibited.current = true
       }
+    })
+  }, [])
+
+  // Rejected takeoff: armed only by the pilot calling "stop", and only on the
+  // ground above 40 kt so a stray call at the gate or in the cruise does nothing
+  const rto = useRef<RtoState>({
+    active: false,
+    startedAt: null,
+    calledReverse: false,
+    calledDecel: false
+  })
+
+  const rtoCount = useRef(useRtoStore.getState().count)
+  useEffect(() => {
+    return useRtoStore.subscribe((s) => {
+      if (s.count === rtoCount.current) return
+      rtoCount.current = s.count
+
+      const t = useTelemetryStore.getState().telemetry
+      if (!t || !t.onGround || t.ias <= RTO_ARM_MIN_IAS) return
+
+      resetRto(rto.current)
+      rto.current.active = true
+      rto.current.startedAt = Date.now()
     })
   }, [])
 
@@ -186,7 +304,6 @@ export function useCallouts() {
     const perf = usePerformanceStore.getState()
     const transitionAltitude = perf.takeoff.transitionAltitude
     const transitionLevel = perf.landing.transitionLevel
-
     const sp = speed.current
     const al = altitude.current
     const ls = landing.current
@@ -231,6 +348,7 @@ export function useCallouts() {
       al.oneToGo = false
       al.above100mda = false
       al.above100dh = false
+      al.gsalive = false
     }
 
     // V1 callout logic
@@ -298,6 +416,11 @@ export function useCallouts() {
     if (!t.onGround && t.vs < -100 && !al.tenThousandDescent && crossedDown(p.alt, t.alt, 10000)) {
       playSound(transitionLevel < 10000 ? "fl_100.ogg" : "ten_thousand.ogg")
       al.tenThousandDescent = true
+    }
+
+    if (!t.onGround && t.glideDeviation < 2 && t.glideValid && !al.gsalive) {
+      playSound("gs_alive.ogg")
+      al.gsalive = true
     }
 
     // One to go
@@ -384,6 +507,38 @@ export function useCallouts() {
       usePassingAltitudeStore.getState().reset()
     }
 
+    // Approach deviation calls
+    if (t.onGround) deviationInhibited.current = true
+    else if (t.radioAlt > DEVIATION_MAX_RA) deviationInhibited.current = false
+
+    const inDeviationWindow =
+      useSettingsStore.getState().deviationCallsEnabled &&
+      !deviationInhibited.current &&
+      !t.onGround &&
+      t.landingGear > 0.5 &&
+      t.radioAlt >= DEVIATION_MIN_RA &&
+      t.radioAlt <= DEVIATION_MAX_RA
+
+    if (inDeviationWindow) {
+      const exceeded = exceededDeviations(t)
+      const calledAt = deviationCalledAt.current
+      const pending = (Object.keys(exceeded) as DeviationCall[]).filter((call) => {
+        if (!exceeded[call]) {
+          if (calledAt[call] !== null && now - calledAt[call] >= DEVIATION_REARM_MS) calledAt[call] = null
+          return false
+        }
+        return calledAt[call] === null
+      })
+
+      // One call per tick so they never talk over each other or the other callouts
+      if (pending.length > 0 && !(await isSoundPlaying())) {
+        playSound(DEVIATION_SOUNDS[pending[0]])
+        calledAt[pending[0]] = now
+      }
+    } else {
+      deviationCalledAt.current = newDeviationState()
+    }
+
     // Landing sequence
 
     // Height rather than a climb, so a flight started on approach still arms; a bounce stays below 100 ft
@@ -397,16 +552,13 @@ export function useCallouts() {
       ls.wasAirborne = false
     }
 
-    // Arm: RTO (never airborne, spoilers deployed at speed)
-    if (
-      t.onGround &&
-      !ls.wasAirborne &&
-      ls.phase === "idle" &&
-      !ls.done &&
-      t.spoilersHandlePosition > 0.1 &&
-      t.ias > 60
-    ) {
-      advancePhase(ls, "spoilers", now)
+    // Rejected takeoff - runs on its own state, the landing sequence is untouched
+    if (rto.current.active) {
+      if (!t.onGround || t.ias < RTO_END_IAS) {
+        resetRto(rto.current)
+      } else if (!(await isSoundPlaying())) {
+        handleRto(rto.current, t, p.speed, now)
+      }
     }
 
     // Reset on sustained climb-away
