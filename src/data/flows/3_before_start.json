@@ -9,12 +9,6 @@
       "expect": 0
     },
     {
-      "label": "Jetway Toggle",
-      "read": "(A:JETWAY MOVING, bool)",
-      "on": "(>K:TOGGLE_JETWAY)",
-      "expect": 1
-    },
-    {
       "label": "SET MCDU",
       "read": "(L:INI_MCDU2_FPLAN)",
       "on": "1 (>L:INI_MCDU2_FPLAN)",
