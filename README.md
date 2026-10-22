@@ -1,4 +1,7 @@
 # CrewMate A310
+## 🛑 A310 WILL BE RETIRED, A300 WILL TAKE ITS PLACE.
+## 📉 THERE'S BASICALLY NO DEMAND FOR FLYING THIS TYPE IN FS2024. ON OTHER HAND THE A300 IS PROVEN TO BE A POPULAR TYPE IN FS2024, AND FLIGHT DECK LOGIC IS 90% SHARED BETWEEN THEM. SO THIS IS THE STEP FORWARD.
+
 
 [![Latest Release](https://img.shields.io/github/v/release/CrewMate-Flight-Sim/CrewMateA310?label=Latest%20Release)](https://github.com/CrewMate-Flight-Sim/CrewMateA310/releases)
 ![GitHub all releases](https://img.shields.io/github/downloads/CrewMate-Flight-Sim/CrewMateA310/total?style=plastic&label=Downloads)
