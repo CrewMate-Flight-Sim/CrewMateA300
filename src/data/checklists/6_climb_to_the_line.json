@@ -22,7 +22,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_GEAR_HANDLE_STATUS)", "expected": 1 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_GEAR_HANDLE_STATUS)", "expected": 1 }]
         }
       ]
     },
@@ -35,8 +35,8 @@
         {
           "when": { "always": true },
           "checks": [
-            { "type": "simvar", "var": "(L:A300_PACK1_BUTTON)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A300_PACK2_BUTTON)", "expected": 1 }
+            { "type": "simvar", "var": "(L:INI_PACK1_BUTTON)", "expected": 1 },
+            { "type": "simvar", "var": "(L:INI_PACK2_BUTTON)", "expected": 1 }
           ]
         }
       ]

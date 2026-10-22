@@ -4,15 +4,15 @@
   "steps": [
     {
       "label": "Pack 2",
-      "read": "(L:A300_PACK2_BUTTON)",
-      "on": "1 (>L:A300_PACK2_BUTTON)",
+      "read": "(L:INI_PACK2_BUTTON)",
+      "on": "1 (>L:INI_PACK2_BUTTON)",
       "expect": 1,
       "sound_after_execute": "pack_2_on.ogg"
     },
     {
       "label": "Ignition set",
-      "read": "(L:A310_eng_ignition_switch)",
-      "on": "3 (>L:A310_eng_ignition_switch)",
+      "read": "(L:INI_eng_ignition_switch)",
+      "on": "3 (>L:INI_eng_ignition_switch)",
       "expect": 3
     }
   ]

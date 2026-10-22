@@ -1,6 +1,6 @@
-# CrewmateA310 — User Manual
+# CrewmateA300 — User Manual
 
-**CrewmateA310** is a virtual First Officer companion for the **Airbus A310** in Microsoft Flight Simulator. It listens to your voice, responds with audio callouts, runs automated cockpit flows, and guides you through interactive checklists — just like a real crew member.
+**CrewmateA300** is a virtual First Officer companion for the **Airbus A300** in Microsoft Flight Simulator. It listens to your voice, responds with audio callouts, runs automated cockpit flows, and guides you through interactive checklists — just like a real crew member.
 
 ---
 
@@ -27,7 +27,7 @@
 
 ### Voice Modes
 
-CrewmateA310 supports two voice recognition modes, chosen with **Voice Mode** in Settings:
+CrewmateA300 supports two voice recognition modes, chosen with **Voice Mode** in Settings:
 
 | Mode                 | How it works                                                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -201,10 +201,10 @@ The FO will confirm speed limits before moving flaps while airborne.
 | Say                         | Flap Setting          | Max Speed |
 | --------------------------- | --------------------- | --------- |
 | "slats retract"             | Flaps 0/0 (retracted) | —         |
-| "slats extend" or "flaps 0" | Flaps 15/0            | 245 kts   |
-| "flaps fifteen"             | Flaps 15/15           | 210 kts   |
-| "flaps twenty"              | Flaps 20/20           | 195 kts   |
-| "flaps fourty"              | Flaps 40              | 180 kts   |
+| "slats extend" or "flaps 0" | Flaps 15/0            | 250 kts   |
+| "flaps fifteen"             | Flaps 15/15           | 215 kts   |
+| "flaps twenty"              | Flaps 20/20           | 205 kts   |
+| "flaps fourty"              | Flaps 40              | 175 kts   |
 
 ### Engine Anti‑Ice
 

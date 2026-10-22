@@ -4,10 +4,10 @@ import { playSound } from "@/services/playSounds"
 import { useTelemetryStore } from "@/store/telemetryStore"
 
 const FLAP_SPEED_LIMITS: Record<number, number> = {
-  1: 245,
-  2: 210,
-  3: 195,
-  4: 180
+  1: 250,
+  2: 215,
+  3: 205,
+  4: 175
 }
 
 const SOUND_MAP: Record<number, string> = {

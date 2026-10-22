@@ -209,6 +209,38 @@
         <item>set</item>
         <tag>out.pid="20"; out.cval=rules.MINIMUMS_VALUE;</tag>
       </item>
+
+      <!-- Takeoff data — flex "V1 NNN VR NNN V2 NNN flex XX" -->
+      <item>
+        <item>V1</item>
+        <ruleref uri="#HDG_SPD_FL_VALUE" />
+        <tag>out.v1=rules.HDG_SPD_FL_VALUE;</tag>
+        <item>VR</item>
+        <ruleref uri="#HDG_SPD_FL_VALUE" />
+        <tag>out.vr=rules.HDG_SPD_FL_VALUE;</tag>
+        <item>V2</item>
+        <ruleref uri="#HDG_SPD_FL_VALUE" />
+        <tag>out.v2=rules.HDG_SPD_FL_VALUE;</tag>
+        <item>flex</item>
+        <ruleref uri="#FLEX_TEMP_VALUE" />
+        <tag>out.ft=rules.FLEX_TEMP_VALUE;</tag>
+        <tag>out.pid="14"; out.cval=out.v1+"|"+out.vr+"|"+out.v2+"|FLX|"+out.ft;</tag>
+      </item>
+
+      <!-- Takeoff data — toga "V1 NNN VR NNN V2 NNN toga" -->
+      <item>
+        <item>V1</item>
+        <ruleref uri="#HDG_SPD_FL_VALUE" />
+        <tag>out.v1=rules.HDG_SPD_FL_VALUE;</tag>
+        <item>VR</item>
+        <ruleref uri="#HDG_SPD_FL_VALUE" />
+        <tag>out.vr=rules.HDG_SPD_FL_VALUE;</tag>
+        <item>V2</item>
+        <ruleref uri="#HDG_SPD_FL_VALUE" />
+        <tag>out.v2=rules.HDG_SPD_FL_VALUE;</tag>
+        <item>toga</item>
+        <tag>out.pid="15"; out.cval=out.v1+"|"+out.vr+"|"+out.v2+"|TOGA|";</tag>
+      </item>
     </one-of>
   </rule>
 
@@ -426,10 +458,6 @@
       <item>disconnect ground power<tag>out.pid="disconnect_gpu";</tag></item>
       <item>connect G P U<tag>out.pid="connect_gpu";</tag></item>
       <item>disconnect G P U<tag>out.pid="disconnect_gpu";</tag></item>
-      <item>connect air starter<tag>out.pid="connect_asu";</tag></item>
-      <item>disconnect air starter<tag>out.pid="disconnect_asu";</tag></item>
-      <item>connect A S U<tag>out.pid="connect_asu";</tag></item>
-      <item>disconnect A S U<tag>out.pid="disconnect_asu";</tag></item>
       <item>disconnect all<tag>out.pid="disconnect_all_ground";</tag></item>
       <item>secure the aircraft<tag>out.pid="secure_aircraft";</tag></item>
       <item>securing aircraft checklist<tag>out.pid="checklist_secure";</tag></item>
@@ -459,6 +487,7 @@
       <item>confirm<tag>out.pid="confirm";</tag></item>
       <item>negative<tag>out.pid="negative";</tag></item>
       <item>checked<tag>out.pid="checked";</tag></item>
+      <item>checked normal<tag>out.pid="checked";</tag></item>
       <item>set<tag>out.pid="set";</tag></item>
       <item>on<tag>out.pid="on";</tag></item>
       <item>off<tag>out.pid="off";</tag></item>

@@ -70,21 +70,21 @@
     },
     {
       "label": "Arm nav mode",
-      "read": "(L:A310_FCU_MANAGED_HEADING_BUTTON)",
-      "on": "1 (>L:A310_FCU_MANAGED_HEADING_BUTTON)",
+      "read": "(L:INI_FCU_MANAGED_HEADING_BUTTON)",
+      "on": "1 (>L:INI_FCU_MANAGED_HEADING_BUTTON)",
       "expect": 1,
       "sound_after_execute": "nav_prof_armed.ogg"
     },
     {
       "label": "Weather radar on",
-      "read": "(L:A310_WXR_SYS)",
-      "on": "0 (>L:A310_WXR_SYS)",
+      "read": "(L:INI_WXR_SYS)",
+      "on": "0 (>L:INI_WXR_SYS)",
       "expect": 0
     },
     {
       "label": "Takeoff config test",
-      "read": "(L:A310_TAKEOFF_CONFIG_PRESSED)",
-      "on": "1 (>L:A310_TAKEOFF_CONFIG_PRESSED)",
+      "read": "(L:INI_TAKEOFF_CONFIG_PRESSED)",
+      "on": "1 (>L:INI_TAKEOFF_CONFIG_PRESSED)",
       "expect": 1,
       "hold_ms": 2000
     }

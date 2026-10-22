@@ -131,27 +131,8 @@ export function TakeoffWindow() {
         </div>
       </div>
 
-      {/* Thrust + Packs + Anti Ice */}
+      {/* Packs + Anti Ice */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="space-y-1">
-          <div className={labelRow}>
-            <Label htmlFor="thrustSetting" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
-              Thrust
-            </Label>
-          </div>
-
-          <select
-            id="thrustSetting"
-            name="thrustSetting"
-            value={takeoff.thrustSetting}
-            onChange={handleSelectChange}
-            className={SELECT_CLS}
-          >
-            <option value="toga">TOGA</option>
-            <option value="flex">FLEX</option>
-          </select>
-        </div>
-
         <div className="space-y-1">
           <div className={labelRow}>
             <Label htmlFor="packs" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">

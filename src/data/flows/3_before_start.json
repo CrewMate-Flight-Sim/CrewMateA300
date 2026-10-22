@@ -4,8 +4,8 @@
   "steps": [
     {
       "label": "Close Cockpit door",
-      "read": "(L:A300DR_COCKPIT_DOOR_OPEN)",
-      "on": "0 (>L:A300_COCKPIT_DOOR_STATE)",
+      "read": "(L:INI_COCKPIT_DOOR_OPEN)",
+      "on": "0 (>L:INI_COCKPIT_DOOR_STATE)",
       "expect": 0
     },
     {
@@ -16,26 +16,26 @@
     },
     {
       "label": "SET MCDU",
-      "read": "(L:A310_MCDU2_FPLAN)",
-      "on": "1 (>L:A310_MCDU2_FPLAN)",
+      "read": "(L:INI_MCDU2_FPLAN)",
+      "on": "1 (>L:INI_MCDU2_FPLAN)",
       "expect": 1
     },
     {
       "label": "Beacon on",
-      "read": "(L:A310_BEACON_LIGHT_SWITCH)",
-      "on": "1 (>L:A310_BEACON_LIGHT_SWITCH)",
+      "read": "(L:INI_BEACON_LIGHT_SWITCH)",
+      "on": "1 (>L:INI_BEACON_LIGHT_SWITCH)",
       "expect": 1
     },
     {
       "label": "TCAS Set",
-      "read": "(L:A310_tcas_mode_pedestal)",
-      "on": "1 (>L:A310_tcas_mode_pedestal)",
+      "read": "(L:INI_tcas_mode_pedestal)",
+      "on": "1 (>L:INI_tcas_mode_pedestal)",
       "expect": 1
     },
     {
       "label": "Remove Chocks",
-      "read": "(L:A310_CHOCKS_ENABLED)",
-      "on": "0 (>L:A310_CHOCKS_ENABLED)",
+      "read": "(L:INI_CHOCKS_ENABLED)",
+      "on": "0 (>L:INI_CHOCKS_ENABLED)",
       "expect": 0
     }
   ]

@@ -1,12 +1,7 @@
-# CrewMate A310
-<span style="font-size: 1.9em; font-weight: bold;">🛑 A310 WILL BE RETIRED, A300 WILL TAKE ITS PLACE.</span>
+# CrewMate A300
 
-<span style="font-size: 1.9em; font-weight: bold;">📉 THERE'S BASICALLY NO DEMAND FOR FLYING THIS TYPE IN FS2024. ON THE OTHER HAND THE A300 IS PROVEN TO BE A POPULAR TYPE IN FS2024, AND FLIGHT DECK LOGIC IS 90% SHARED BETWEEN THEM. SO THIS IS THE STEP FORWARD.</span>
-
-
-
-[![Latest Release](https://img.shields.io/github/v/release/CrewMate-Flight-Sim/CrewMateA310?label=Latest%20Release)](https://github.com/CrewMate-Flight-Sim/CrewMateA310/releases)
-![GitHub all releases](https://img.shields.io/github/downloads/CrewMate-Flight-Sim/CrewMateA310/total?style=plastic&label=Downloads)
+[![Latest Release](https://img.shields.io/github/v/release/CrewMate-Flight-Sim/CrewMateA300?label=Latest%20Release)](https://github.com/CrewMate-Flight-Sim/CrewMateA300/releases)
+![GitHub all releases](https://img.shields.io/github/downloads/CrewMate-Flight-Sim/CrewMateA300/total?style=plastic&label=Downloads)
 
 [![Discord](https://img.shields.io/badge/discord-CrewMate-5865F2?logo=discord&logoColor=white)](https://discord.gg/aBZZWG2Y6F)
 
@@ -14,7 +9,7 @@
 
 ![CrewMate Logo](./src-tauri/icons/icon.png)
 
-> **CrewMate A310** is a free and open-source alternative to Copilot-style apps for aircraft workflows.
+> **CrewMate A300** is a free and open-source alternative to Copilot-style apps for aircraft workflows.
 > All data from the voice recognition is processed locally on your machine.
 
 ---
@@ -38,7 +33,8 @@
 
 ## Requirements
 
-- Microsoft Flight Simulator 2020 or 2024 (A310 included with the sim)
+- Microsoft Flight Simulator 2024
+- iniBuilds A300 Premium
 
 ## Voice Commands (Examples)
 
@@ -75,7 +71,7 @@
 
 ## Reporting Bugs & Requesting Features
 
-If you encounter a problem or want to request a new feature, please [open an issue](https://github.com/CrewMate-Flight-Sim/CrewMateA310/issues).
+If you encounter a problem or want to request a new feature, please [open an issue](https://github.com/CrewMate-Flight-Sim/CrewMateA300/issues).
 
 ---
 

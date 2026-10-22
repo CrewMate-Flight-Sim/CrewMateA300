@@ -56,8 +56,8 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   vars["flaps"] = flapsMap[takeoff.flaps] ?? "1"
 
   const packsOn = takeoff.packs === "on"
-  vars["pack1_cmd"] = packsOn ? "1 (>L:A300_PACK1_BUTTON)" : "0 (>L:A300_PACK1_BUTTON)"
-  vars["pack2_cmd"] = packsOn ? "1 (>L:A300_PACK2_BUTTON)" : "0 (>L:A300_PACK2_BUTTON)"
+  vars["pack1_cmd"] = packsOn ? "1 (>L:INI_PACK1_BUTTON)" : "0 (>L:INI_PACK1_BUTTON)"
+  vars["pack2_cmd"] = packsOn ? "1 (>L:INI_PACK2_BUTTON)" : "0 (>L:INI_PACK2_BUTTON)"
   vars["pack1_expect"] = packsOn ? "1" : "0"
   vars["pack2_expect"] = packsOn ? "1" : "0"
 
@@ -65,9 +65,9 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   const engAntiIce = antiIce === "oneng" || antiIce === "onengwing"
   const wingAntiIce = antiIce === "onengwing"
 
-  vars["anti_ice_eng1_cmd"] = engAntiIce ? "1 (>L:A310_ENG1_ANTI_ICE)" : "0 (>L:A310_ENG1_ANTI_ICE)"
-  vars["anti_ice_eng2_cmd"] = engAntiIce ? "1 (>L:A310_ENG2_ANTI_ICE)" : "0 (>L:A310_ENG2_ANTI_ICE)"
-  vars["anti_ice_wing_cmd"] = wingAntiIce ? "1 (>L:A310_WING_ANTI_ICE)" : "0 (>L:A310_WING_ANTI_ICE)"
+  vars["anti_ice_eng1_cmd"] = engAntiIce ? "1 (>L:INI_ENG1_ANTI_ICE)" : "0 (>L:INI_ENG1_ANTI_ICE)"
+  vars["anti_ice_eng2_cmd"] = engAntiIce ? "1 (>L:INI_ENG2_ANTI_ICE)" : "0 (>L:INI_ENG2_ANTI_ICE)"
+  vars["anti_ice_wing_cmd"] = wingAntiIce ? "1 (>L:INI_WING_ANTI_ICE)" : "0 (>L:INI_WING_ANTI_ICE)"
   vars["anti_ice_eng1_expect"] = engAntiIce ? "1" : "0"
   vars["anti_ice_eng2_expect"] = engAntiIce ? "1" : "0"
   vars["anti_ice_wing_expect"] = wingAntiIce ? "1" : "0"
@@ -85,10 +85,10 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   const autoBrakeMapped = autoBrakeMap[landing.autoBrake ?? "med"] ?? "2"
   const roundedElev = Math.round(landing.landingElevation / 50) * 50
 
-  vars["autobrake_set"] = `${autoBrakeMapped} (>L:A310_AUTOBRAKE_LEVEL)`
+  vars["autobrake_set"] = `${autoBrakeMapped} (>L:INI_AUTOBRAKE_LEVEL)`
   vars["autobrake_expect"] = autoBrakeMapped
 
-  vars["landing_elevation_cmd"] = `${roundedElev} (>L:A310_LANDING_ELEVATION)`
+  vars["landing_elevation_cmd"] = `${roundedElev} (>L:INI_LANDING_ELEVATION)`
   vars["landing_elevation_expect"] = String(roundedElev)
 
   return vars

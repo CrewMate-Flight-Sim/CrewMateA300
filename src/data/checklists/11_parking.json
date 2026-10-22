@@ -28,6 +28,11 @@
       "label": "Fuel pumps"
     },
     {
+      "challenge": "window_ph.ogg",
+      "response": ["off", "set and checked"],
+      "label": "Window and probe heat"
+    },
+    {
       "challenge": "parking_brake_and_chocks.ogg",
       "response": ["chocks in place", "parking brake on", "chocks in and brakes on", "set and checked"],
       "label": "Parking Brake and Chocks"

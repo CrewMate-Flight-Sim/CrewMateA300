@@ -3,9 +3,9 @@
   "name": "Before takeoff checklist below the line",
   "items": [
     {
-      "challenge": "cabin.ogg",
-      "response": ["secure", "set and checked"],
-      "label": "Cabin Advisory"
+      "challenge": "transponder.ogg",
+      "response": ["set", "set and checked"],
+      "label": "Transponder"
     },
     {
       "challenge": "tcas.ogg",
@@ -15,51 +15,19 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_tcas_mode_pedestal)", "expected": 2 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_tcas_mode_pedestal)", "expected": 2 }]
         }
       ]
     },
     {
-      "challenge": "packs.ogg",
-      "response": ["on", "off", "set and checked"],
-      "label": "Packs",
+      "challenge": "auto_brake.ogg",
+      "response": ["max", "set and checked"],
+      "label": "Autobrake",
       "incorrect": "are_you_sure.ogg",
       "validations": [
         {
-          "when": { "responses": ["on"] },
-          "checks": [
-            { "type": "store", "store": "takeoff.packs", "equals": "on" },
-            { "type": "simvar", "var": "(L:A300_PACK1_BUTTON)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A300_PACK2_BUTTON)", "expected": 1 }
-          ]
-        },
-        {
-          "when": { "responses": ["off"] },
-          "checks": [
-            { "type": "store", "store": "takeoff.packs", "equals": "off" },
-            { "type": "simvar", "var": "(L:A300_PACK1_BUTTON)", "expected": 0 },
-            { "type": "simvar", "var": "(L:A300_PACK2_BUTTON)", "expected": 0 }
-          ]
-        },
-        {
-          "when": { "responses": ["set and checked"] },
-          "checks": [
-            {
-              "type": "any",
-              "groups": [
-                [
-                  { "type": "store", "store": "takeoff.packs", "equals": "on" },
-                  { "type": "simvar", "var": "(L:A300_PACK1_BUTTON)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A300_PACK2_BUTTON)", "expected": 1 }
-                ],
-                [
-                  { "type": "store", "store": "takeoff.packs", "equals": "off" },
-                  { "type": "simvar", "var": "(L:A300_PACK1_BUTTON)", "expected": 0 },
-                  { "type": "simvar", "var": "(L:A300_PACK2_BUTTON)", "expected": 0 }
-                ]
-              ]
-            }
-          ]
+          "when": { "always": true },
+          "checks": [{ "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 3 }]
         }
       ]
     },
@@ -71,70 +39,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_eng_ignition_switch)", "expected": 4 }]
-        }
-      ]
-    },
-    {
-      "challenge": "anti_ice.ogg",
-      "response": ["engine anti ice is on", "on", "off", "set and checked"],
-      "label": "Anti Ice",
-      "incorrect": "are_you_sure.ogg",
-      "validations": [
-        {
-          "when": { "responses": ["off"] },
-          "checks": [
-            { "type": "store", "store": "takeoff.antiIce", "equals": "off" },
-            { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 0 },
-            { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 0 },
-            { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
-          ]
-        },
-        {
-          "when": { "responses": ["engine anti ice is on"] },
-          "checks": [
-            { "type": "store", "store": "takeoff.antiIce", "equals": "oneng" },
-            { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
-          ]
-        },
-        {
-          "when": { "responses": ["on"] },
-          "checks": [
-            { "type": "store", "store": "takeoff.antiIce", "equals": "onengwing" },
-            { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 1 }
-          ]
-        },
-        {
-          "when": { "responses": ["set and checked"] },
-          "checks": [
-            {
-              "type": "any",
-              "groups": [
-                [
-                  { "type": "store", "store": "takeoff.antiIce", "equals": "off" },
-                  { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 0 },
-                  { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 0 },
-                  { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
-                ],
-                [
-                  { "type": "store", "store": "takeoff.antiIce", "equals": "oneng" },
-                  { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
-                ],
-                [
-                  { "type": "store", "store": "takeoff.antiIce", "equals": "onengwing" },
-                  { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 1 }
-                ]
-              ]
-            }
-          ]
+          "checks": [{ "type": "simvar", "var": "(L:INI_eng_ignition_switch)", "expected": 4 }]
         }
       ]
     }

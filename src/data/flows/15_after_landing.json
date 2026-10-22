@@ -4,33 +4,33 @@
   "steps": [
     {
       "label": "Engine 1 Anti Ice",
-      "read": "(L:A310_ENG_ANTI_ICE1)",
+      "read": "(L:INI_ENG_ANTI_ICE1)",
       "on": "{landing_anti_ice_eng1_cmd}",
       "expect": "{landing_anti_ice_eng1_expect}",
       "skip_delay": true
     },
     {
       "label": "Engine 2 Anti Ice",
-      "read": "(L:A310_ENG_ANTI_ICE2)",
+      "read": "(L:INI_ENG_ANTI_ICE2)",
       "on": "{landing_anti_ice_eng2_cmd}",
       "expect": "{landing_anti_ice_eng2_expect}"
     },
     {
       "label": "Wing Anti Ice",
-      "read": "(L:A310_WING_ANTI_ICE)",
-      "on": "0 (L:A310_WING_ANTI_ICE)",
+      "read": "(L:INI_WING_ANTI_ICE)",
+      "on": "0 (L:INI_WING_ANTI_ICE)",
       "expect": 0
     },
     {
       "label": "Ignition set",
-      "read": "(L:A310_eng_ignition_switch)",
-      "on": "3 (>L:A310_eng_ignition_switch)",
+      "read": "(L:INI_eng_ignition_switch)",
+      "on": "3 (>L:INI_eng_ignition_switch)",
       "expect": 3
     },
     {
       "label": "APU",
-      "read": "(L:A310_apu_master_switch)",
-      "on": "1 (>L:A310_apu_master_switch)",
+      "read": "(L:INI_apu_master_switch)",
+      "on": "1 (>L:INI_apu_master_switch)",
       "expect": 1,
       "wait_ms": 2000,
       "only_if": {
@@ -40,8 +40,8 @@
     },
     {
       "label": "APU Start",
-      "read": "(L:A310_APU_START_BUTTON)",
-      "on": "1 (>L:A310_apu_start_button)",
+      "read": "(L:INI_APU_START_BUTTON)",
+      "on": "1 (>L:INI_apu_start_button)",
       "expect": 1,
       "only_if": {
         "option": "landing.apuStart",
@@ -51,8 +51,8 @@
 
     {
       "label": "Weather radar",
-      "read": "(L:A310_WXR_SYS)",
-      "on": "1 (>L:A310_WXR_SYS)",
+      "read": "(L:INI_WXR_SYS)",
+      "on": "1 (>L:INI_WXR_SYS)",
       "expect": 1
     },
     {
@@ -73,8 +73,8 @@
     },
     {
       "label": "Landing Lights",
-      "read": "(L:A310_LANDING_LIGHT_L_SWITCH)",
-      "on": "0 (>L:A310_LANDING_LIGHT_L_SWITCH)",
+      "read": "(L:INI_LANDING_LIGHT_L_SWITCH)",
+      "on": "0 (>L:INI_LANDING_LIGHT_L_SWITCH)",
       "expect": 0,
       "only_if": {
         "option": "settings.lightsControlMode",
@@ -83,8 +83,8 @@
     },
     {
       "label": "Landing Lights",
-      "read": "(L:A310_LANDING_LIGHT_R_SWITCH)",
-      "on": "0 (>L:A310_LANDING_LIGHT_R_SWITCH)",
+      "read": "(L:INI_LANDING_LIGHT_R_SWITCH)",
+      "on": "0 (>L:INI_LANDING_LIGHT_R_SWITCH)",
       "expect": 0,
       "only_if": {
         "option": "settings.lightsControlMode",
@@ -93,8 +93,8 @@
     },
     {
       "label": "Strobes",
-      "read": "(L:A310_POTENTIOMETER_24)",
-      "on": "1 (>L:A310_POTENTIOMETER_24)",
+      "read": "(L:INI_POTENTIOMETER_24)",
+      "on": "1 (>L:INI_POTENTIOMETER_24)",
       "expect": 1,
       "only_if": {
         "option": "settings.lightsControlMode",
@@ -103,8 +103,8 @@
     },
     {
       "label": "Nose Wheel Light",
-      "read": "(L:A310_TAXI_LIGHTS_SWITCH)",
-      "on": "1 (>L:A310_TAXI_LIGHTS_SWITCH)",
+      "read": "(L:INI_TAXI_LIGHTS_SWITCH)",
+      "on": "1 (>L:INI_TAXI_LIGHTS_SWITCH)",
       "expect": 1,
       "only_if": {
         "option": "settings.lightsControlMode",

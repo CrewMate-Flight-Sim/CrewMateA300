@@ -4,21 +4,21 @@
   "steps": [
     {
       "label": "Landing Lights",
-      "read": "(L:A310_LANDING_LIGHT_L_SWITCH)",
-      "on": "2 (>L:A310_LANDING_LIGHT_L_SWITCH)",
+      "read": "(L:INI_LANDING_LIGHT_L_SWITCH)",
+      "on": "2 (>L:INI_LANDING_LIGHT_L_SWITCH)",
       "expect": 2,
       "skip_delay": true
     },
     {
       "label": "Landing Lights",
-      "read": "(L:A310_LANDING_LIGHT_R_SWITCH)",
-      "on": "2 (>L:A310_LANDING_LIGHT_R_SWITCH)",
+      "read": "(L:INI_LANDING_LIGHT_R_SWITCH)",
+      "on": "2 (>L:INI_LANDING_LIGHT_R_SWITCH)",
       "expect": 2
     },
     {
       "label": "ND SET",
-      "read": "(L:A310_map_range_fo_switch)",
-      "on": "3 (>L:A310_map_range_fo_switch)",
+      "read": "(L:INI_map_range_fo_switch)",
+      "on": "3 (>L:INI_map_range_fo_switch)",
       "expect": 3
     }
   ]

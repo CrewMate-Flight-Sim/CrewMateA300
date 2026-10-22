@@ -4,68 +4,68 @@
   "steps": [
     {
       "label": "Set Chocks",
-      "read": "(L:A310_CHOCKS_ENABLED)",
-      "on": "1 (>L:A310_CHOCKS_ENABLED)",
+      "read": "(L:INI_CHOCKS_ENABLED)",
+      "on": "1 (>L:INI_CHOCKS_ENABLED)",
       "expect": 1
     },
     {
       "label": "Battery 1 Check",
-      "read": "(L:A310_elec_ind_dc_selector)",
-      "on": "0 (>L:A310_elec_ind_dc_selector)",
+      "read": "(L:INI_elec_ind_dc_selector)",
+      "on": "0 (>L:INI_elec_ind_dc_selector)",
       "expect": 0,
       "wait_ms": 5000
     },
     {
       "label": "Battery 2 Check",
-      "read": "(L:A310_elec_ind_dc_selector)",
-      "on": "1 (>L:A310_elec_ind_dc_selector)",
+      "read": "(L:INI_elec_ind_dc_selector)",
+      "on": "1 (>L:INI_elec_ind_dc_selector)",
       "expect": 1,
       "wait_ms": 5000
     },
     {
       "label": "Battery 3 Check",
-      "read": "(L:A310_elec_ind_dc_selector)",
-      "on": "2 (>L:A310_elec_ind_dc_selector)",
+      "read": "(L:INI_elec_ind_dc_selector)",
+      "on": "2 (>L:INI_elec_ind_dc_selector)",
       "expect": 2,
       "wait_ms": 5000
     },
     {
       "label": "Battery 1 On",
-      "read": "(L:A310_BAT1_ON)",
-      "on": "1 (>L:A310_BAT1_ON)",
+      "read": "(L:INI_BAT1_ON)",
+      "on": "1 (>L:INI_BAT1_ON)",
       "expect": 1
     },
     {
       "label": "Battery 2 On",
-      "read": "(L:A310_BAT2_ON)",
-      "on": "1 (>L:A310_BAT2_ON)",
+      "read": "(L:INI_BAT2_ON)",
+      "on": "1 (>L:INI_BAT2_ON)",
       "expect": 1
     },
     {
       "label": "Battery 3 On",
-      "read": "(L:A310_BAT3_ON)",
-      "on": "1 (>L:A310_BAT3_ON)",
+      "read": "(L:INI_BAT3_ON)",
+      "on": "1 (>L:INI_BAT3_ON)",
       "expect": 1
     },
     {
       "label": "APU Fire Test",
-      "read": "(L:A310_APU_LOOP_TEST_SWITCH)",
-      "on": "1 (>L:A310_APU_LOOP_TEST_SWITCH)",
+      "read": "(L:INI_APU_LOOP_TEST_SWITCH)",
+      "on": "1 (>L:INI_APU_LOOP_TEST_SWITCH)",
       "sound_on_execute": "fire_test.ogg",
       "expect": 1,
       "hold_ms": 10000
     },
     {
       "label": "External power on",
-      "read": "(L:A310_ext_power_available)",
+      "read": "(L:INI_ext_power_available)",
       "on": "1 (>K:TOGGLE_EXTERNAL_POWER)",
       "expect": 1,
       "wait_ms": 6000
     },
     {
       "label": "Dome on",
-      "read": "(L:A310_DOME_LIGHT_SWITCH)",
-      "on": "1 (>L:A310_DOME_LIGHT_SWITCH)",
+      "read": "(L:INI_DOME_LIGHT_SWITCH)",
+      "on": "1 (>L:INI_DOME_LIGHT_SWITCH)",
       "only_if": {
         "read": "(E:TIME OF DAY)",
         "one_of": [0, 2, 3]
@@ -73,8 +73,8 @@
     },
     {
       "label": "Cockpit lights on",
-      "read": "(L:A310_POTENTIOMETER_27)",
-      "on": "85 (>L:A310_POTENTIOMETER_27)",
+      "read": "(L:INI_POTENTIOMETER_27)",
+      "on": "85 (>L:INI_POTENTIOMETER_27)",
       "expect": 85,
       "only_if": {
         "read": "(E:TIME OF DAY)",
@@ -83,8 +83,8 @@
     },
     {
       "label": "Cockpit lights on",
-      "read": "(L:A310_POTENTIOMETER_4)",
-      "on": "85 (>L:A310_POTENTIOMETER_4)",
+      "read": "(L:INI_POTENTIOMETER_4)",
+      "on": "85 (>L:INI_POTENTIOMETER_4)",
       "expect": 85,
       "only_if": {
         "read": "(E:TIME OF DAY)",
@@ -93,8 +93,8 @@
     },
     {
       "label": "Cockpit lights on",
-      "read": "(L:A310_POTENTIOMETER_3)",
-      "on": "85 (>L:A310_POTENTIOMETER_3)",
+      "read": "(L:INI_POTENTIOMETER_3)",
+      "on": "85 (>L:INI_POTENTIOMETER_3)",
       "expect": 85,
       "only_if": {
         "read": "(E:TIME OF DAY)",
@@ -103,21 +103,21 @@
     },
     {
       "label": "Fuel pump on",
-      "read": "(L:A310_INNER_TANK2_LEFT)",
-      "on": "1 (>L:A310_INNER_TANK2_LEFT)",
+      "read": "(L:INI_INNER_TANK2_LEFT)",
+      "on": "1 (>L:INI_INNER_TANK2_LEFT)",
       "expect": 1
     },
     {
       "label": "Announcer lights test",
-      "read": "(L:A310_ANNLT_SWITCH)",
-      "on": "0 (>L:A310_ANNLT_SWITCH)",
+      "read": "(L:INI_ANNLT_SWITCH)",
+      "on": "0 (>L:INI_ANNLT_SWITCH)",
       "expect": 0,
       "hold_ms": 10000
     },
     {
       "label": "Announcer lights test",
-      "read": "(L:A310_ANNLT_SWITCH)",
-      "on": "1 (>L:A310_ANNLT_SWITCH)",
+      "read": "(L:INI_ANNLT_SWITCH)",
+      "on": "1 (>L:INI_ANNLT_SWITCH)",
       "expect": 1
     }
   ]

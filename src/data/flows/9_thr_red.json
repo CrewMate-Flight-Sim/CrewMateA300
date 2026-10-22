@@ -4,48 +4,48 @@
   "steps": [
     {
       "label": "Ground Spoilers",
-      "read": "(L:A310_SPOILERS_ARMED)",
+      "read": "(L:INI_SPOILERS_ARMED)",
       "on": "1 (>K:SPOILERS_ARM_OFF)",
       "expect": 0,
       "skip_verify": true
     },
     {
       "label": "Takeoff Wheel Light",
-      "read": "(L:A310_TAXI_LIGHTS_SWITCH)",
-      "on": "2 (>L:A310_TAXI_LIGHTS_SWITCH)",
+      "read": "(L:INI_TAXI_LIGHTS_SWITCH)",
+      "on": "2 (>L:INI_TAXI_LIGHTS_SWITCH)",
       "expect": 2
     },
     {
       "label": "Runway turnoff Light",
-      "read": "(L:A310_RWY_TURNOFF_L_SWITCH)",
-      "on": "0 (>L:A310_RWY_TURNOFF_L_SWITCH)",
+      "read": "(L:INI_RWY_TURNOFF_L_SWITCH)",
+      "on": "0 (>L:INI_RWY_TURNOFF_L_SWITCH)",
       "expect": 0,
       "skip_delay": true
     },
     {
       "label": "Runway turnoff Light",
-      "read": "(L:A310_RWY_TURNOFF_R_SWITCH)",
-      "on": "0 (>L:A310_RWY_TURNOFF_R_SWITCH)",
+      "read": "(L:INI_RWY_TURNOFF_R_SWITCH)",
+      "on": "0 (>L:INI_RWY_TURNOFF_R_SWITCH)",
       "expect": 0
     },
     {
       "label": "Pack 1",
-      "read": "(L:A300_PACK1_BUTTON)",
-      "on": "1 (>L:A300_PACK1_BUTTON)",
+      "read": "(L:INI_PACK1_BUTTON)",
+      "on": "1 (>L:INI_PACK1_BUTTON)",
       "expect": 1,
       "sound_after_execute": "pack_1_on.ogg"
     },
     {
       "label": "Chrono",
-      "read": "(L:A300DR_CHRONO_START_BUTTON_FO)",
-      "on": "1 (>L:A300DR_CHRONO_START_BUTTON_FO)",
+      "read": "(L:INI_CHRONO_START_BUTTON_FO)",
+      "on": "1 (>L:INI_CHRONO_START_BUTTON_FO)",
       "expect": 1,
       "wait_ms": 1000
     },
     {
       "label": "Chrono",
-      "read": "(L:A300DR_CHRONO_START_BUTTON_FO)",
-      "on": "1 (>L:A300DR_CHRONO_START_BUTTON_FO)",
+      "read": "(L:INI_CHRONO_START_BUTTON_FO)",
+      "on": "1 (>L:INI_CHRONO_START_BUTTON_FO)",
       "expect": 1
     }
   ]

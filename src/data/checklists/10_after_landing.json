@@ -19,7 +19,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_WXR_ON)", "expected": 0 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_WXR_SYS)", "expected": 1 }]
         }
       ]
     },
@@ -30,7 +30,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_SPOILERS_ARMED)", "expected": 0 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_SPOILERS_ARMED)", "expected": 0 }]
         }
       ]
     },

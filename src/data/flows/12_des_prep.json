@@ -4,7 +4,7 @@
   "steps": [
     {
       "label": "Landing Elevation",
-      "read": "(L:A310_landing_elevation)",
+      "read": "(L:INI_landing_elevation)",
       "on": "{landing_elevation_cmd}",
       "expect": "{landing_elevation_expect}",
       "sound_after_execute": "landing_elev_set.ogg"

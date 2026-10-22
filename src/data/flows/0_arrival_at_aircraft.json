@@ -4,8 +4,8 @@
   "steps": [
     {
       "label": "Open Cockpit door",
-      "read": "(L:A300DR_COCKPIT_DOOR_OPEN)",
-      "on": "1 (>L:A300_COCKPIT_DOOR_STATE)",
+      "read": "(L:INI_COCKPIT_DOOR_OPEN)",
+      "on": "1 (>L:INI_COCKPIT_DOOR_STATE)",
       "expect": 1
     }
   ]

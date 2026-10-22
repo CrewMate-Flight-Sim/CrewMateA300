@@ -4,8 +4,8 @@
   "steps": [
     {
       "label": "Cockpit lights on",
-      "read": "(L:A310_POTENTIOMETER_28)",
-      "on": "85 (>L:A310_POTENTIOMETER_28)",
+      "read": "(L:INI_POTENTIOMETER_28)",
+      "on": "85 (>L:INI_POTENTIOMETER_28)",
       "expect": 85,
       "only_if": {
         "read": "(E:TIME OF DAY)",
@@ -14,73 +14,73 @@
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_OUTER_TANK1_LEFT)",
-      "on": "1 (>L:A310_OUTER_TANK1_LEFT)",
+      "read": "(L:INI_OUTER_TANK1_LEFT)",
+      "on": "1 (>L:INI_OUTER_TANK1_LEFT)",
       "expect": 1,
       "skip_delay": true
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_OUTER_TANK2_LEFT)",
-      "on": "1 (>L:A310_OUTER_TANK2_LEFT)",
+      "read": "(L:INI_OUTER_TANK2_LEFT)",
+      "on": "1 (>L:INI_OUTER_TANK2_LEFT)",
       "expect": 1
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_OUTER_TANK1_RIGHT)",
-      "on": "1 (>L:A310_OUTER_TANK1_RIGHT)",
+      "read": "(L:INI_OUTER_TANK1_RIGHT)",
+      "on": "1 (>L:INI_OUTER_TANK1_RIGHT)",
       "expect": 1
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_OUTER_TANK2_RIGHT)",
-      "on": "1 (>L:A310_OUTER_TANK2_RIGHT)",
+      "read": "(L:INI_OUTER_TANK2_RIGHT)",
+      "on": "1 (>L:INI_OUTER_TANK2_RIGHT)",
       "expect": 1,
       "skip_delay": true
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_INNER_TANK1_LEFT)",
-      "on": "1 (>L:A310_INNER_TANK1_LEFT)",
+      "read": "(L:INI_INNER_TANK1_LEFT)",
+      "on": "1 (>L:INI_INNER_TANK1_LEFT)",
       "expect": 1
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_INNER_TANK1_RIGHT)",
-      "on": "1 (>L:A310_INNER_TANK1_RIGHT)",
+      "read": "(L:INI_INNER_TANK1_RIGHT)",
+      "on": "1 (>L:INI_INNER_TANK1_RIGHT)",
       "expect": 1,
       "skip_delay": true
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_INNER_TANK2_RIGHT)",
-      "on": "1 (>L:A310_INNER_TANK2_RIGHT)",
+      "read": "(L:INI_INNER_TANK2_RIGHT)",
+      "on": "1 (>L:INI_INNER_TANK2_RIGHT)",
       "expect": 1
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_CENTER_TANK1)",
-      "on": "1 (>L:A310_CENTER_TANK1)",
+      "read": "(L:INI_CENTER_TANK1)",
+      "on": "1 (>L:INI_CENTER_TANK1)",
       "expect": 1,
       "skip_delay": true
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_CENTER_TANK2)",
-      "on": "1 (>L:A310_CENTER_TANK2)",
+      "read": "(L:INI_CENTER_TANK2)",
+      "on": "1 (>L:INI_CENTER_TANK2)",
       "expect": 1
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_TRIM_TANK1)",
-      "on": "1 (>L:A310_TRIM_TANK1)",
+      "read": "(L:INI_TRIM_TANK1)",
+      "on": "1 (>L:INI_TRIM_TANK1)",
       "expect": 1,
       "skip_delay": true
     },
     {
       "label": "Fuel pumps on",
-      "read": "(L:A310_TRIM_TANK2)",
-      "on": "1 (>L:A310_TRIM_TANK2)",
+      "read": "(L:INI_TRIM_TANK2)",
+      "on": "1 (>L:INI_TRIM_TANK2)",
       "expect": 1
     }
   ]

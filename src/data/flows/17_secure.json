@@ -4,74 +4,74 @@
   "steps": [
     {
       "label": "IRS 1 off",
-      "read": "(L:A310_IRS1_STATE)",
-      "on": "0 (L:A310_IRS1_STATE)",
+      "read": "(L:INI_IRS1_STATE)",
+      "on": "0 (>L:INI_IRS1_STATE)",
       "expect": 0
     },
     {
       "label": "IRS 2 off",
-      "read": "(L:A310_IRS2_STATE)",
-      "on": "0 (L:A310_IRS2_STATE)",
+      "read": "(L:INI_IRS2_STATE)",
+      "on": "0 (>L:INI_IRS2_STATE)",
       "expect": 0
     },
     {
       "label": "IRS 3 off",
-      "read": "(L:A310_IRS3_STATE)",
-      "on": "0 (L:A310_IRS3_STATE)",
+      "read": "(L:INI_IRS3_STATE)",
+      "on": "0 (>L:INI_IRS3_STATE)",
       "expect": 0
     },
     {
       "label": "Oxy off",
-      "read": "(L:A310_OXYGEN_LOW_PRESSURE_SUPPLY)",
-      "on": "0 (>L:A310_OXYGEN_LOW_PRESSURE_SUPPLY)",
+      "read": "(L:INI_OXYGEN_LOW_PRESSURE_SUPPLY)",
+      "on": "0 (>L:INI_OXYGEN_LOW_PRESSURE_SUPPLY)",
       "expect": 0
     },
     {
       "label": "Lights off",
-      "read": "(L:A310_NAV_LOGO_LIGHT_SWITCH)",
-      "on": "0 (>L:A310_NAV_LOGO_LIGHT_SWITCH)",
-      "expect": 0
+      "read": "(L:INI_NAV_LOGO_LIGHT_SWITCH)",
+      "on": "2 (>L:INI_NAV_LOGO_LIGHT_SWITCH)",
+      "expect": 2
     },
     {
       "label": "Lights off",
-      "read": "(L:A310_POTENTIOMETER_24)",
-      "on": "2 (>L:A310_POTENTIOMETER_24)",
+      "read": "(L:INI_POTENTIOMETER_24)",
+      "on": "2 (>L:INI_POTENTIOMETER_24)",
       "expect": 2
     },
     {
       "label": "APU Bleed off",
-      "read": "(L:A310_apu_bleed)",
-      "on": "0 (>L:A310_apu_bleed)",
+      "read": "(L:INI_apu_bleed)",
+      "on": "0 (>L:INI_apu_bleed)",
       "expect": 0
     },
     {
       "label": "APU off",
-      "read": "(L:A310_apu_master_switch)",
-      "on": "0 (>L:A310_apu_master_switch)",
+      "read": "(L:INI_apu_master_switch)",
+      "on": "0 (>L:INI_apu_master_switch)",
       "expect": 0
     },
     {
       "label": "Emer light disarm",
-      "read": "(L:A310_EMER_EXIT_SWITCH)",
-      "on": "2 (>L:A310_EMER_EXIT_SWITCH)",
+      "read": "(L:INI_EMER_EXIT_SWITCH)",
+      "on": "2 (>L:INI_EMER_EXIT_SWITCH)",
       "expect": 2
     },
     {
       "label": "Batteries off",
-      "read": "(L:A310_BAT1_ON)",
-      "on": "0 (>L:A310_BAT1_ON)",
+      "read": "(L:INI_BAT1_ON)",
+      "on": "0 (>L:INI_BAT1_ON)",
       "expect": 0
     },
     {
       "label": "Batteries off",
-      "read": "(L:A310_BAT2_ON)",
-      "on": "0 (>L:A310_BAT2_ON)",
+      "read": "(L:INI_BAT2_ON)",
+      "on": "0 (>L:INI_BAT2_ON)",
       "expect": 0
     },
     {
       "label": "Batteries off",
-      "read": "(L:A310_BAT3_ON)",
-      "on": "0 (>L:A310_BAT3_ON)",
+      "read": "(L:INI_BAT3_ON)",
+      "on": "0 (>L:INI_BAT3_ON)",
       "expect": 0
     }
   ]

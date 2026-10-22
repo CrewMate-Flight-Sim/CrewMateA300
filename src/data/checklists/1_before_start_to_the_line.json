@@ -8,29 +8,15 @@
       "label": "Cockpit Prep"
     },
     {
-      "challenge": "signs.ogg",
-      "response": ["on and auto", "set and checked"],
-      "label": "Signs",
-      "incorrect": "are_you_sure.ogg",
-      "validations": [
-        {
-          "when": { "always": true },
-          "checks": [
-            { "type": "simvar", "var": "(L:A310_SEATBELTS_SWITCH)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_NO_SMOKING_SWITCH)", "expected": 1 }
-          ]
-        }
-      ]
-    },
-    {
       "challenge": "fuel_quantity.ogg",
       "response": ["tons", "kilograms", "pounds", "kilograms balanced", "pounds balanced", "set and checked"],
       "label": "Fuel Quantity"
     },
     {
-      "challenge": "navigation.ogg",
-      "response": ["set and checked"],
-      "label": "Navigation"
+      "challenge": "to_data.ogg",
+      "response": ["set"],
+      "label": ["Takeoff Data"],
+      "copilot_response": "set.ogg"
     },
     {
       "challenge": "ldg_elev.ogg",
@@ -51,9 +37,15 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A300DR_BRAKE_SYSTEM)", "expected": 0 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_BRAKE_SYSTEM)", "expected": 0 }]
         }
       ]
+    },
+    {
+      "challenge": "windows.ogg",
+      "response": ["closed", "set and checked"],
+      "label": "Windows and doors",
+      "copilot_response": "closed.ogg"
     }
   ],
   "completion": "before_start_to_the_line_completed.ogg"

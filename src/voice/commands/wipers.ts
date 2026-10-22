@@ -12,7 +12,7 @@ export async function setWipers(position: number) {
     return
   }
 
-  await setLvar(position, "A310_CPT_WIPER_KNOB", "captain wiper")
-  await setLvar(position, "A310_FO_WIPER_KNOB", "FO wiper")
+  await setLvar(position, "OVH_CPT_WIPER", "captain wiper")
+  await setLvar(position, "OVH_FO_WIPER", "FO wiper")
   playSound("check.ogg")
 }

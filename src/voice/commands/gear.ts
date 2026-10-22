@@ -40,12 +40,12 @@ async function gearUpWhenRetracted() {
     const deadline = Date.now() + GEAR_UP_TIMEOUT_MS
     while (Date.now() < deadline) {
       const positions = await Promise.all([
-        simvarGet("(L:A310_GEAR1_POSITION)"),
-        simvarGet("(L:A310_GEAR2_POSITION)"),
-        simvarGet("(L:A310_GEAR3_POSITION)")
+        simvarGet("(L:INI_GEAR1_POSITION)"),
+        simvarGet("(L:INI_GEAR2_POSITION)"),
+        simvarGet("(L:INI_GEAR3_POSITION)")
       ])
       if (positions.every((p) => p === 0)) {
-        await simvarSet("1 (>L:A310_GEAR_HANDLE_STATUS)")
+        await simvarSet("1 (>L:INI_GEAR_HANDLE_STATUS)")
         playSound("gear_up.ogg")
         return
       }

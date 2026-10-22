@@ -22,7 +22,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_TOTAL_RUDDER_TRIM)", "expected": 0, "strict": true }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_TOTAL_RUDDER_TRIM)", "expected": 0, "strict": true }]
         }
       ]
     },
@@ -34,7 +34,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_SPOILERS_ARMED)", "expected": 1 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_SPOILERS_ARMED)", "expected": 1 }]
         }
       ]
     },
@@ -104,27 +104,27 @@
           "when": { "responses": ["off"] },
           "checks": [
             { "type": "store", "store": "takeoff.antiIce", "equals": "off" },
-            { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 0 },
-            { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 0 },
-            { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
+            { "type": "simvar", "var": "(L:INI_ENG1_ANTI_ICE)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_ENG2_ANTI_ICE)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_WING_ANTI_ICE)", "expected": 0 }
           ]
         },
         {
           "when": { "responses": ["engine anti ice is on"] },
           "checks": [
             { "type": "store", "store": "takeoff.antiIce", "equals": "oneng" },
-            { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
+            { "type": "simvar", "var": "(L:INI_ENG1_ANTI_ICE)", "expected": 1 },
+            { "type": "simvar", "var": "(L:INI_ENG2_ANTI_ICE)", "expected": 1 },
+            { "type": "simvar", "var": "(L:INI_WING_ANTI_ICE)", "expected": 0 }
           ]
         },
         {
           "when": { "responses": ["on"] },
           "checks": [
             { "type": "store", "store": "takeoff.antiIce", "equals": "onengwing" },
-            { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 1 }
+            { "type": "simvar", "var": "(L:INI_ENG1_ANTI_ICE)", "expected": 1 },
+            { "type": "simvar", "var": "(L:INI_ENG2_ANTI_ICE)", "expected": 1 },
+            { "type": "simvar", "var": "(L:INI_WING_ANTI_ICE)", "expected": 1 }
           ]
         },
         {
@@ -135,21 +135,21 @@
               "groups": [
                 [
                   { "type": "store", "store": "takeoff.antiIce", "equals": "off" },
-                  { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 0 },
-                  { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 0 },
-                  { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
+                  { "type": "simvar", "var": "(L:INI_ENG1_ANTI_ICE)", "expected": 0 },
+                  { "type": "simvar", "var": "(L:INI_ENG2_ANTI_ICE)", "expected": 0 },
+                  { "type": "simvar", "var": "(L:INI_WING_ANTI_ICE)", "expected": 0 }
                 ],
                 [
                   { "type": "store", "store": "takeoff.antiIce", "equals": "oneng" },
-                  { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 0 }
+                  { "type": "simvar", "var": "(L:INI_ENG1_ANTI_ICE)", "expected": 1 },
+                  { "type": "simvar", "var": "(L:INI_ENG2_ANTI_ICE)", "expected": 1 },
+                  { "type": "simvar", "var": "(L:INI_WING_ANTI_ICE)", "expected": 0 }
                 ],
                 [
                   { "type": "store", "store": "takeoff.antiIce", "equals": "onengwing" },
-                  { "type": "simvar", "var": "(L:A310_ENG1_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_ENG2_ANTI_ICE)", "expected": 1 },
-                  { "type": "simvar", "var": "(L:A310_WING_ANTI_ICE)", "expected": 1 }
+                  { "type": "simvar", "var": "(L:INI_ENG1_ANTI_ICE)", "expected": 1 },
+                  { "type": "simvar", "var": "(L:INI_ENG2_ANTI_ICE)", "expected": 1 },
+                  { "type": "simvar", "var": "(L:INI_WING_ANTI_ICE)", "expected": 1 }
                 ]
               ]
             }

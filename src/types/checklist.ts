@@ -5,6 +5,7 @@ export interface ChecklistItem {
   incorrect?: string
   copilot_response?: string
   baro_confirmation?: true
+  takeoff_confirmation?: boolean
   validations?: ValidationRule[]
 }
 

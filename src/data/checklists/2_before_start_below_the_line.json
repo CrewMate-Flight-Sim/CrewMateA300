@@ -3,12 +3,6 @@
   "name": "Before Start checklist below the line",
   "items": [
     {
-      "challenge": "windows.ogg",
-      "response": ["closed", "set and checked"],
-      "label": "Windows and doors",
-      "copilot_response": "closed.ogg"
-    },
-    {
       "challenge": "beacon.ogg",
       "response": ["on", "set and checked"],
       "label": "Beacon",
@@ -16,7 +10,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_BEACON_LIGHT_SWITCH)", "expected": 1 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_BEACON_LIGHT_SWITCH)", "expected": 1 }]
         }
       ]
     },

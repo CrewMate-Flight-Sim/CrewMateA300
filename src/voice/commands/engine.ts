@@ -3,11 +3,11 @@ import { delay } from "@/lib/utils"
 import { playSound } from "@/services/playSounds"
 
 export async function setIgnKnob(position: number) {
-  await setLvar(position, "A310_eng_ignition_switch", "ignition knob")
+  await setLvar(position, "INI_ENG_IGNITION_SWITCH", "ignition knob")
 }
 
 async function monitorEngineStart(engineNum: number) {
-  const isOpenVar = `(L:A310_STARTER${engineNum}_OPEN)`
+  const isOpenVar = `(L:INI_STARTER${engineNum}_OPEN)`
 
   // PHASE 1: Wait for Valve to Open
   for (let i = 0; i < 600; i++) {
@@ -39,7 +39,7 @@ async function monitorEngineStart(engineNum: number) {
 }
 
 export async function startEngine2(position: number) {
-  const ok = await setLvar(position, "A310_ENG2_STARTER", "engine 2 starter")
+  const ok = await setLvar(position, "INI_ENG2_STARTER", "engine 2 starter")
   // Start the "Watcher" in the background
   if (ok && position === 1) {
     monitorEngineStart(2)
@@ -47,7 +47,7 @@ export async function startEngine2(position: number) {
 }
 
 export async function startEngine1(position: number) {
-  const ok = await setLvar(position, "A310_ENG1_STARTER", "engine 1 starter")
+  const ok = await setLvar(position, "INI_ENG1_STARTER", "engine 1 starter")
   // Start the "Watcher" in the background
   if (ok && position === 1) {
     monitorEngineStart(1)

@@ -10,7 +10,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_SEATBELTS_SWITCH)", "expected": 1 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_SEATBELTS_SWITCH)", "expected": 1 }]
         }
       ]
     },
@@ -43,9 +43,14 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_eng_ignition_switch)", "expected": 4 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_eng_ignition_switch)", "expected": 4 }]
         }
       ]
+    },
+    {
+      "challenge": "ldg_elev.ogg",
+      "response": ["set", "set and checked"],
+      "label": "Landing Elevation"
     }
   ],
   "completion": "approach_checklist_completed.ogg"

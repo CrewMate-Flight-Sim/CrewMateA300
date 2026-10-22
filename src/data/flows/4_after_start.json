@@ -4,14 +4,14 @@
   "steps": [
     {
       "label": "APU Bleed off",
-      "read": "(L:A310_apu_bleed)",
-      "on": "0 (>L:A310_apu_bleed)",
+      "read": "(L:INI_apu_bleed)",
+      "on": "0 (>L:INI_apu_bleed)",
       "expect": 0
     },
     {
       "label": "APU off",
-      "read": "(L:A310_apu_master_switch)",
-      "on": "0 (>L:A310_apu_master_switch)",
+      "read": "(L:INI_apu_master_switch)",
+      "on": "0 (>L:INI_apu_master_switch)",
       "expect": 0
     },
     {
@@ -27,21 +27,21 @@
     },
     {
       "label": "Ground Spoilers",
-      "read": "(L:A310_SPOILERS_ARMED)",
+      "read": "(L:INI_SPOILERS_ARMED)",
       "on": "1 (>K:SPOILERS_ARM_SET)",
       "expect": 1
     },
     {
       "label": "Reset Rudder Trim",
-      "read": "(L:A310_RESET_RUDDER_TRIM_COMMAND)",
-      "on": "1 (>L:A310_RESET_RUDDER_TRIM_COMMAND)",
+      "read": "(L:INI_RESET_RUDDER_TRIM_COMMAND)",
+      "on": "1 (>L:INI_RESET_RUDDER_TRIM_COMMAND)",
       "expect": 1,
       "skip_verify": true
     },
     {
       "label": "Reset Rudder Trim",
-      "read": "(L:A310_RESET_RUDDER_TRIM_COMMAND)",
-      "on": "0 (>L:A310_RESET_RUDDER_TRIM_COMMAND)",
+      "read": "(L:INI_RESET_RUDDER_TRIM_COMMAND)",
+      "on": "0 (>L:INI_RESET_RUDDER_TRIM_COMMAND)",
       "expect": 0,
       "skip_verify": true
     },
@@ -53,8 +53,8 @@
     },
     {
       "label": "Dome off",
-      "read": "(L:A310_DOME_LIGHT_SWITCH)",
-      "on": "0 (>L:A310_DOME_LIGHT_SWITCH)"
+      "read": "(L:INI_DOME_LIGHT_SWITCH)",
+      "on": "0 (>L:INI_DOME_LIGHT_SWITCH)"
     }
   ]
 }

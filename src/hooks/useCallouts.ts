@@ -102,8 +102,9 @@ const newDeviationState = (): Record<DeviationCall, number | null> => ({
 
 const THRUST_SET_MARGIN = 1
 
+// both engines use N1 in LVARS even if PW has active EPR var too
 const getTakeoffThrustTarget = (t: Telemetry) => {
-  // A310 TRP_MODE: 5 = TOGA, 6 = FLEX
+  // A300 TRP_MODE: 5 = TOGA, 6 = FLEX
   if (t.thrustRatingMode === 6) {
     // FLEX mode - use flex thrust if flex temp is set (>1)
     return (t.iniFlexTemperature ?? 0) > 1 ? (t.iniThrustFlexN1 ?? 0) : (t.iniThrustTogaN1 ?? 0)
@@ -383,7 +384,7 @@ export function useCallouts() {
       sp.called80 = true
       setTimeout(() => {
         if (useSettingsStore.getState().postLandingShutdownEnabled) {
-          void simvarSet("1 (>L:A300DR_CHRONO_START_BUTTON_FO)")
+          void simvarSet("1 (>L:INI_CHRONO_START_BUTTON_FO)")
         }
       }, 5000)
     }

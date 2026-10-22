@@ -9,7 +9,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_GEAR_HANDLE_STATUS)", "expected": 2 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_GEAR_HANDLE_STATUS)", "expected": 2 }]
         }
       ]
     },
@@ -31,11 +31,11 @@
       "validations": [
         {
           "when": { "responses": ["twenty"] },
-          "checks": [{ "type": "simvar", "var": "(L:A310_GPWS_LANDING_SWITCH)", "expected": 1 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_GPWS_LANDING_SWITCH)", "expected": 1 }]
         },
         {
           "when": { "responses": ["fourty"] },
-          "checks": [{ "type": "simvar", "var": "(L:A310_GPWS_LANDING_SWITCH)", "expected": 0 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_GPWS_LANDING_SWITCH)", "expected": 0 }]
         },
         {
           "when": { "responses": ["set and checked"] }
@@ -49,7 +49,7 @@
       "validations": [
         {
           "when": { "always": true },
-          "checks": [{ "type": "simvar", "var": "(L:A310_SPOILERS_ARMED)", "expected": 1 }]
+          "checks": [{ "type": "simvar", "var": "(L:INI_SPOILERS_ARMED)", "expected": 1 }]
         }
       ]
     }

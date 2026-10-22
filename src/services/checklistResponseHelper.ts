@@ -1,3 +1,4 @@
+import { useTelemetryStore } from "@/store/telemetryStore"
 import type { ChecklistItem } from "@/types/checklist"
 
 export const WEIGHT_UNITS = new Set(["tons", "kilograms", "pounds", "kilograms balanced", "pounds balanced"])
@@ -25,6 +26,19 @@ export function getDisplayResponses(item: ChecklistItem): string[] {
   // Baro confirmation: show clear examples the pilot can say
   if (item.baro_confirmation) {
     extras.push("qnh #4 set", "altimeter #4 set", "#4 set")
+  }
+
+  // Takeoff confirmation: show only the currently-configured thrust variant + safeword
+  if (item.takeoff_confirmation) {
+    const telemetry = useTelemetryStore.getState().telemetry
+    const flexTemp = telemetry?.iniFlexTemperature
+    const thrust =
+      telemetry?.thrustRatingMode === 6 ? `flex ${flexTemp !== undefined ? Math.round(flexTemp) : "??"}` : "toga"
+    extras.push(
+      `v1 ${telemetry?.v1 ?? "??"} vr ${telemetry?.vr ?? "??"} v2 ${telemetry?.v2 ?? "??"} ${thrust}`,
+      "set and checked"
+    )
+    return extras
   }
 
   // Takeoff confirmation: show only the currently-configured thrust variant + safeword

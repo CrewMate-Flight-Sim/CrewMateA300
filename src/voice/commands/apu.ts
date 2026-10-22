@@ -2,14 +2,14 @@ import { setLvar } from "@/API/simvarApi"
 import { delay } from "@/lib/utils"
 
 export async function setAPUBleed(position: number) {
-  await setLvar(position, "A310_apu_bleed", "APU bleed")
+  await setLvar(position, "INI_APU_BLEED", "APU bleed")
 }
 
 export async function setStartAPU(position: number) {
-  const ok = await setLvar(position, "A310_apu_master_switch", "APU master switch")
+  const ok = await setLvar(position, "INI_APU_MASTER_SWITCH", "APU master switch")
   if (!ok) return
 
   await delay(2000)
 
-  await setLvar(position, "A310_apu_start_button", "APU start button")
+  await setLvar(position, "INI_APU_START_BUTTON", "APU start button")
 }

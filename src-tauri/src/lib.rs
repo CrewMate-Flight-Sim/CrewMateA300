@@ -1,8 +1,8 @@
 mod windows;
 
 const CONFIG: crewmate_core::Config = crewmate_core::Config {
-    app_name: "Crewmate INI A310",
-    log_file_stem: "crewmateinia310",
+    app_name: "Crewmate INI A300",
+    log_file_stem: "crewmateinia300",
     modal_windows: &["takeoff", "landing", "settings"],
     setup: None,
 };

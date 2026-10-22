@@ -1,4 +1,4 @@
-## Contributing to crewmatea310
+## Contributing to crewmatea300
 
 Improvements are welcomed — report bugs, submit documentation fixes, add new flows, or contribute voice models.
 
@@ -23,8 +23,8 @@ Prerequisites
 Basic setup
 
 ```bash
-git clone https://github.com/CrewMate-Flight-Sim/CrewMateA310.git
-cd crewmatea310
+git clone https://github.com/CrewMate-Flight-Sim/CrewMateA300.git
+cd crewmatea300
 npm install
 ```
 
@@ -129,7 +129,7 @@ PR checklist
 
 Do not commit secrets or sensitive credentials (API keys, passwords, certificates) to the repository. Use environment variables or a secure secret store for any runtime secrets.
 
-To report a security vulnerability or disclose sensitive issues privately, follow the instructions in https://github.com/CrewMate-Flight-Sim/CrewMateA310?tab=security-ov-file.
+To report a security vulnerability or disclose sensitive issues privately, follow the instructions in https://github.com/CrewMate-Flight-Sim/CrewMateA300?tab=security-ov-file.
 
 ## Questions
 

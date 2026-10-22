@@ -305,10 +305,6 @@ class ChecklistRunner {
     setStepStatus(index, "complete")
   }
 
-  // Note: a validated response does not short-circuit the item — it still
-  // falls through to play baro confirmation audio afterward, if applicable.
-  //
-  // Returns true if the item ended because the checklist was aborted.
   private async runInteractiveItem(item: ChecklistItem, signal: AbortSignal): Promise<boolean> {
     const responseList = item.response ?? []
     const hold = () => useSettingsStore.getState().holdOnIncorrect
@@ -340,6 +336,10 @@ class ChecklistRunner {
         await this.playBaroConfirmation(spoken)
       }
 
+      if (item.takeoff_confirmation) {
+        await this.playTakeoffConfirmation()
+      }
+
       break
     }
 
@@ -362,6 +362,17 @@ class ChecklistRunner {
         if ((item.baro_confirmation || expectsFeet) && !spoken.includes("set and checked")) {
           if (!(/\b\d{2,4}\b/.test(spoken) || NUMBER_WORDS_RE.test(spoken))) continue
         }
+
+        if (item.takeoff_confirmation && !spoken.includes("set and checked")) {
+          const t = useTelemetryStore.getState().telemetry
+          const thrustMode = t?.thrustRatingMode
+          const hasV1 = /\bv\s*1\b/.test(spoken) || /\bv\s*one\b/i.test(spoken)
+          const hasVR = /\bv\s*r\b/.test(spoken) || /\bv\s*rotate\b/i.test(spoken)
+          const hasV2 = /\bv\s*2\b/.test(spoken) || /\bv\s*two\b/i.test(spoken)
+          const hasThrust = thrustMode === 6 ? /\bflex\b/i.test(spoken) : /\btoga\b/i.test(spoken)
+          if (!(hasV1 && hasVR && hasV2 && hasThrust)) continue
+        }
+
         return spoken
       }
     }
@@ -381,6 +392,27 @@ class ChecklistRunner {
         .map((d) => `${d}.ogg`),
       "set.ogg"
     ]
+    await playSoundSequence(filenames)
+  }
+
+  private async playTakeoffConfirmation(): Promise<void> {
+    const t = useTelemetryStore.getState().telemetry
+    if (t === null) return
+
+    const digits = (n: number) =>
+      String(Math.round(n))
+        .split("")
+        .map((d) => `${d}.ogg`)
+
+    const filenames: string[] = ["v_one.ogg", ...digits(t.v1), "v_r.ogg", ...digits(t.vr), "v_2.ogg", ...digits(t.v2)]
+
+    if (t.thrustRatingMode === 6) {
+      const flexTemp = t.iniFlexTemperature ?? 0
+      filenames.push("flex.ogg", ...digits(flexTemp))
+    } else {
+      filenames.push("TOGA.ogg")
+    }
+
     await playSoundSequence(filenames)
   }
 

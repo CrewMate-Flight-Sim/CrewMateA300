@@ -115,7 +115,7 @@ async function shouldExecuteStep(step: FlowStep): Promise<boolean> {
 // ---------------------------------------------------------------------------
 // Post-landing timer
 // ---------------------------------------------------------------------------
-// Reactive, chrono-driven: reacts to L:A310_FO_CRONO changes via the telemetry
+// Reactive, chrono-driven: reacts to L:INI_CHRONO_TIME_FO changes via the telemetry
 // store subscription instead of polling on a setTimeout. Re-arms itself
 // automatically once the chrono resets to 0 for the next landing.
 
@@ -162,7 +162,7 @@ class PostLandingTimer {
 
   private async fireExpiry(): Promise<void> {
     try {
-      await simvarSet("1 (>L:A300DR_CHRONO_START_BUTTON_FO)")
+      await simvarSet("1 (>L:INI_CHRONO_START_BUTTON_FO)")
     } catch (err) {
       console.error("[FlowRunner] Failed to fire chrono button:", err)
     }

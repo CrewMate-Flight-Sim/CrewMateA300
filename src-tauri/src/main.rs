@@ -3,5 +3,5 @@
 
 fn main() {
     crewmate_core::install_panic_hook();
-    crewmatea310_lib::run()
+    crewmatea300_lib::run()
 }

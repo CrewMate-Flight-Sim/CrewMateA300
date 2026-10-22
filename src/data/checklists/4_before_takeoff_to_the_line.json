@@ -9,9 +9,21 @@
       "copilot_response": "checked.ogg"
     },
     {
+      "challenge": "flight_instr.ogg",
+      "response": ["checked", "set and checked"],
+      "label": "Flight instruments",
+      "copilot_response": "checked.ogg"
+    },
+    {
       "challenge": "briefing.ogg",
       "response": ["confirmed", "set and checked"],
       "label": "Briefing"
+    },
+    {
+      "challenge": "vspeeds_flex.ogg",
+      "response": ["*"],
+      "label": "V1/VR/V2/FLEX",
+      "takeoff_confirmation": true
     },
     {
       "challenge": "slats_flaps.ogg",
@@ -68,19 +80,9 @@
       ]
     },
     {
-      "challenge": "performance_fmas.ogg",
-      "response": ["check and read", "set and checked"],
-      "label": "Performance and FMAs"
-    },
-    {
       "challenge": "takeoff_config.ogg",
-      "response": ["checked", "set and checked"],
+      "response": ["checked normal", "set and checked"],
       "label": "Takeoff Config"
-    },
-    {
-      "challenge": "transponder.ogg",
-      "response": ["set", "set and checked"],
-      "label": "Transponder"
     }
   ],
   "completion": "before_takeoff_completed_to_the_line.ogg"

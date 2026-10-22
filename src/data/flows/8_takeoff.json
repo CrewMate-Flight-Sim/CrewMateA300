@@ -4,8 +4,8 @@
   "steps": [
     {
       "label": "Chrono",
-      "read": "(L:A300DR_CHRONO_START_BUTTON_FO)",
-      "on": "1 (>L:A300DR_CHRONO_START_BUTTON_FO)",
+      "read": "(L:INI_CHRONO_START_BUTTON_FO)",
+      "on": "1 (>L:INI_CHRONO_START_BUTTON_FO)",
       "expect": 1
     }
   ]

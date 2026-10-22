@@ -1,6 +1,6 @@
-#! app: CrewMate A310
-#! id: crewmatea310
-# CrewMate A310 — SAPI voice training phrases
+#! app: CrewMate A300
+#! id: crewmatea300
+# CrewMate A300 — SAPI voice training phrases
 # Lines starting with # are ignored. Edit freely.
 # Each line is read aloud once during training.
 

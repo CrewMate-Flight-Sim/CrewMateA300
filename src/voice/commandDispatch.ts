@@ -36,7 +36,7 @@ import { setFlaps } from "./commands/flaps"
 import { flightControlsCheck, opencloseFCTLECAM } from "./commands/flightControlsCheck"
 import { setGearHandle } from "./commands/gear"
 import { executeGoAround } from "./commands/goAround"
-import { callPushback, disconnectAllGround, setASU, setGPU } from "./commands/groundServices"
+import { callPushback, disconnectAllGround, setGPU } from "./commands/groundServices"
 import { setLandingLights, setStrobeLights, setTaxiLights } from "./commands/lights"
 import { setSeatBelts } from "./commands/seatBelts"
 import { setWipers } from "./commands/wipers"
@@ -54,8 +54,6 @@ export const FO_AWAY_ALLOWED_COMMANDS = new Set([
   "pushback_request",
   "connect_gpu",
   "disconnect_gpu",
-  "connect_asu",
-  "disconnect_asu",
   "disconnect_all_ground",
   "prepare_aircraft"
 ])
@@ -362,20 +360,6 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
     await randomDelay(3000, 8000)
     await setGPU(false)
     await playSound("gpu_off.ogg", { pack: gePack() })
-  },
-  connect_asu: async () => {
-    if (!useGroundEngineerStore.getState().isActive) return
-    useGroundEngineerStore.getState().deactivate()
-    await randomDelay(3000, 8000)
-    await setASU(true)
-    await playSound("asu_on.ogg", { pack: gePack() })
-  },
-  disconnect_asu: async () => {
-    if (!useGroundEngineerStore.getState().isActive) return
-    useGroundEngineerStore.getState().deactivate()
-    await randomDelay(3000, 8000)
-    await setASU(false)
-    await playSound("asu_off.ogg", { pack: gePack() })
   },
   disconnect_all_ground: async () => {
     if (!useGroundEngineerStore.getState().isActive) return

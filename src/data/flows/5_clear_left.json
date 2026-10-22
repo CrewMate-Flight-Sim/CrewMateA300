@@ -5,8 +5,8 @@
   "steps": [
     {
       "label": "Nose Wheel Light",
-      "read": "(L:A310_TAXI_LIGHTS_SWITCH)",
-      "on": "1 (>L:A310_TAXI_LIGHTS_SWITCH)",
+      "read": "(L:INI_TAXI_LIGHTS_SWITCH)",
+      "on": "1 (>L:INI_TAXI_LIGHTS_SWITCH)",
       "expect": 1,
       "only_if": {
         "option": "settings.lightsControlMode",
@@ -15,8 +15,8 @@
     },
     {
       "label": "Runway turnoff Light",
-      "read": "(L:A310_RWY_TURNOFF_L_SWITCH)",
-      "on": "1 (>L:A310_RWY_TURNOFF_L_SWITCH)",
+      "read": "(L:INI_RWY_TURNOFF_L_SWITCH)",
+      "on": "1 (>L:INI_RWY_TURNOFF_L_SWITCH)",
       "expect": 1,
       "only_if": {
         "option": "settings.lightsControlMode",
@@ -26,8 +26,8 @@
     },
     {
       "label": "Runway turnoff Light",
-      "read": "(L:A310_RWY_TURNOFF_R_SWITCH)",
-      "on": "1 (>L:A310_RWY_TURNOFF_R_SWITCH)",
+      "read": "(L:INI_RWY_TURNOFF_R_SWITCH)",
+      "on": "1 (>L:INI_RWY_TURNOFF_R_SWITCH)",
       "expect": 1,
       "only_if": {
         "option": "settings.lightsControlMode",
@@ -36,8 +36,8 @@
     },
     {
       "label": "Elapsed time start",
-      "read": "(L:A310_ET_TOGGLE_BUTTON_FO)",
-      "on": "1 (>L:A310_ET_TOGGLE_BUTTON_FO)",
+      "read": "(L:INI_ET_TOGGLE_BUTTON_FO)",
+      "on": "1 (>L:INI_ET_TOGGLE_BUTTON_FO)",
       "expect": 1
     }
   ]
