@@ -1,6 +1,6 @@
 {
   "id": "climb_below_the_line",
-  "name": "After Takeoff Climb Checklist below the line",
+  "name": "After Takeoff Climb Checklist below the Line",
   "items": [
     {
       "challenge": "altimeters.ogg",
@@ -13,8 +13,7 @@
           "when": { "always": true },
           "checks": [
             { "type": "simvar", "var": "(L:XMLVAR_BARO1_MODE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:XMLVAR_BARO2_MODE)", "expected": 1 },
-            { "type": "simvar", "var": "(L:XMLVAR_BARO3_MODE)", "expected": 1 }
+            { "type": "simvar", "var": "(L:XMLVAR_BARO2_MODE)", "expected": 1 }
           ]
         }
       ]

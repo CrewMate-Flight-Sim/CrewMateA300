@@ -3,60 +3,6 @@
   "name": "Taxi",
   "steps": [
     {
-      "label": "Elevator Full Up",
-      "read": "(A:ELEVATOR DEFLECTION PCT, Percent Over 100)",
-      "on": "-16384 (>K:ELEVATOR_SET)",
-      "expect": 0.59,
-      "sound_after_execute": "full_up.ogg"
-    },
-    {
-      "label": "Elevator Neutral",
-      "read": "(A:ELEVATOR DEFLECTION PCT, Percent Over 100)",
-      "on": "0 (>K:ELEVATOR_SET)",
-      "expect": 0
-    },
-    {
-      "label": "Elevator Full Down",
-      "read": "(A:ELEVATOR DEFLECTION PCT, Percent Over 100)",
-      "on": "16384 (>K:ELEVATOR_SET)",
-      "expect": -0.93,
-      "sound_after_execute": "full_down.ogg"
-    },
-    {
-      "label": "Elevator Neutral",
-      "read": "(A:ELEVATOR DEFLECTION PCT, Percent Over 100)",
-      "on": "0 (>K:ELEVATOR_SET)",
-      "expect": 0,
-      "sound_after_execute": "neutral.ogg"
-    },
-    {
-      "label": "Aileron Full Left",
-      "read": "(A:AILERON LEFT DEFLECTION PCT, Percent Over 100)",
-      "on": "16383 (>K:AILERON_SET)",
-      "expect": -0.75,
-      "sound_after_execute": "full_left.ogg"
-    },
-    {
-      "label": "Aileron Neutral",
-      "read": "(A:AILERON POSITION, Percent Over 100)",
-      "on": "0 (>K:AILERON_SET)",
-      "expect": 0
-    },
-    {
-      "label": "Aileron Full Right",
-      "read": "(A:AILERON RIGHT DEFLECTION PCT, Percent Over 100)",
-      "on": "-16384 (>K:AILERON_SET)",
-      "expect": 0.75,
-      "sound_after_execute": "full_right.ogg"
-    },
-    {
-      "label": "Aileron Neutral",
-      "read": "(A:AILERON POSITION, Percent Over 100)",
-      "on": "0 (>K:AILERON_SET)",
-      "expect": 0,
-      "sound_after_execute": "neutral.ogg"
-    },
-    {
       "label": "Close FCTL ECAM",
       "read": "(L:PUSH_ECAM_FCTL)",
       "on": "1 (>L:PUSH_ECAM_FCTL)",
@@ -73,13 +19,14 @@
       "read": "(L:INI_FCU_MANAGED_HEADING_BUTTON)",
       "on": "1 (>L:INI_FCU_MANAGED_HEADING_BUTTON)",
       "expect": 1,
+      "skip_verify": true,
       "sound_after_execute": "nav_prof_armed.ogg"
     },
     {
       "label": "Weather radar on",
       "read": "(L:INI_WXR_SYS)",
-      "on": "0 (>L:INI_WXR_SYS)",
-      "expect": 0
+      "on": "2 (>L:INI_WXR_SYS)",
+      "expect": 2
     },
     {
       "label": "Takeoff config test",

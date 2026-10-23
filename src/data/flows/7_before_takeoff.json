@@ -11,6 +11,12 @@
       "expect": 3
     },
     {
+      "label": "APU Bleed",
+      "read": "(L:INI_apu_bleed)",
+      "on": "{apu_bleed_cmd}",
+      "expect": "{apu_bleed_expect}"
+    },
+    {
       "label": "Ignition set",
       "read": "(L:INI_eng_ignition_switch)",
       "on": "4 (>L:INI_eng_ignition_switch)",
@@ -32,6 +38,12 @@
       "label": "TCAS Set",
       "read": "(L:INI_tcas_mode_pedestal)",
       "on": "2 (>L:INI_tcas_mode_pedestal)",
+      "expect": 2
+    },
+    {
+      "label": "TCAS Set",
+      "read": "(L:INI_tcas_alt_system)",
+      "on": "2 (>L:INI_tcas_alt_system)",
       "expect": 2
     },
     {

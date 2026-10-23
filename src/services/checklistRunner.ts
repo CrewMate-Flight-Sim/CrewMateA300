@@ -11,6 +11,7 @@ import { useSettingsStore } from "@/store/settingsStore"
 import { useTelemetryStore } from "@/store/telemetryStore"
 import { useVoiceHintProgressStore } from "@/store/voiceHintProgressStore"
 import type { Check, ChecklistItem, ValidationRule } from "@/types/checklist"
+
 import { getA300Variant } from "./a300Variant"
 
 // ---------------------------------------------------------------------------
@@ -380,19 +381,42 @@ class ChecklistRunner {
   }
 
   private async playBaroConfirmation(spoken: string): Promise<void> {
-    const t = useTelemetryStore.getState().telemetry
-    if (t === null) return
+    const WORD_TO_DIGIT: Record<string, string> = {
+      zero: "0",
+      one: "1",
+      two: "2",
+      three: "3",
+      four: "4",
+      five: "5",
+      six: "6",
+      seven: "7",
+      eight: "8",
+      nine: "9",
+      niner: "9"
+    }
 
-    const spokenMatch = spoken.match(/\b(\d{3,4})\b/)
-    const spokenNum = spokenMatch ? parseInt(spokenMatch[1], 10) : null
-    const isHpa = spokenNum !== null ? spokenNum >= 920 && spokenNum <= 1060 : t.cptBaro === 1
-    const value = isHpa ? Math.round(t.captAltimeterSettingMB ?? 0) : Math.round((t.captAltimeterSettingHG ?? 0) * 100)
-    const filenames = [
-      ...String(value)
-        .split("")
-        .map((d) => `${d}.ogg`),
-      "set.ogg"
-    ]
+    let digits: string[] = []
+
+    // Try word-based parsing first
+    const wordDigits = spoken
+      .toLowerCase()
+      .split(/\s+/)
+      .map((w) => WORD_TO_DIGIT[w])
+      .filter((d): d is string => Boolean(d))
+
+    if (wordDigits.length >= 2) {
+      digits = wordDigits
+    } else {
+      // Fallback to numeric extraction
+      const numericMatch = spoken.match(/\b(\d{3,4})\b/)
+      if (numericMatch) {
+        digits = numericMatch[1].split("")
+      }
+    }
+
+    if (digits.length === 0) return
+
+    const filenames = [...digits.map((d) => `${d}.ogg`), "set.ogg"]
     await playSoundSequence(filenames)
   }
 
@@ -405,7 +429,7 @@ class ChecklistRunner {
         .split("")
         .map((d) => `${d}.ogg`)
 
-    const filenames: string[] = ["v_one.ogg", ...digits(t.v1), "v_r.ogg", ...digits(t.vr), "v_2.ogg", ...digits(t.v2)]
+    const filenames: string[] = ["v1.ogg", ...digits(t.v1), "vr.ogg", ...digits(t.vr), "v2.ogg", ...digits(t.v2)]
 
     if (t.thrustRatingMode === 6) {
       const flexTemp = t.iniFlexTemperature ?? 0

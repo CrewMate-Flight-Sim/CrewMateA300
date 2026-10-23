@@ -5,7 +5,13 @@
     {
       "challenge": "slats_flaps.ogg",
       "response": ["retracted", "set and checked"],
-      "label": "Slats and flaps"
+      "label": "Slats and flaps",
+      "validations": [
+        {
+          "when": { "always": true },
+          "checks": [{ "type": "simvar", "var": "(A:FLAPS HANDLE INDEX, number)", "expected": 0 }]
+        }
+      ]
     },
     {
       "challenge": "transponder.ogg",

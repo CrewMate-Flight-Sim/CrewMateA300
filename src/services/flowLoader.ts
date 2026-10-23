@@ -55,7 +55,12 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   }
   vars["flaps"] = flapsMap[takeoff.flaps] ?? "1"
 
-  const packsOn = takeoff.packs === "on"
+  const packsOn = takeoff.packs !== "off"
+  const apuPacks = takeoff.packs === "apu"
+  vars["apu_cmd"] = apuPacks ? "1 (>L:INI_apu_master_switch)" : "0 (>L:INI_apu_master_switch)"
+  vars["apu_expect"] = apuPacks ? "1" : "0"
+  vars["apu_bleed_cmd"] = apuPacks ? "1 (>L:INI_apu_bleed)" : "0 (>L:INI_apu_bleed)"
+  vars["apu_bleed_expect"] = apuPacks ? "1" : "0"
   vars["pack1_cmd"] = packsOn ? "1 (>L:INI_PACK1_BUTTON)" : "0 (>L:INI_PACK1_BUTTON)"
   vars["pack2_cmd"] = packsOn ? "1 (>L:INI_PACK2_BUTTON)" : "0 (>L:INI_PACK2_BUTTON)"
   vars["pack1_expect"] = packsOn ? "1" : "0"

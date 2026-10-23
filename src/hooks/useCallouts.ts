@@ -34,6 +34,7 @@ interface AltitudeCalloutFlags {
   minimum: boolean
   oneToGo: boolean
   gsalive: boolean
+  onek: boolean
 }
 
 interface LandingSequenceState {
@@ -43,9 +44,13 @@ interface LandingSequenceState {
   done: boolean
 }
 
+type RtoPhase = "reverse" | "decel"
+
 interface RtoState {
   active: boolean
   startedAt: number | null
+  phase: RtoPhase
+  phaseStartTime: number | null
   calledReverse: boolean
   calledDecel: boolean
 }
@@ -163,8 +168,10 @@ function handleReverserPhase(ls: LandingSequenceState, t: Telemetry, elapsed: nu
 function handleDecelPhase(ls: LandingSequenceState, t: Telemetry, elapsed: number) {
   const brakesApplied = t.brakeLeftPosition > 0.1 || t.brakeRightPosition > 0.1
   if (brakesApplied && t.ias > 40) {
+    playSound("decel.ogg")
     completeLanding(ls)
   } else if (elapsed >= DECEL_TIMEOUT) {
+    playSound("no_decel.ogg")
     completeLanding(ls)
   }
 }
@@ -190,28 +197,48 @@ const RTO_DECEL_TIMEOUT = 5000
 const resetRto = (rto: RtoState) => {
   rto.active = false
   rto.startedAt = null
+  rto.phase = "reverse"
+  rto.phaseStartTime = null
   rto.calledReverse = false
   rto.calledDecel = false
 }
 
-function handleRto(rto: RtoState, t: Telemetry, prevSpeed: number, now: number) {
-  if (!rto.calledReverse && (t.engine1Reverse > 0.1 || t.engine2Reverse > 0.1)) {
+const advanceRtoPhase = (rto: RtoState, next: RtoPhase, now: number) => {
+  rto.phase = next
+  rto.phaseStartTime = now
+}
+
+function handleRtoReversePhase(rto: RtoState, t: Telemetry, now: number, elapsed: number) {
+  if (t.engine1Reverse > 0.1 || t.engine2Reverse > 0.1) {
     playSound("reverse_green.ogg")
     rto.calledReverse = true
-    return
+    advanceRtoPhase(rto, "decel", now)
+  } else if (elapsed >= REVERSER_TIMEOUT) {
+    playSound("no_reverse_engine_1_and_2.ogg")
+    rto.calledReverse = true
+    advanceRtoPhase(rto, "decel", now)
   }
+}
 
-  if (rto.calledDecel) return
-
+function handleRtoDecelPhase(rto: RtoState, t: Telemetry, prevSpeed: number, elapsed: number) {
   const brakesApplied = t.brakeLeftPosition > 0.1 || t.brakeRightPosition > 0.1
-  const elapsed = rto.startedAt ? now - rto.startedAt : 0
-
   if (brakesApplied && t.ias < prevSpeed) {
     playSound("decel.ogg")
     rto.calledDecel = true
+    rto.active = false
   } else if (elapsed >= RTO_DECEL_TIMEOUT) {
     playSound("no_decel.ogg")
     rto.calledDecel = true
+    rto.active = false
+  }
+}
+
+function handleRto(rto: RtoState, t: Telemetry, prevSpeed: number, now: number) {
+  const elapsed = rto.phaseStartTime ? now - rto.phaseStartTime : 0
+  if (rto.phase === "reverse") {
+    handleRtoReversePhase(rto, t, now, elapsed)
+  } else {
+    handleRtoDecelPhase(rto, t, prevSpeed, elapsed)
   }
 }
 
@@ -236,7 +263,8 @@ export function useCallouts() {
     above100dh: false,
     minimum: false,
     oneToGo: false,
-    gsalive: false
+    gsalive: false,
+    onek: false
   })
 
   const landing = useRef<LandingSequenceState>({
@@ -279,6 +307,8 @@ export function useCallouts() {
   const rto = useRef<RtoState>({
     active: false,
     startedAt: null,
+    phase: "reverse",
+    phaseStartTime: null,
     calledReverse: false,
     calledDecel: false
   })
@@ -295,6 +325,7 @@ export function useCallouts() {
       resetRto(rto.current)
       rto.current.active = true
       rto.current.startedAt = Date.now()
+      rto.current.phaseStartTime = Date.now()
     })
   }, [])
 
@@ -349,6 +380,7 @@ export function useCallouts() {
       al.oneToGo = false
       al.above100mda = false
       al.above100dh = false
+      al.onek = false
       al.gsalive = false
     }
 
@@ -357,11 +389,11 @@ export function useCallouts() {
       sp.calledV1 = true
       sp.v1Inhibit = true
       if (vr > 0 && Math.abs(vr - v1) <= 1) {
-        playSoundSequence(["v_one.ogg", "rotate.ogg"])
+        playSoundSequence(["v1.ogg", "rotate.ogg"])
         sp.calledVr = true
         sp.vrInhibit = true
       } else {
-        playSound("v_one.ogg")
+        playSound("v1.ogg")
       }
     }
 
@@ -403,9 +435,15 @@ export function useCallouts() {
     }
 
     // Positive climb
-    if (!t.onGround && t.vs > 120 && t.radioAlt > 30 && !al.positiveClimb) {
+    if (!t.onGround && t.vs > 120 && t.radioAlt > 50 && !al.positiveClimb) {
       playSound("positive_climb.ogg")
       al.positiveClimb = true
+    }
+
+    // 1000 callout
+    if (!t.onGround && t.vs < 500 && t.radioAlt <= 1000 && t.landingGear === 1 && !al.onek) {
+      playSound("1000.ogg")
+      al.onek = true
     }
 
     // Ten thousand feet
@@ -462,6 +500,7 @@ export function useCallouts() {
       t.vs > 100 &&
       !al.transitionAltitude &&
       transitionAltitude > 0 &&
+      t.baroMode !== 1 &&
       crossedUp(p.alt, t.alt, transitionAltitude)
     ) {
       playSound("transiton_altitude.ogg")
@@ -473,6 +512,7 @@ export function useCallouts() {
       t.vs < -100 &&
       !al.transitionLevel &&
       transitionLevel > 0 &&
+      t.baroMode === 1 &&
       crossedDown(p.alt, t.alt, transitionLevel)
     ) {
       playSound("transiton_level.ogg")

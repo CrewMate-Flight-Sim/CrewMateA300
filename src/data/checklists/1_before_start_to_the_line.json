@@ -1,6 +1,6 @@
 {
   "id": "before_start_to_the_line",
-  "name": "Before start checklist to the line",
+  "name": "Before Start Checklist to the Line",
   "items": [
     {
       "challenge": "cockpit_prep.ogg",
@@ -40,12 +40,6 @@
           "checks": [{ "type": "simvar", "var": "(L:INI_BRAKE_SYSTEM)", "expected": 0 }]
         }
       ]
-    },
-    {
-      "challenge": "windows.ogg",
-      "response": ["closed", "set and checked"],
-      "label": "Windows and doors",
-      "copilot_response": "closed.ogg"
     }
   ],
   "completion": "before_start_to_the_line_completed.ogg"

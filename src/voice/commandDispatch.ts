@@ -31,6 +31,7 @@ import {
 } from "./commands/autoPilot"
 import { setStdBaro } from "./commands/baro"
 import { setBrakeFan } from "./commands/brakeFan"
+import { setDoorSlides } from "./commands/doorSlides"
 import { startEngine1, startEngine2, setIgnKnob } from "./commands/engine"
 import { setFlaps } from "./commands/flaps"
 import { flightControlsCheck, opencloseFCTLECAM } from "./commands/flightControlsCheck"
@@ -191,6 +192,10 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
     }
   },
 
+  // door slides
+  cabin_crew_arm_slides: () => setDoorSlides(true),
+  cabin_crew_disarm_slides: () => setDoorSlides(false),
+
   // ── Baro ──────────────────────────────────────────────────────────────────
   set_standard: () => {
     const t = useTelemetryStore.getState().telemetry
@@ -281,7 +286,6 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
   flight_controls_check: async () => {
     await opencloseFCTLECAM(1)
     await delay(1000)
-    await playSound("ready.ogg")
     await flightControlsCheck()
   },
 

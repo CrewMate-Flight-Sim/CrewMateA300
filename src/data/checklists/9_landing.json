@@ -15,8 +15,64 @@
     },
     {
       "challenge": "auto_brake.ogg",
-      "response": ["low", "mid", "max", "set and checked"],
-      "label": "Autobrake"
+      "response": ["off", "low", "mid", "max", "set and checked"],
+      "label": "Autobrake",
+      "validations": [
+        {
+          "when": { "responses": "off" },
+          "checks": [
+            { "type": "store", "store": "landing.autoBrake", "equals": "off" },
+            { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 0 }
+          ]
+        },
+        {
+          "when": { "responses": "low" },
+          "checks": [
+            { "type": "store", "store": "landing.autoBrake", "equals": "min" },
+            { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 1 }
+          ]
+        },
+        {
+          "when": { "responses": "mid" },
+          "checks": [
+            { "type": "store", "store": "landing.autoBrake", "equals": "med" },
+            { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 2 }
+          ]
+        },
+        {
+          "when": { "responses": "max" },
+          "checks": [
+            { "type": "store", "store": "landing.autoBrake", "equals": "max" },
+            { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 3 }
+          ]
+        },
+        {
+          "when": { "responses": ["set and checked"] },
+          "checks": [
+            {
+              "type": "any",
+              "groups": [
+                [
+                  { "type": "store", "store": "landing.autoBrake", "equals": "off" },
+                  { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 0 }
+                ],
+                [
+                  { "type": "store", "store": "landing.autoBrake", "equals": "min" },
+                  { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 1 }
+                ],
+                [
+                  { "type": "store", "store": "landing.autoBrake", "equals": "med" },
+                  { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 2 }
+                ],
+                [
+                  { "type": "store", "store": "landing.autoBrake", "equals": "max" },
+                  { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 3 }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "challenge": "askid.ogg",

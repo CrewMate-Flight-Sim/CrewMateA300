@@ -110,6 +110,7 @@ export function TakeoffWindow() {
           <select id="packs" name="packs" value={takeoff.packs} onChange={handleSelectChange} className={SELECT_CLS}>
             <option value="on">ON</option>
             <option value="off">OFF</option>
+            <option value="apu">APU</option>
           </select>
         </div>
 

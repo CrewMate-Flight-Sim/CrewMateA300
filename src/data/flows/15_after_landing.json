@@ -56,10 +56,22 @@
       "expect": 1
     },
     {
+      "label": "TCAS Set",
+      "read": "(L:INI_tcas_mode_pedestal)",
+      "on": "1 (>L:INI_tcas_mode_pedestal)",
+      "expect": 1
+    },
+    {
+      "label": "TCAS Set",
+      "read": "(L:INI_tcas_alt_system)",
+      "on": "1 (>L:INI_tcas_alt_system)",
+      "expect": 1
+    },
+    {
       "label": "Pitch trim",
       "read": "(L:ELEV_TRIM_RATIO)",
-      "on": "1 (>L:ELEV_TRIM_RATIO)",
-      "expect": 1
+      "on": "0.07 (>L:ELEV_TRIM_RATIO)",
+      "expect": 0.07
     },
     {
       "label": "Flaps",

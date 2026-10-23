@@ -168,6 +168,11 @@ class PostLandingTimer {
       console.error("[FlowRunner] Failed to fire chrono button:", err)
     }
     try {
+      await simvarSet("1 (>L:INI_CHRONO_START_BUTTON_FO)")
+    } catch (err) {
+      console.error("[FlowRunner] Failed to fire chrono button:", err)
+    }
+    try {
       await playSound("three_minutes.ogg")
     } catch (err) {
       console.error("[FlowRunner] Failed to play post-landing expiry announcement:", err)

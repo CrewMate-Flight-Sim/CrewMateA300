@@ -9,10 +9,10 @@
       "expect": 0
     },
     {
-      "label": "APU off",
+      "label": "APU",
       "read": "(L:INI_apu_master_switch)",
-      "on": "0 (>L:INI_apu_master_switch)",
-      "expect": 0
+      "on": "{apu_cmd}",
+      "expect": "{apu_expect}"
     },
     {
       "label": "Flaps",

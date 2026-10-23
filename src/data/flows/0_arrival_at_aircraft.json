@@ -7,6 +7,12 @@
       "read": "(L:INI_COCKPIT_DOOR_OPEN)",
       "on": "1 (>L:INI_COCKPIT_DOOR_STATE)",
       "expect": 1
+    },
+    {
+      "label": "Remove covers (inibuilds covers are broken as always)",
+      "read": "(L:INI_COVERS_ENABLED)",
+      "on": "0 (>L:INI_COVERS_ENABLED)",
+      "expect": 0
     }
   ]
 }

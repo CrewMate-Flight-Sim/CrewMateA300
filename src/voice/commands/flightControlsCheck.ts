@@ -1,4 +1,5 @@
-import { setLvar } from "@/API/simvarApi"
+import { setLvar, simvarSet } from "@/API/simvarApi"
+import { delay } from "@/lib/utils"
 import { executeFlow } from "@/services/flowRunner"
 import { playSound, waitForSoundFinished } from "@/services/playSounds"
 import { useTelemetryStore } from "@/store/telemetryStore"
@@ -53,11 +54,90 @@ export async function opencloseFCTLECAM(position: number) {
 // Bumped on every call, so a check still waiting goes quiet once a newer one starts
 let latestCheck = 0
 
+// Assuming delay is a function like: const delay = (ms: number) => new Promise(r => setTimeout(r, ms))
+const STEP_DELAY = 800 // milliseconds between movements/checks
+
+const centerControls = async () => {
+  try {
+    await simvarSet("0 (>K:ELEVATOR_SET)")
+  } catch (error) {
+    console.error("[flightControlsCheck] Failed to center elevator:", error)
+  }
+  try {
+    await simvarSet("0 (>K:AILERON_SET)")
+  } catch (error) {
+    console.error("[flightControlsCheck] Failed to center aileron:", error)
+  }
+}
+
 export async function flightControlsCheck() {
   const check = ++latestCheck
+  const tInit = useTelemetryStore.getState().telemetry
+  if (!tInit?.onGround) {
+    return
+  }
   await waitForSoundFinished()
 
-  for (const step of STEPS) {
+  try {
+    // FO moves controls
+    await simvarSet("-16384 (>K:ELEVATOR_SET)")
+    await delay(STEP_DELAY) // Give it a beat to start moving
+    await waitFor((t) => t.elevatorPosition > FULL_THRESHOLD)
+    if (check !== latestCheck) return
+    await playSound("full_up.ogg")
+    await waitForSoundFinished()
+
+    await simvarSet("0 (>K:ELEVATOR_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => Math.abs(t.elevatorPosition) < NEUTRAL_THRESHOLD)
+    if (check !== latestCheck) return
+
+    await simvarSet("16384 (>K:ELEVATOR_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => t.elevatorPosition < -FULL_THRESHOLD)
+    if (check !== latestCheck) return
+    await playSound("full_down.ogg")
+    await waitForSoundFinished()
+
+    await simvarSet("0 (>K:ELEVATOR_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => Math.abs(t.elevatorPosition) < NEUTRAL_THRESHOLD)
+    if (check !== latestCheck) return
+    await playSound("neutral.ogg")
+    await waitForSoundFinished()
+
+    await simvarSet("16383 (>K:AILERON_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => t.aileronPosition < -FULL_THRESHOLD)
+    if (check !== latestCheck) return
+    await playSound("full_left.ogg")
+    await waitForSoundFinished()
+
+    await simvarSet("0 (>K:AILERON_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => Math.abs(t.aileronPosition) < NEUTRAL_THRESHOLD)
+    if (check !== latestCheck) return
+
+    await simvarSet("-16384 (>K:AILERON_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => t.aileronPosition > FULL_THRESHOLD)
+    if (check !== latestCheck) return
+    await playSound("full_right.ogg")
+    await waitForSoundFinished()
+
+    await simvarSet("0 (>K:AILERON_SET)")
+    await delay(STEP_DELAY)
+    await waitFor((t) => Math.abs(t.aileronPosition) < NEUTRAL_THRESHOLD)
+    if (check !== latestCheck) return
+    await playSound("neutral.ogg")
+    await waitForSoundFinished()
+  } finally {
+    await centerControls()
+  }
+
+  // PF checks rudder (if PF is moving it via steps or telemetry)
+  for (const step of STEPS.slice(6)) {
+    await delay(STEP_DELAY)
     await waitFor(step.condition)
     if (check !== latestCheck) return
     await playSound(step.sound)

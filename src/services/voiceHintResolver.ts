@@ -65,7 +65,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   const ground = isOnGround(t)
   const engOff = enginesOff(t)
   const landingGear = num(t, "landingGear") ?? 0
-  const transitionAltitude = usePerformanceStore.getState().takeoff.transitionAltitude || 5000
+  const transitionAltitude = num(t, "transitionAltitude") ?? 5000
   const transitionLevel = usePerformanceStore.getState().landing.transitionLevel || 5000
   const onStandard = num(t, "baroMode") === 1
 

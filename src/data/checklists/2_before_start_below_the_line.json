@@ -1,7 +1,13 @@
 {
   "id": "before_start_below_the_line",
-  "name": "Before Start checklist below the line",
+  "name": "Before Start Checklist below the Line",
   "items": [
+    {
+      "challenge": "windows.ogg",
+      "response": ["closed", "set and checked"],
+      "label": "Windows and doors",
+      "copilot_response": "closed.ogg"
+    },
     {
       "challenge": "beacon.ogg",
       "response": ["on", "set and checked"],
