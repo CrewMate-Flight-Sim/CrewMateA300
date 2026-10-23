@@ -395,28 +395,67 @@ class ChecklistRunner {
       niner: "9"
     }
 
+    console.log("[BaroConfirm] spoken:", spoken)
+
+    // Determine MB vs INHG from the first spoken digit.
+    const spokenWords = spoken.toLowerCase().split(/\s+/)
+    const wordDigits = spokenWords.map((w) => WORD_TO_DIGIT[w]).filter((d): d is string => Boolean(d))
+    let firstDigit: string | null = wordDigits.length ? wordDigits[0] : null
+    if (!firstDigit) {
+      const m = spoken.match(/\b(\d)/)
+      if (m) firstDigit = m[1]
+    }
+
+    console.log("[BaroConfirm] firstDigit:", firstDigit, "wordDigits:", wordDigits)
+
+    const unit =
+      firstDigit === "1" || firstDigit === "9" ? "MB" : firstDigit === "2" || firstDigit === "3" ? "INHG" : null
+
+    console.log("[BaroConfirm] unit:", unit)
+
+    if (unit) {
+      const t = useTelemetryStore.getState().telemetry
+      const keys =
+        unit === "MB"
+          ? ["iniAltimeterMbCopilot1", "iniAltimeterMbCopilot2", "iniAltimeterMbCopilot3", "iniAltimeterMbCopilot4"]
+          : [
+              "iniAltimeterInhgCopilot1",
+              "iniAltimeterInhgCopilot2",
+              "iniAltimeterInhgCopilot3",
+              "iniAltimeterInhgCopilot4"
+            ]
+      const reads = keys.map((k) => (t ? t[k as keyof typeof t] : null))
+      console.log("[BaroConfirm] telemetry reads:", reads)
+      const digits = reads.map((v) => (v === null || v === undefined ? null : String(Math.round(v as number))))
+      if (digits.every((d): d is string => d !== null && /^\d$/.test(d))) {
+        const trimmed = [...digits]
+        while (trimmed.length > 3 && trimmed[0] === "0") trimmed.shift()
+        const filenames = [...trimmed.map((d) => `${d}.ogg`), "set.ogg"]
+        console.log("[BaroConfirm] playing:", filenames)
+        await playSoundSequence(filenames)
+        return
+      }
+      console.log("[BaroConfirm] invalid reads, falling back")
+    }
+
+    // Fallback: parse digits from speech
     let digits: string[] = []
-
-    // Try word-based parsing first
-    const wordDigits = spoken
-      .toLowerCase()
-      .split(/\s+/)
-      .map((w) => WORD_TO_DIGIT[w])
-      .filter((d): d is string => Boolean(d))
-
     if (wordDigits.length >= 2) {
       digits = wordDigits
     } else {
-      // Fallback to numeric extraction
       const numericMatch = spoken.match(/\b(\d{3,4})\b/)
       if (numericMatch) {
         digits = numericMatch[1].split("")
       }
     }
 
-    if (digits.length === 0) return
+    if (digits.length === 0) {
+      console.log("[BaroConfirm] no digits, aborting")
+      return
+    }
 
     const filenames = [...digits.map((d) => `${d}.ogg`), "set.ogg"]
+    console.log("[BaroConfirm] playing fallback:", filenames)
     await playSoundSequence(filenames)
   }
 
