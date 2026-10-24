@@ -238,8 +238,8 @@ export function LandingWindow() {
             className={SELECT_CLS}
           >
             <option value="off">OFF</option>
-            <option value="min">LOW</option>
-            <option value="med">MED</option>
+            <option value="low">LOW</option>
+            <option value="mid">MID</option>
             <option value="max">MAX</option>
           </select>
         </div>

@@ -44,7 +44,7 @@ const DEFAULT_LANDING_DATA: LandingData = {
   missedAltitude: 4000,
   antiIce: "off",
   apuStart: "auto",
-  autoBrake: "med",
+  autoBrake: "mid",
   landingElevation: 0,
   apprNavMode: "ils"
 }

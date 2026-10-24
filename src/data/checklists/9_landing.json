@@ -19,28 +19,28 @@
       "label": "Autobrake",
       "validations": [
         {
-          "when": { "responses": "off" },
+          "when": { "responses": ["off"] },
           "checks": [
             { "type": "store", "store": "landing.autoBrake", "equals": "off" },
             { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 0 }
           ]
         },
         {
-          "when": { "responses": "low" },
+          "when": { "responses": ["low"] },
           "checks": [
-            { "type": "store", "store": "landing.autoBrake", "equals": "min" },
+            { "type": "store", "store": "landing.autoBrake", "equals": "low" },
             { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 1 }
           ]
         },
         {
-          "when": { "responses": "mid" },
+          "when": { "responses": ["mid"] },
           "checks": [
-            { "type": "store", "store": "landing.autoBrake", "equals": "med" },
+            { "type": "store", "store": "landing.autoBrake", "equals": "mid" },
             { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 2 }
           ]
         },
         {
-          "when": { "responses": "max" },
+          "when": { "responses": ["max"] },
           "checks": [
             { "type": "store", "store": "landing.autoBrake", "equals": "max" },
             { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 3 }
@@ -57,11 +57,11 @@
                   { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 0 }
                 ],
                 [
-                  { "type": "store", "store": "landing.autoBrake", "equals": "min" },
+                  { "type": "store", "store": "landing.autoBrake", "equals": "low" },
                   { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 1 }
                 ],
                 [
-                  { "type": "store", "store": "landing.autoBrake", "equals": "med" },
+                  { "type": "store", "store": "landing.autoBrake", "equals": "mid" },
                   { "type": "simvar", "var": "(L:INI_AUTOBRAKE_LEVEL)", "expected": 2 }
                 ],
                 [
