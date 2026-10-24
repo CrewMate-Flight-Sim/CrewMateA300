@@ -119,6 +119,12 @@
       "read": "(L:INI_ANNLT_SWITCH)",
       "on": "1 (>L:INI_ANNLT_SWITCH)",
       "expect": 1
+    },
+    {
+      "label": "Parking brake set",
+      "read": "(A:BRAKE PARKING INDICATOR, Bool)",
+      "on": "1 (>K:PARKING_BRAKE_SET)",
+      "expect": 1
     }
   ]
 }

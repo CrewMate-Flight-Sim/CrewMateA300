@@ -5,21 +5,21 @@
     {
       "label": "Engine 1 Anti Ice",
       "read": "(L:INI_ENG1_ANTI_ICE)",
-      "on": "{anti_ice_eng1_cmd}",
-      "expect": "{anti_ice_eng1_expect}",
+      "on": "{anti_ice_eng1_ldg_cmd}",
+      "expect": "{anti_ice_eng1_ldg_expect}",
       "skip_delay": true
     },
     {
       "label": "Engine 2 Anti Ice",
       "read": "(L:INI_ENG2_ANTI_ICE)",
-      "on": "{anti_ice_eng2_cmd}",
-      "expect": "{anti_ice_eng2_expect}"
+      "on": "{anti_ice_eng2_ldg_cmd}",
+      "expect": "{anti_ice_eng2_ldg_expect}"
     },
     {
       "label": "Wing Anti Ice",
       "read": "(L:INI_WING_ANTI_ICE)",
-      "on": "{anti_ice_wing_cmd}",
-      "expect": "{anti_ice_wing_expect}"
+      "on": "{anti_ice_wing_ldg_cmd}",
+      "expect": "{anti_ice_wing_ldg_expect}"
     },
     {
       "label": "Ignition set",

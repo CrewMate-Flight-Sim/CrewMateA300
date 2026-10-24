@@ -66,26 +66,7 @@
           ]
         },
         {
-          "when": { "responses": ["set and checked"] },
-          "checks": [
-            {
-              "type": "any",
-              "groups": [
-                [
-                  { "type": "simvar", "var": "(A:FLAPS HANDLE INDEX, number)", "expected": 1 },
-                  { "type": "store", "store": "takeoff.flaps", "equals": "1" }
-                ],
-                [
-                  { "type": "simvar", "var": "(A:FLAPS HANDLE INDEX, number)", "expected": 2 },
-                  { "type": "store", "store": "takeoff.flaps", "equals": "2" }
-                ],
-                [
-                  { "type": "simvar", "var": "(A:FLAPS HANDLE INDEX, number)", "expected": 3 },
-                  { "type": "store", "store": "takeoff.flaps", "equals": "3" }
-                ]
-              ]
-            }
-          ]
+          "when": { "responses": ["set and checked"] }
         }
       ]
     },

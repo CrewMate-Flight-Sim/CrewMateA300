@@ -57,25 +57,37 @@ async function getTemplateVars(): Promise<Record<string, string>> {
 
   const packsOn = takeoff.packs !== "off"
   const apuPacks = takeoff.packs === "apu"
+  const antiIceto = takeoff.antiIce ?? "off"
+  const antiIceldg = landing.antiIce ?? "off"
+  const wingAntiIceto = antiIceto === "onengwing"
+  const engAntiIceto = antiIceto === "oneng" || antiIceto === "onengwing"
+  const wingAntiIceldg = antiIceldg === "onengwing"
+  const engAntiIceldg = antiIceldg === "oneng" || antiIceldg === "onengwing"
+  const apuBleed = apuPacks && !wingAntiIceto
+  
   vars["apu_cmd"] = apuPacks ? "1 (>L:INI_apu_master_switch)" : "0 (>L:INI_apu_master_switch)"
   vars["apu_expect"] = apuPacks ? "1" : "0"
-  vars["apu_bleed_cmd"] = apuPacks ? "1 (>L:INI_apu_bleed)" : "0 (>L:INI_apu_bleed)"
-  vars["apu_bleed_expect"] = apuPacks ? "1" : "0"
+  vars["apu_bleed_cmd"] = apuBleed ? "1 (>L:INI_apu_bleed)" : "0 (>L:INI_apu_bleed)"
+  vars["apu_bleed_expect"] = apuBleed ? "1" : "0"
+
   vars["pack1_cmd"] = packsOn ? "1 (>L:INI_PACK1_BUTTON)" : "0 (>L:INI_PACK1_BUTTON)"
   vars["pack2_cmd"] = packsOn ? "1 (>L:INI_PACK2_BUTTON)" : "0 (>L:INI_PACK2_BUTTON)"
   vars["pack1_expect"] = packsOn ? "1" : "0"
   vars["pack2_expect"] = packsOn ? "1" : "0"
 
-  const antiIce = takeoff.antiIce ?? "off"
-  const engAntiIce = antiIce === "oneng" || antiIce === "onengwing"
-  const wingAntiIce = antiIce === "onengwing"
+  vars["anti_ice_eng1_to_cmd"] = engAntiIceto ? "1 (>L:INI_ENG1_ANTI_ICE)" : "0 (>L:INI_ENG1_ANTI_ICE)"
+  vars["anti_ice_eng2_to_cmd"] = engAntiIceto ? "1 (>L:INI_ENG2_ANTI_ICE)" : "0 (>L:INI_ENG2_ANTI_ICE)"
+  vars["anti_ice_wing_to_cmd"] = wingAntiIceto ? "1 (>L:INI_WING_ANTI_ICE)" : "0 (>L:INI_WING_ANTI_ICE)"
+  vars["anti_ice_eng1_to_expect"] = engAntiIceto ? "1" : "0"
+  vars["anti_ice_eng2_to_expect"] = engAntiIceto ? "1" : "0"
+  vars["anti_ice_wing_to_expect"] = wingAntiIceto ? "1" : "0"
 
-  vars["anti_ice_eng1_cmd"] = engAntiIce ? "1 (>L:INI_ENG1_ANTI_ICE)" : "0 (>L:INI_ENG1_ANTI_ICE)"
-  vars["anti_ice_eng2_cmd"] = engAntiIce ? "1 (>L:INI_ENG2_ANTI_ICE)" : "0 (>L:INI_ENG2_ANTI_ICE)"
-  vars["anti_ice_wing_cmd"] = wingAntiIce ? "1 (>L:INI_WING_ANTI_ICE)" : "0 (>L:INI_WING_ANTI_ICE)"
-  vars["anti_ice_eng1_expect"] = engAntiIce ? "1" : "0"
-  vars["anti_ice_eng2_expect"] = engAntiIce ? "1" : "0"
-  vars["anti_ice_wing_expect"] = wingAntiIce ? "1" : "0"
+  vars["anti_ice_eng1_ldg_cmd"] = engAntiIceldg ? "1 (>L:INI_ENG1_ANTI_ICE)" : "0 (>L:INI_ENG1_ANTI_ICE)"
+  vars["anti_ice_eng2_ldg_cmd"] = engAntiIceldg ? "1 (>L:INI_ENG2_ANTI_ICE)" : "0 (>L:INI_ENG2_ANTI_ICE)"
+  vars["anti_ice_wing_ldg_cmd"] = wingAntiIceldg ? "1 (>L:INI_WING_ANTI_ICE)" : "0 (>L:INI_WING_ANTI_ICE)"
+  vars["anti_ice_eng1_ldg_expect"] = engAntiIceldg ? "1" : "0"
+  vars["anti_ice_eng2_ldg_expect"] = engAntiIceldg ? "1" : "0"
+  vars["anti_ice_wing_ldg_expect"] = wingAntiIceldg ? "1" : "0"
 
   vars["pitch_trim_cmd"] = `${takeoff.trimRatio} (>L:ELEV_TRIM_RATIO)`
   vars["pitch_trim_expect"] = String(takeoff.trimRatio)

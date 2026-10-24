@@ -15,6 +15,25 @@
       "expect": "{apu_expect}"
     },
     {
+      "label": "Engine 1 Anti Ice",
+      "read": "(L:INI_ENG1_ANTI_ICE)",
+      "on": "{anti_ice_eng1_to_cmd}",
+      "expect": "{anti_ice_eng1_to_expect}",
+      "skip_delay": true
+    },
+    {
+      "label": "Engine 2 Anti Ice",
+      "read": "(L:INI_ENG2_ANTI_ICE)",
+      "on": "{anti_ice_eng2_to_cmd}",
+      "expect": "{anti_ice_eng2_to_expect}"
+    },
+    {
+      "label": "Wing Anti Ice",
+      "read": "(L:INI_WING_ANTI_ICE)",
+      "on": "{anti_ice_wing_to_cmd}",
+      "expect": "{anti_ice_wing_to_expect}"
+    },
+    {
       "label": "Flaps",
       "read": "(A:FLAPS HANDLE INDEX,Number)",
       "on": "(>K:FLAPS_{flaps})",
