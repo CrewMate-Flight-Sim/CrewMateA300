@@ -132,7 +132,33 @@
       "label": "TCAS Set",
       "read": "(L:INI_tcas_mode_pedestal)",
       "on": "0 (>L:INI_tcas_mode_pedestal)",
-      "expect": 0
+      "expect": 0,
+      "only_if": {
+        "read": "(L:INI_IS_IDC)",
+        "one_of": [0]
+      }
+    },
+    {
+      "label": "TCAS Set",
+      "read": "(L:INI_tcas_mode_pedestal)",
+      "on": "1 (>L:IDC_RSK5_FO)",
+      "expect": 5,
+      "only_if": {
+        "read": "(L:INI_IS_IDC)",
+        "one_of": [1]
+      },
+      "skip_verify": true
+    },
+    {
+      "label": "TCAS Set",
+      "read": "(L:INI_tcas_mode_pedestal)",
+      "on": "1 (>L:IDC_RSK5_FO)",
+      "expect": 5,
+      "only_if": {
+        "read": "(L:INI_IS_IDC)",
+        "one_of": [1]
+      },
+      "skip_verify": true
     },
     {
       "label": "Set Chocks",
