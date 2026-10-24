@@ -96,6 +96,12 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   vars["landing_elevation_cmd"] = `${roundedElev} (>L:INI_LANDING_ELEVATION)`
   vars["landing_elevation_expect"] = String(roundedElev)
 
+  const APPR_NAV_MODE_VALUES = { vor: 0, nav: 1, ils: 2 } as const
+
+  const apprNavMode = landing.apprNavMode ?? "ils"
+  const apprNavModeValue = APPR_NAV_MODE_VALUES[apprNavMode as keyof typeof APPR_NAV_MODE_VALUES] ?? 2
+  vars["appr_nav_mode_on"] = `${apprNavModeValue} (>L:INI_EFIS_SELECTED_NAV_FO)`
+  vars["appr_nav_mode_expect"] = `${apprNavModeValue} (L:INI_EFIS_SELECTED_NAV_FO) `
   return vars
 }
 

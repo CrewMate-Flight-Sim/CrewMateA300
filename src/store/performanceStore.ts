@@ -17,6 +17,7 @@ interface LandingData {
   apuStart?: string
   autoBrake?: string
   landingElevation: number
+  apprNavMode?: string
 }
 
 interface PerformanceStore {
@@ -39,12 +40,13 @@ const DEFAULT_TAKEOFF_DATA: TakeoffData = {
 }
 
 const DEFAULT_LANDING_DATA: LandingData = {
-  transitionLevel: 0,
+  transitionLevel: 6000,
   missedAltitude: 4000,
   antiIce: "off",
   apuStart: "auto",
   autoBrake: "med",
-  landingElevation: 0
+  landingElevation: 0,
+  apprNavMode: "ils"
 }
 
 export const usePerformanceStore = create<PerformanceStore>()(

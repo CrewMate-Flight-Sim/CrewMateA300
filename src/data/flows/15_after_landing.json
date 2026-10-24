@@ -56,6 +56,12 @@
       "expect": 1
     },
     {
+      "label": "NAV mode select",
+      "read": "(L:INI_EFIS_SELECTED_NAV_FO)",
+      "on": "1 (>L:INI_EFIS_SELECTED_NAV_FO)",
+      "expect": "1"
+    },
+    {
       "label": "TCAS Set",
       "read": "(L:INI_tcas_mode_pedestal)",
       "on": "1 (>L:INI_tcas_mode_pedestal)",

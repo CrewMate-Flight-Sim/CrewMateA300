@@ -51,6 +51,12 @@
       "read": "(L:INI_map_range_fo_switch)",
       "on": "0 (>L:INI_map_range_fo_switch)",
       "expect": 0
+    },
+    {
+      "label": "NAV mode select",
+      "read": "(L:INI_EFIS_SELECTED_NAV_FO)",
+      "on": "{appr_nav_mode_on}",
+      "expect": "{appr_nav_mode_expect}"
     }
   ]
 }

@@ -168,7 +168,7 @@ export function LandingWindow() {
         <div className="space-y-1">
           <div className={labelRow}>
             <Label htmlFor="missedAltitude" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
-              Go around (ft)
+              Go around alt
             </Label>
           </div>
           <Input
@@ -241,6 +241,28 @@ export function LandingWindow() {
             <option value="min">LOW</option>
             <option value="med">MED</option>
             <option value="max">MAX</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Row 3: Approach Nav Mode */}
+      <div className="grid grid-cols-3 gap-2">
+        <div className="space-y-1">
+          <div className={labelRow}>
+            <Label htmlFor="apprNavMode" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
+              APPR NAV MODE
+            </Label>
+          </div>
+          <select
+            id="apprNavMode"
+            name="apprNavMode"
+            value={landing.apprNavMode}
+            onChange={handleSelectChange}
+            className={SELECT_CLS}
+          >
+            <option value="vor">VOR</option>
+            <option value="nav">NAV</option>
+            <option value="ils">ILS</option>
           </select>
         </div>
       </div>
