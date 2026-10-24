@@ -441,7 +441,7 @@ export function useCallouts() {
     }
 
     // 1000 callout
-    if (!t.onGround && t.vs < 500 && t.radioAlt <= 1000 && t.landingGear === 1 && !al.onek) {
+    if (!t.onGround && t.vs < -500 && t.radioAlt <= 1000 && t.landingGear === 1 && !al.onek) {
       playSound("1000.ogg")
       al.onek = true
     }

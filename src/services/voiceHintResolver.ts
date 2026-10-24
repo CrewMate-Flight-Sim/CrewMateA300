@@ -263,7 +263,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     return {
       id: "call_before_start_checklist",
       title: "Ready for before start",
-      phrases: ["before start checklist below the line"]
+      phrases: ["before start checklist below the line", "cabin crew arm slides (ENSURE ALL DOORS ARE CLOSED!)"]
     }
   }
 
