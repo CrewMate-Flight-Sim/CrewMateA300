@@ -30,13 +30,13 @@
     "type": "reminder"
   },
   {
-    "minuteMark": 11,
-    "label": "APU start reminder, disconnect external power after",
+    "minuteMark": 10,
+    "label": "Before start checklist to the line",
     "type": "reminder"
   },
   {
-    "minuteMark": 10,
-    "label": "Before start checklist to the line",
+    "minuteMark": 9,
+    "label": "APU start reminder, disconnect external power after",
     "type": "reminder"
   },
   {
