@@ -9,8 +9,8 @@ const AXIS_FULL_POS = 16383
 const AXIS_FULL_NEG = -16383
 const AXIS_NEUTRAL = 0
 
-const RUDDER_FULL_THRESHOLD = 0.45
-const RUDDER_NEUTRAL_THRESHOLD = 0.15
+const RUDDER_FULL_THRESHOLD = 0.55
+const RUDDER_NEUTRAL_THRESHOLD = 0.1
 
 interface CAStep {
   condition: (t: Telemetry) => boolean
@@ -114,6 +114,19 @@ export async function flightControlsCheck() {
     // Captain performs rudder check — script blocks until physical input matches threshold
     for (const step of RUDDER_STEPS) {
       await waitFor(step.condition)
+      if (step.sound) {
+        // 4. Play sound only once the mechanical step is verified complete
+        await playSound(step.sound)
+
+        // 5. Block right here until THIS step's speech is completely finished
+        await waitForSoundFinished()
+
+        // 6. Natural human breathing room pause before loop cycles back to step 1
+        await delay(400)
+      } else {
+        // Padding for internal silent centering resets
+        await delay(300)
+      }
     }
   } catch (error) {
     console.error("[FlightControlsCheck] Execution failure:", error)
