@@ -148,7 +148,7 @@ export function LandingWindow() {
         <div className="space-y-1">
           <div className={labelRow}>
             <Label htmlFor="landingElevation" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
-              Elev
+              Ldg Elev
             </Label>
           </div>
           <Input
