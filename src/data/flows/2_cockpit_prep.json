@@ -42,6 +42,13 @@
       "label": "Fuel pumps on",
       "read": "(L:INI_INNER_TANK1_LEFT)",
       "on": "1 (>L:INI_INNER_TANK1_LEFT)",
+      "expect": 1,
+      "skip_delay": true
+    },
+    {
+      "label": "Fuel pump on",
+      "read": "(L:INI_INNER_TANK2_LEFT)",
+      "on": "1 (>L:INI_INNER_TANK2_LEFT)",
       "expect": 1
     },
     {

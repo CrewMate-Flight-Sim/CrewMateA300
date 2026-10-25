@@ -102,12 +102,6 @@
       }
     },
     {
-      "label": "Fuel pump on",
-      "read": "(L:INI_INNER_TANK2_LEFT)",
-      "on": "1 (>L:INI_INNER_TANK2_LEFT)",
-      "expect": 1
-    },
-    {
       "label": "Announcer lights test",
       "read": "(L:INI_ANNLT_SWITCH)",
       "on": "0 (>L:INI_ANNLT_SWITCH)",

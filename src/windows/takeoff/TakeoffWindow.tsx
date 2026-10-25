@@ -93,7 +93,7 @@ export function TakeoffWindow() {
           <select id="flaps" name="flaps" value={takeoff.flaps} onChange={handleSelectChange} className={SELECT_CLS}>
             <option value="1">15/0</option>
             <option value="2">15/15</option>
-            <option value="3">20/20</option>
+            <option value="3">15/20</option>
           </select>
         </div>
       </div>

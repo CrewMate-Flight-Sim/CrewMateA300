@@ -68,6 +68,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   const transitionAltitude = num(t, "transitionAltitude") ?? 5000
   const transitionLevel = usePerformanceStore.getState().landing.transitionLevel || 5000
   const onStandard = num(t, "baroMode") === 1
+  const seatBelts = num(t, "seatBelts") ?? 0
 
   // ── AIRBORNE ────────────────────────────────────────────────────────────────
   if (!ground) {
@@ -136,8 +137,8 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     // Climb / cruise — above 3 000 ft, flaps clean, not descending
     const cruisePhrases: string[] = []
     if (alt > transitionAltitude && !onStandard) cruisePhrases.push("pull standard")
-    if (alt > 10000) cruisePhrases.push("seatbelts off")
-    if (lastCl === "climb_below_the_line") cruisePhrases.push("set landing elevation")
+    if (alt > 10000 && seatBelts) cruisePhrases.push("seatbelts off")
+    if (lastCl === "climb_below_the_line") cruisePhrases.push("set landing elevation", "you have control", "i have control")
 
     return {
       id: "climb_cruise",
@@ -156,7 +157,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     return {
       id: "parking",
       title: "Parking",
-      phrases: ["parking checklist"]
+      phrases: ["cabin crew disarm slides", "parking checklist"]
     }
   }
 

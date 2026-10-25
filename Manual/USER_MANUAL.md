@@ -203,7 +203,7 @@ The FO will confirm speed limits before moving flaps while airborne.
 | "slats retract"             | Flaps 0/0 (retracted) | —         |
 | "slats extend" or "flaps 0" | Flaps 15/0            | 250 kts   |
 | "flaps fifteen"             | Flaps 15/15           | 215 kts   |
-| "flaps twenty"              | Flaps 20/20           | 205 kts   |
+| "flaps twenty"              | Flaps 15/20           | 205 kts   |
 | "flaps fourty"              | Flaps 40              | 175 kts   |
 
 ### Engine Anti‑Ice

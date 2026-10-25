@@ -64,7 +64,7 @@ async function getTemplateVars(): Promise<Record<string, string>> {
   const wingAntiIceldg = antiIceldg === "onengwing"
   const engAntiIceldg = antiIceldg === "oneng" || antiIceldg === "onengwing"
   const apuBleed = apuPacks && !wingAntiIceto
-  
+
   vars["apu_cmd"] = apuPacks ? "1 (>L:INI_apu_master_switch)" : "0 (>L:INI_apu_master_switch)"
   vars["apu_expect"] = apuPacks ? "1" : "0"
   vars["apu_bleed_cmd"] = apuBleed ? "1 (>L:INI_apu_bleed)" : "0 (>L:INI_apu_bleed)"
