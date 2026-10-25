@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.4.0] - 2026-10-25
 
 - Initial release of A300 version - @alexlenh @marxio09dio
 
