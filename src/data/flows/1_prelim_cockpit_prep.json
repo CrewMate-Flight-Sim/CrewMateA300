@@ -3,12 +3,6 @@
   "name": "Preliminary Cockpit Preparation",
   "steps": [
     {
-      "label": "Set Chocks",
-      "read": "(L:INI_CHOCKS_ENABLED)",
-      "on": "1 (>L:INI_CHOCKS_ENABLED)",
-      "expect": 1
-    },
-    {
       "label": "Battery 1 Check",
       "read": "(L:INI_elec_ind_dc_selector)",
       "on": "0 (>L:INI_elec_ind_dc_selector)",
@@ -112,6 +106,12 @@
       "label": "Announcer lights test",
       "read": "(L:INI_ANNLT_SWITCH)",
       "on": "1 (>L:INI_ANNLT_SWITCH)",
+      "expect": 1
+    },
+    {
+      "label": "Nav light",
+      "read": "(L:INI_NAV_LOGO_LIGHT_SWITCH)",
+      "on": "1 (>L:INI_NAV_LOGO_LIGHT_SWITCH)",
       "expect": 1
     },
     {

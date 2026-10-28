@@ -8,6 +8,7 @@ interface TakeoffData {
   flaps: string
   packs?: string
   antiIce?: string
+  fms: boolean
 }
 
 interface LandingData {
@@ -36,7 +37,8 @@ const DEFAULT_TAKEOFF_DATA: TakeoffData = {
   trimRatio: toTrimRatio(0),
   flaps: "1",
   packs: "on",
-  antiIce: "off"
+  antiIce: "off",
+  fms: true
 }
 
 const DEFAULT_LANDING_DATA: LandingData = {

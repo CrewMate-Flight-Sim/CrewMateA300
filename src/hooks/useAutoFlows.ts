@@ -64,8 +64,6 @@ export function useAutoFlows() {
     return useGoAroundStore.subscribe((s) => {
       if (s.count !== goAroundCount.current) {
         goAroundCount.current = s.count
-        triggered.current.afterTakeoffP1 = false
-        triggered.current.afterTakeoffP2 = false
         triggered.current.landing = false
       }
     })

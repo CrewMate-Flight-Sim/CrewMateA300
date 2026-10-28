@@ -89,6 +89,12 @@
       "read": "(L:INI_TRIM_TANK2)",
       "on": "1 (>L:INI_TRIM_TANK2)",
       "expect": 1
+    },
+    {
+      "label": "Flight directors on",
+      "read": "(L:INI_FDIR_SWITCH_FO)",
+      "on": "1 (>L:INI_FDIR_SWITCH_FO)",
+      "expect": 1
     }
   ]
 }

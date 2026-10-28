@@ -1,0 +1,25 @@
+{
+  "id": "after_flight_controls_check_vectors",
+  "name": "Taxi (Vectored)",
+  "steps": [
+    {
+      "label": "Close FCTL ECAM",
+      "read": "(L:PUSH_ECAM_FCTL)",
+      "on": "1 (>L:PUSH_ECAM_FCTL)",
+      "expect": 1
+    },
+    {
+      "label": "Weather radar on",
+      "read": "(L:INI_WXR_SYS)",
+      "on": "2 (>L:INI_WXR_SYS)",
+      "expect": 2
+    },
+    {
+      "label": "Takeoff config test",
+      "read": "(L:INI_TAKEOFF_CONFIG_PRESSED)",
+      "on": "1 (>L:INI_TAKEOFF_CONFIG_PRESSED)",
+      "expect": 1,
+      "hold_ms": 2000
+    }
+  ]
+}

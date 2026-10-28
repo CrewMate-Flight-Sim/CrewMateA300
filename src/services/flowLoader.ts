@@ -13,6 +13,7 @@ import beforeStart from "@/data/flows/3_before_start.json"
 import afterStart from "@/data/flows/4_after_start.json"
 import clearLeft from "@/data/flows/5_clear_left.json"
 import afterControlsCheck from "@/data/flows/6_after_flight_controls_check.json"
+import afterControlsCheckVectors from "@/data/flows/6a_after_flight_controls_check.json"
 import beforeTakeoff from "@/data/flows/7_before_takeoff.json"
 import takeoff from "@/data/flows/8_takeoff.json"
 import afterTakeoffP1 from "@/data/flows/9_thr_red.json"
@@ -27,6 +28,7 @@ export const ALL_FLOWS: Flow[] = [
   afterStart,
   clearLeft,
   afterControlsCheck,
+  afterControlsCheckVectors,
   beforeTakeoff,
   takeoff,
   afterTakeoffP1,

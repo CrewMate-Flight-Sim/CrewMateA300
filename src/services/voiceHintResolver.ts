@@ -1,3 +1,4 @@
+import { getA300Variant } from "@/services/a300Variant"
 import { usePerformanceStore } from "@/store/performanceStore"
 import type { Telemetry } from "@/store/telemetryStore"
 
@@ -60,7 +61,6 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   const ias = num(t, "ias") ?? 0
   const vs = num(t, "vs") ?? 0
   const alt = num(t, "alt") ?? 0
-  const radioAlt = num(t, "radioAlt") ?? 0
   const flapsIndex = num(t, "flapsIndex") ?? 0
   const ground = isOnGround(t)
   const engOff = enginesOff(t)
@@ -69,46 +69,96 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   const transitionLevel = usePerformanceStore.getState().landing.transitionLevel || 5000
   const onStandard = num(t, "baroMode") === 1
   const seatBelts = num(t, "seatBelts") ?? 0
+  const v1 = num(t, "v1") ?? 0
+  const beforeV1 = v1 ? ias < v1 : ias <= 100
 
   // ── AIRBORNE ────────────────────────────────────────────────────────────────
   if (!ground) {
     const descending = vs < -300
+    const aboveTA = alt > transitionAltitude
+    const above10k = alt > 10000
 
-    // Initial climb
-    if ((lastFl === "takeoff" || lastFl === "both_packs" || lastFl === "thr_red") && !descending && flapsIndex > 0) {
-      return {
-        id: "initial_climb",
-        title: "Initial climb",
-        phrases: ["gear up", "flaps X", "slats retract", "autopilot on"]
+    const climbing = vs > 300
+    const inDescentContext =
+      !climbing && (descending || lastFl?.startsWith("desc_") || lastCl === "approach" || lastCl === "landing")
+
+    if (!inDescentContext) {
+      // Initial climb — flaps out
+      if (flapsIndex > 0) {
+        return {
+          id: "initial_climb",
+          title: "Initial climb",
+          phrases: ["gear up", "flaps X", "slats retract", "autopilot on"]
+        }
+      }
+
+      // To the line — flow done, flaps clean, still below TA
+      if (flapsIndex === 0 && !aboveTA && lastFl === "both_packs" && lastCl !== "climb_to_the_line") {
+        return {
+          id: "after_takeoff_to_line",
+          title: "After takeoff climb",
+          phrases: ["after takeoff climb checklist to the line"]
+        }
+      }
+
+      // Below the line — above TA
+      if (aboveTA) {
+        const phrases: string[] = []
+        if (lastCl !== "climb_below_the_line") phrases.push("after takeoff climb checklist below the line")
+        if (!onStandard) phrases.push("pull standard")
+        if (above10k) {
+          if (seatBelts) phrases.push("seatbelts off")
+          if (lastCl === "climb_below_the_line")
+            phrases.push("set landing elevation", "you have control", "i have control")
+        }
+        return {
+          id: "after_takeoff_below_line",
+          title: "After takeoff climb",
+          phrases
+        }
+      }
+
+      // Above 10k but below TA — seatbelts off only
+      if (above10k) {
+        const phrases: string[] = []
+        if (seatBelts) phrases.push("seatbelts off")
+        return {
+          id: "climb_cruise",
+          title: "Climb / cruise",
+          phrases
+        }
       }
     }
 
-    if (!descending && alt > transitionAltitude && onStandard && lastCl === "climb_to_the_line") {
+    // Approach config — below threshold, gear not down, and either descending or
+    // recovering from a go-around (climbing after the approach/landing checklist).
+    // The go-around term is required: without it, level cruise below the TA with
+    // no milestones would spuriously emit approach/gear-down hints.
+    const approachThreshold = Math.min(10000, transitionLevel)
+    const descFlowDone = lastFl?.startsWith("desc_") ?? false
+    const inClimbContext =
+      !descFlowDone && lastCl !== "climb_below_the_line" && (lastFl === "both_packs" || lastCl === "climb_to_the_line")
+    const goAroundContext = climbing && (lastCl === "approach" || lastCl === "landing")
+    if (!inClimbContext && (inDescentContext || goAroundContext) && alt <= approachThreshold && landingGear !== 1) {
+      const phrases: string[] = ["gear down", "flaps X", "slats extend"]
+      if (lastCl !== "approach" && lastCl !== "landing") phrases.unshift("approach checklist")
       return {
-        id: "after_takeoff_below_line",
-        title: "After takeoff climb",
-        phrases: ["after takeoff climb checklist below the line"]
+        id: "approach_items",
+        title: "Approach",
+        phrases
       }
     }
 
-    if (!descending && flapsIndex === 0 && lastFl === "both_packs") {
-      return {
-        id: "after_takeoff_to_line",
-        title: "After takeoff climb",
-        phrases: ["after takeoff climb checklist to the line"]
-      }
-    }
-
-    // Short final — radioAlt below threshold, descending
-    if (lastCl == "approach" && radioAlt > 5 && landingGear == 1 && flapsIndex >= 2) {
+    // Short final — gear down, flaps out, approach checklist done
+    if (lastCl == "approach" && landingGear == 1 && flapsIndex >= 2) {
       return {
         id: "short_final1",
         title: "Short final",
-        phrases: ["landing checklist", "go around flaps", "continue"]
+        phrases: ["flaps fourty", "landing checklist", "go around flaps", "continue"]
       }
     }
 
-    if (lastCl == "landing" && radioAlt > 5 && landingGear == 1 && flapsIndex >= 2) {
+    if (lastCl == "landing" && landingGear == 1 && flapsIndex >= 2) {
       return {
         id: "short_final2",
         title: "Short final",
@@ -116,36 +166,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
       }
     }
 
-    // 15a. Approach checklist already done — only gear/flaps left
-    if (lastCl == "approach" && alt < transitionLevel && alt <= 10000 && !onStandard) {
-      return {
-        id: "approach",
-        title: "Approach",
-        phrases: ["gear down", "flaps X", "slats extend"]
-      }
-    }
-
-    // 15b. Approach checklist not yet done — full prompt
-    if (descending && alt < transitionLevel && alt <= 10000 && !onStandard) {
-      return {
-        id: "approach_checklist",
-        title: "Approach",
-        phrases: ["approach checklist", "gear down", "flaps X", "slats extend"]
-      }
-    }
-
-    // Climb / cruise — above 3 000 ft, flaps clean, not descending
-    const cruisePhrases: string[] = []
-    if (alt > transitionAltitude && !onStandard) cruisePhrases.push("pull standard")
-    if (alt > 10000 && seatBelts) cruisePhrases.push("seatbelts off")
-    if (lastCl === "climb_below_the_line")
-      cruisePhrases.push("set landing elevation", "you have control", "i have control")
-
-    return {
-      id: "climb_cruise",
-      title: "Climb / cruise",
-      phrases: cruisePhrases
-    }
+    return null
   }
 
   // ── GROUND ──────────────────────────────────────────────────────────────────
@@ -155,10 +176,12 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   const slowGround = ias <= LINEUP_MAX_IAS
 
   if (lastFl === "shutdown") {
+    const isCargo = getA300Variant() === "cargo"
+    const disarmSlides = isCargo ? "disarm slides" : "cabin crew disarm slides"
     return {
       id: "parking",
       title: "Parking",
-      phrases: ["cabin crew disarm slides", "parking checklist"]
+      phrases: [disarmSlides, "parking checklist"]
     }
   }
 
@@ -188,6 +211,14 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     }
   }
 
+  if (lastFl === "takeoff" && ground && beforeV1) {
+    return {
+      id: "takeoff_thrust2",
+      title: "Takeoff",
+      phrases: ["stop"]
+    }
+  }
+
   // After line_up checklist → say "takeoff" to start takeoff flow
   if (lastCl === "before_takeoff_below_the_line" && slowGround) {
     return {
@@ -211,12 +242,15 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     return {
       id: "after_taxi",
       title: "Line up",
-      phrases: ["runway entry procedure", "clear to line up", "before takeoff checklist below the line"]
+      phrases: ["runway entry procedure", "clear to line up"]
     }
   }
 
   // After flight controls check flow → only taxi checklist remains
-  if (lastFl === "after_flight_controls_check" && ias <= TAXI_MAX_IAS) {
+  if (
+    (lastFl === "after_flight_controls_check" || lastFl === "after_flight_controls_check_vectors") &&
+    ias <= TAXI_MAX_IAS
+  ) {
     return {
       id: "pre_taxi",
       title: "Before takeoff checklist to the line",
@@ -229,7 +263,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     return {
       id: "post_clear_left",
       title: "Taxi",
-      phrases: ["flight controls check", "before takeoff checklist to the line"]
+      phrases: ["flight controls check"]
     }
   }
 
@@ -238,7 +272,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     return {
       id: "taxi_phase",
       title: "Taxi",
-      phrases: ["clear left", "flight controls check", "before takeoff checklist to the line"]
+      phrases: ["clear left"]
     }
   }
 
@@ -247,7 +281,7 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     return {
       id: "after_start_running",
       title: "After start",
-      phrases: ["after start checklist", "flight controls check"]
+      phrases: ["after start checklist"]
     }
   }
 
@@ -262,10 +296,14 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
 
   // After before_start flow done, checklist not yet called → call for before start
   if (lastFl === "before_start" && lastCl !== "before_start" && ias <= TAXI_MAX_IAS) {
+    const isCargo = getA300Variant() === "cargo"
+    const armSlides = isCargo
+      ? "arm slides (ENSURE ALL DOORS ARE CLOSED!)"
+      : "cabin crew arm slides (ENSURE ALL DOORS ARE CLOSED!)"
     return {
       id: "call_before_start_checklist",
       title: "Ready for before start",
-      phrases: ["before start checklist below the line", "cabin crew arm slides (ENSURE ALL DOORS ARE CLOSED!)"]
+      phrases: ["before start checklist below the line", armSlides]
     }
   }
 
