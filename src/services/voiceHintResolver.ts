@@ -69,6 +69,8 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   const transitionLevel = usePerformanceStore.getState().landing.transitionLevel || 5000
   const onStandard = num(t, "baroMode") === 1
   const seatBelts = num(t, "seatBelts") ?? 0
+  const v1 = num(t, "v1") ?? 0
+  const beforeV1 = v1 ? ias < v1 : ias <= 100
 
   // ── AIRBORNE ────────────────────────────────────────────────────────────────
   if (!ground) {
@@ -76,7 +78,9 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     const aboveTA = alt > transitionAltitude
     const above10k = alt > 10000
 
-    const inDescentContext = descending || lastFl?.startsWith("desc_") || lastCl === "approach" || lastCl === "landing"
+    const climbing = vs > 300
+    const inDescentContext =
+      !climbing && (descending || lastFl?.startsWith("desc_") || lastCl === "approach" || lastCl === "landing")
 
     if (!inDescentContext) {
       // Initial climb — flaps out
@@ -126,13 +130,19 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
       }
     }
 
-    // Approach config — in descent context, below threshold, gear not down
+    // Approach config — below threshold, gear not down, and either descending or
+    // recovering from a go-around (climbing after the approach/landing checklist).
+    // The go-around term is required: without it, level cruise below the TA with
+    // no milestones would spuriously emit approach/gear-down hints.
     const approachThreshold = Math.min(10000, transitionLevel)
-    if (inDescentContext && alt <= approachThreshold && landingGear !== 1) {
+    const inClimbContext =
+      lastFl === "both_packs" || lastCl === "climb_to_the_line" || lastCl === "climb_below_the_line"
+    const goAroundContext = climbing && (lastCl === "approach" || lastCl === "landing")
+    if (!inClimbContext && (inDescentContext || goAroundContext) && alt <= approachThreshold && landingGear !== 1) {
       const phrases: string[] = ["gear down", "flaps X", "slats extend"]
-      if (lastCl !== "approach") phrases.unshift("approach checklist")
+      if (lastCl !== "approach" && lastCl !== "landing") phrases.unshift("approach checklist")
       return {
-        id: "approach_checklist",
+        id: "approach_items",
         title: "Approach",
         phrases
       }
@@ -197,6 +207,14 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
       id: "takeoff_thrust",
       title: "Takeoff",
       phrases: ["thrust srs heading", "thrust srs runway", "stop"]
+    }
+  }
+
+  if (lastFl === "takeoff" && ground && beforeV1) {
+    return {
+      id: "takeoff_thrust2",
+      title: "Takeoff",
+      phrases: ["stop"]
     }
   }
 
