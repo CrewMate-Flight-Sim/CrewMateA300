@@ -18,6 +18,24 @@ export function formatResponseToken(token: string): string {
   return token.replace(/#4/g, "####").replace(/#3/g, "###").replace(/#2/g, "##")
 }
 
+const NUMERIC_SET_LABELS = [/altimeter/i, /landing elevation/i, /minimums/i]
+
+function expectsNumericSet(item: ChecklistItem, tokens: string[]): boolean {
+  const labelStr = Array.isArray(item.label) ? item.label.join(" ") : (item.label ?? "")
+
+  if (item.baro_confirmation) return true
+  if (NUMERIC_SET_LABELS.some((re) => re.test(labelStr))) return true
+
+  return tokens.some((s) => {
+    const l = s.toLowerCase()
+    if (l.includes("qnh") || l.includes("altimeter")) return true
+    if (l.includes("feet set")) return true
+    if (/#\s*set\b/.test(l)) return true
+    if (/\b\d+\s*set\b/.test(l)) return true
+    return false
+  })
+}
+
 export function getDisplayResponses(item: ChecklistItem): string[] {
   const base = (item.response ?? []).map(formatResponseToken)
 
@@ -34,27 +52,27 @@ export function getDisplayResponses(item: ChecklistItem): string[] {
     const flexTemp = telemetry?.iniFlexTemperature
     const thrust =
       telemetry?.thrustRatingMode === 6 ? `flex ${flexTemp !== undefined ? Math.round(flexTemp) : "??"}` : "toga"
-    extras.push(
+
+    return [
       `v1 ${telemetry?.v1 ?? "??"} vr ${telemetry?.vr ?? "??"} v2 ${telemetry?.v2 ?? "??"} ${thrust}`,
       "set and checked"
-    )
-    return extras
+    ]
   }
 
-  // Takeoff confirmation: show only the currently-configured thrust variant + safeword
+  const labelStr = Array.isArray(item.label) ? item.label.join(" ") : (item.label ?? "")
 
-  // If an item expects feet (minimums), show BARO/RADIO examples
-  if (item.label?.includes("Minimums")) {
-    extras.push("mda #3 feet set", "dh #3 feet set")
+  if (labelStr.includes("Minimums")) {
+    extras.push("mda #4 feet set", "dh #4 feet set")
   }
 
-  if (item.label?.includes("Pitch Trim")) {
+  if (labelStr.includes("Pitch Trim")) {
     extras.push("#.# up set", "#.# down set")
   }
 
-  if (item.label?.includes("Landing Elevation")) {
+  if (labelStr.includes("Landing Elevation")) {
     extras.push("#4 feet set")
   }
+
   // Merge, preserve order, remove duplicates
   const combined = [...extras, ...base]
   const seen = new Set<string>()
@@ -66,23 +84,16 @@ export function getDisplayResponses(item: ChecklistItem): string[] {
       out.push(v)
     }
   }
+
   // If explicit BARO/RADIO examples were added, hide the generic "feet"
-  const hasBaroRadio = out.some((s) => s.toLowerCase().includes("baro") || s.toLowerCase().includes("radio"))
   let filtered = out
-  if (hasBaroRadio) {
+  if (filtered.some((s) => s.toLowerCase().includes("baro") || s.toLowerCase().includes("radio"))) {
     filtered = filtered.filter((s) => s.toLowerCase() !== "feet")
   }
 
-  // If the item is a baro confirmation (or we added baro-style set examples),
-  // hide the plain "set" token so pilots see only numeric-set variants like
-  // "#### set" / "qnh #### set" / "altimeter #### set". Keep "set and checked".
-  const hasBaroSetExample =
-    filtered.some(
-      (s) =>
-        s.toLowerCase().includes("#### set") || s.toLowerCase().includes("qnh") || s.toLowerCase().includes("altimeter")
-    ) || item.baro_confirmation === true
-
-  if (hasBaroSetExample) {
+  // Hide the plain "set" token if the item expects a numeric/unit-based set
+  // (e.g. Altimeters, Landing Elevation). Keep "set and checked".
+  if (expectsNumericSet(item, filtered)) {
     filtered = filtered.filter((s) => s.toLowerCase() !== "set")
   }
 

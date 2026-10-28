@@ -14,7 +14,7 @@
     },
     {
       "challenge": "to_data.ogg",
-      "response": ["set"],
+      "response": ["set", "set and checked"],
       "label": ["Takeoff Data"],
       "copilot_response": "set.ogg"
     },

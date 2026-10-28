@@ -5,12 +5,31 @@
     {
       "challenge": "apu_bleed.ogg",
       "response": ["off", "on", "set and checked"],
-      "label": "APU bleed"
+      "label": "APU bleed",
+      "validations": [
+        {
+          "when": { "responses": ["off"] },
+          "checks": [{ "type": "simvar", "var": "(L:INI_apu_bleed)", "expected": 0 }]
+        },
+        {
+          "when": { "responses": ["on"] },
+          "checks": [{ "type": "simvar", "var": "(L:INI_apu_bleed)", "expected": 1 }]
+        }
+      ]
     },
     {
       "challenge": "engines.ogg",
       "response": ["off", "set and checked"],
-      "label": "Engines"
+      "label": "Engines",
+      "validations": [
+        {
+          "when": { "always": true },
+          "checks": [
+            { "type": "simvar", "var": "(L:INI_MIXTURE_RATIO1_HANDLE)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_MIXTURE_RATIO2_HANDLE)", "expected": 0 }
+          ]
+        }
+      ]
     },
     {
       "challenge": "diff_p.ogg",
@@ -25,12 +44,42 @@
     {
       "challenge": "fuel_pumps.ogg",
       "response": ["off", "set and checked"],
-      "label": "Fuel pumps"
+      "label": "Fuel pumps",
+      "validations": [
+        {
+          "when": { "always": true },
+          "checks": [
+            { "type": "simvar", "var": "(L:INI_OUTER_TANK1_LEFT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_OUTER_TANK2_LEFT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_OUTER_TANK1_RIGHT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_OUTER_TANK2_RIGHT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_INNER_TANK1_LEFT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_INNER_TANK1_RIGHT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_INNER_TANK2_RIGHT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_CENTER_TANK1)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_CENTER_TANK2)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_TRIM_TANK1)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_TRIM_TANK2)", "expected": 0 }
+          ]
+        }
+      ]
     },
     {
       "challenge": "window_ph.ogg",
       "response": ["off", "set and checked"],
-      "label": "Window and probe heat"
+      "label": "Window and probe heat",
+      "validations": [
+        {
+          "when": { "always": true },
+          "checks": [
+            { "type": "simvar", "var": "(L:INI_WINDOW_HEAT1)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_WINDOW_HEAT2)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_PROBE_HEAT_CAPT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_PROBE_HEAT_COPILOT)", "expected": 0 },
+            { "type": "simvar", "var": "(L:INI_PROBE_HEAT_STANDBY)", "expected": 0 }
+          ]
+        }
+      ]
     },
     {
       "challenge": "parking_brake_and_chocks.ogg",
