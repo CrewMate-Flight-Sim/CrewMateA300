@@ -451,6 +451,8 @@
       <item>loc star set runway track<tag>out.pid="set_runway_track";</tag></item>
       <item>cabin crew arm slides<tag>out.pid="cabin_crew_arm_slides"</tag></item>
       <item>cabin crew disarm slides<tag>out.pid="cabin_crew_disarm_slides"</tag></item>
+      <item>arm slides<tag>out.pid="cabin_crew_arm_slides"</tag></item>
+      <item>disarm slides<tag>out.pid="cabin_crew_disarm_slides"</tag></item>
       <item>ground from cockpit<tag>out.pid="ground_call";</tag></item>
       <item>cockpit to ground<tag>out.pid="ground_call";</tag></item>
       <item>ground from flight deck<tag>out.pid="ground_call";</tag></item>

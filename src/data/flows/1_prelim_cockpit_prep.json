@@ -115,6 +115,12 @@
       "expect": 1
     },
     {
+      "label": "Nav light",
+      "read": "(L:INI_NAV_LOGO_LIGHT_SWITCH)",
+      "on": "1 (>L:INI_NAV_LOGO_LIGHT_SWITCH)",
+      "expect": 1
+    },
+    {
       "label": "Parking brake set",
       "read": "(A:BRAKE PARKING INDICATOR, Bool)",
       "on": "1 (>K:PARKING_BRAKE_SET)",
