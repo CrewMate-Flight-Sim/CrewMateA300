@@ -1,6 +1,6 @@
 {
   "id": "after_flight_controls_check_vectors",
-  "name": "Taxi",
+  "name": "Taxi (Vectored)",
   "steps": [
     {
       "label": "Close FCTL ECAM",
