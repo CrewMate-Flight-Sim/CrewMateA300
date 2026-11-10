@@ -135,8 +135,9 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
     // The go-around term is required: without it, level cruise below the TA with
     // no milestones would spuriously emit approach/gear-down hints.
     const approachThreshold = Math.min(10000, transitionLevel)
+    const descFlowDone = lastFl?.startsWith("desc_") ?? false
     const inClimbContext =
-      lastFl === "both_packs" || lastCl === "climb_to_the_line" || lastCl === "climb_below_the_line"
+      !descFlowDone && lastCl !== "climb_below_the_line" && (lastFl === "both_packs" || lastCl === "climb_to_the_line")
     const goAroundContext = climbing && (lastCl === "approach" || lastCl === "landing")
     if (!inClimbContext && (inDescentContext || goAroundContext) && alt <= approachThreshold && landingGear !== 1) {
       const phrases: string[] = ["gear down", "flaps X", "slats extend"]
@@ -246,7 +247,10 @@ export function resolveVoiceHints(args: ResolveVoiceHintsArgs): VoiceHintPhase |
   }
 
   // After flight controls check flow → only taxi checklist remains
-  if (lastFl === "after_flight_controls_check" && ias <= TAXI_MAX_IAS) {
+  if (
+    (lastFl === "after_flight_controls_check" || lastFl === "after_flight_controls_check_vectors") &&
+    ias <= TAXI_MAX_IAS
+  ) {
     return {
       id: "pre_taxi",
       title: "Before takeoff checklist to the line",

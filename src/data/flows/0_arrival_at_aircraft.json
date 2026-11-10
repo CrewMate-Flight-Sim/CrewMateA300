@@ -13,6 +13,12 @@
       "read": "(L:INI_COVERS_ENABLED)",
       "on": "0 (>L:INI_COVERS_ENABLED)",
       "expect": 0
+    },
+    {
+      "label": "Set Chocks",
+      "read": "(L:INI_CHOCKS_ENABLED)",
+      "on": "1 (>L:INI_CHOCKS_ENABLED)",
+      "expect": 1
     }
   ]
 }

@@ -21,7 +21,7 @@ export function TakeoffWindow() {
       .catch(() => {})
   }, [])
 
-  const handleChange = (name: string, value: string | number) => {
+  const handleChange = (name: string, value: string | number | boolean) => {
     setTakeoffData({ [name]: value } as Partial<typeof takeoff>)
     emit("takeoff-updated", { ...takeoff, [name]: value })
   }
@@ -144,6 +144,35 @@ export function TakeoffWindow() {
             <option value="onengwing">ENG+WING</option>
           </select>
         </div>
+      </div>
+
+      {/* FMS */}
+      <div className="space-y-1">
+        <div className={labelRow}>
+          <Label htmlFor="fms" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
+            Arm NAV/PROF?
+          </Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info className="w-3.5 h-3.5 text-slate-400 cursor-help hover:text-cyan-400 transition-colors" />
+              </TooltipTrigger>
+              <TooltipContent className="text-xs max-w-[200px] bg-slate-800 border-slate-700">
+                Select it if you are flying a RNAV SID, deselect for vectored departures.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            id="fms"
+            name="fms"
+            checked={takeoff.fms}
+            onChange={(e) => handleChange(e.target.name, e.target.checked)}
+            className="w-4 h-4 text-cyan-600 border-slate-600 rounded focus:ring-cyan-500 focus:ring-2"
+          />
+        </label>
       </div>
 
       <Button

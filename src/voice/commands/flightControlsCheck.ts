@@ -2,6 +2,7 @@ import { setLvar, simvarSet } from "@/API/simvarApi"
 import { delay } from "@/lib/utils"
 import { executeFlow } from "@/services/flowRunner"
 import { playSound, waitForSoundFinished } from "@/services/playSounds"
+import { usePerformanceStore } from "@/store/performanceStore"
 import { useTelemetryStore } from "@/store/telemetryStore"
 import type { Telemetry } from "@/store/telemetryStore"
 
@@ -134,6 +135,6 @@ export async function flightControlsCheck() {
     await centerControls()
     isCheckRunning = false
   }
-
-  executeFlow("after_flight_controls_check")
+  const { fms } = usePerformanceStore.getState().takeoff
+  executeFlow((fms ?? true) ? "after_flight_controls_check" : "after_flight_controls_check_vectors")
 }

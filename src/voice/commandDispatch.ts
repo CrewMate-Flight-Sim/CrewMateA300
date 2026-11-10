@@ -310,7 +310,7 @@ export const DISCRETE_COMMAND_MAP: Record<string, () => void | Promise<void>> = 
   runway_entry_procedure: () => executeFlow("before_takeoff"),
   clear_for_takeoff: () => executeFlow("takeoff"),
   before_start_procedure: () => executeFlow("before_start"),
-  des_prep: () => executeFlow("des_prep"),
+  des_prep: () => executeFlow("desc_prep"),
   secure_aircraft: () => executeFlow("secure"),
 
   // ── Checklists ────────────────────────────────────────────────────────────
